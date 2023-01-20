@@ -1,0 +1,6 @@
+
+-- instalacion de manejador de paquetes
+npm install -g yarn 
+
+--crear proyecto
+yarn create vite
