@@ -1,6 +1,9 @@
-
+node  18.13.0
 -- instalacion de manejador de paquetes
 npm install -g yarn 
 
 --crear proyecto
 yarn create vite
+
+--instalar dependencia
+yarn add prop-types
