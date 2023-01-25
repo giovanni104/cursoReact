@@ -7,3 +7,6 @@ yarn create vite
 
 --instalar dependencia
 yarn add prop-types
+
+--ejecutar test
+yarn test
