@@ -8,5 +8,9 @@ yarn create vite
 --instalar dependencia
 yarn add prop-types
 
+--instalar dependencia de desarrollo
+ yarn add -D @types/jest
+
 --ejecutar test
 yarn test
+
