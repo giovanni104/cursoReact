@@ -13,7 +13,7 @@ describe('Pruebas en <FirstApp />', () => {
 
     });
 
-  /*  test('debe de mostrar el título en un h1', () => {
+   test('debe de mostrar el título en un h1', () => {
         
         const title = 'Hola, Soy Goku';
         const { container, getByText, getByTestId } = render( <FirstApp title={ title } /> );
@@ -24,8 +24,7 @@ describe('Pruebas en <FirstApp />', () => {
         expect( getByTestId('test-title').innerHTML ).toContain(title)
 
     });
-
-    test('debe de mostrar el subtitulo enviado por props', () => {
+  test('debe de mostrar el subtitulo enviado por props', () => {
         
         const title = 'Hola, Soy Goku';
         const subTitle = 'Soy un subtitulo';
@@ -38,7 +37,7 @@ describe('Pruebas en <FirstApp />', () => {
 
         expect( getAllByText(subTitle).length ).toBe(2);
 
-    });*/
+    }); 
 
 
 });
