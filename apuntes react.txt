@@ -22,3 +22,5 @@ yarn test
 --ejecutar el proyecto 
 yarn dev
 
+--atajo para crear componente visual studio
+rafc 
