@@ -24,3 +24,10 @@ yarn dev
 
 --atajo para crear componente visual studio
 rafc 
+
+
+----generar build
+yarn build
+
+
+NlFotYuDQteuRQkudUA8lGumYsqLNk7E
