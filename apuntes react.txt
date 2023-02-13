@@ -15,6 +15,7 @@ yarn add prop-types
  yarn add --dev react-test-renderer
  yarn add --dev @testing-library/react
  
+yarn add react-router-dom@6
 
 --ejecutar test
 yarn test
