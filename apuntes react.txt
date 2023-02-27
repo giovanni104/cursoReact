@@ -16,6 +16,10 @@ yarn add prop-types
  yarn add --dev @testing-library/react
  
 yarn add react-router-dom@6
+yarn add axios
+
+
+
 
 --ejecutar test
 yarn test
@@ -36,3 +40,10 @@ NlFotYuDQteuRQkudUA8lGumYsqLNk7E
 
 ---Instalación y configuracion de Jest + React Testing Library
 https://gist.github.com/Klerith/ca7e57fae3c9ab92ad08baadc6c26177
+
+
+-----instalacion redux
+
+ yarn add @reduxjs/toolkit react-redux
+
+https://redux-toolkit.js.org/tutorials/quick-start
