@@ -1,4 +1,4 @@
-/*import { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { onAuthStateChanged } from 'firebase/auth';
 
@@ -23,4 +23,4 @@ export const useCheckAuth = () => {
     }, []);
 
     return status;
-}*/
+}
