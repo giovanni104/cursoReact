@@ -54,3 +54,15 @@ material mui
 https://www.youtube.com/watch?v=AwsTs6VBVTM&list=PLC3y8-rFHvwh-K9mDlrrcDywl7CeVL2rO&index=38
 
 https://www.youtube.com/@Codevolution/playlists
+https://mui.com/material-ui/getting-started/templates/
+
+https://www.youtube.com/watch?v=P-LzpGricW0&list=PLpPVLI0A0OkJFNfJu4Qmfqxjo4QOf3obB
+
+https://www.youtube.com/watch?v=_p-Odh3MZJc
+
+https://www.youtube.com/watch?v=1turU7imCzE
+https://www.youtube.com/watch?v=my-_sIRqvgg
+https://www.youtube.com/watch?v=s3CME_Pufww&t=123s
+https://www.youtube.com/watch?v=dJaY43Butm8
+
+		   {navData.map((item , index)=>{  })}
