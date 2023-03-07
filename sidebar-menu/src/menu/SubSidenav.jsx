@@ -40,7 +40,7 @@ export function SubSidenav() {
   }));
 
   const ControlDrawerHeader = () => {
-    setOpen(!open);
+    
   };
 
   const list = (anchor) => (
@@ -72,7 +72,7 @@ export function SubSidenav() {
       </List>
     </Box>
   );
-
+ 
   return (
     <div>
       <React.Fragment key={"left"}>
