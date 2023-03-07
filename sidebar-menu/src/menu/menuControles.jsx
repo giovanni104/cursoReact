@@ -2,7 +2,7 @@
 import MuiDrawer from '@mui/material/Drawer'
 
 
-const drawerWidth = 240
+const drawerWidth = 350
 
 export const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -13,6 +13,8 @@ export const openedMixin = (theme) => ({
   overflowX: 'hidden',
 })
 
+
+//ancho del menu cerrado
 export const closedMixin = (theme) => ({
   transition: theme.transitions.create('width', {
     easing: theme.transitions.easing.sharp,
@@ -21,7 +23,7 @@ export const closedMixin = (theme) => ({
   overflowX: 'hidden',
   width: `calc(${theme.spacing(7)} + 1px)`,
   [theme.breakpoints.up('sm')]: {
-    width: `calc(${theme.spacing(8)} + 1px)`,
+    width: `calc(102px)`,
   },
 })
 
