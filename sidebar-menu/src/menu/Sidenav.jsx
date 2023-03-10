@@ -53,6 +53,7 @@ export function Sidenav() {
 
   const ControlSubmenu = () => {
     stateMenus.setSubMenu(true);
+   
   };
 
   const mapStructure = (nodes) => {
@@ -61,7 +62,7 @@ export function Sidenav() {
         <ListItem
           key={id}
           disablePadding
-          sx={{ display: "block" }}
+          
           onClick={() => {
             navigate(link);
           }}
@@ -73,6 +74,16 @@ export function Sidenav() {
               right: "16%",
               top: "20%",
               bottom: "21.33%",
+               
+                ":hover": {
+                  backgroundColor: "#FFFFFF",
+                  borderRadius: "8px",
+                },
+                position:"static",
+                width:"200px"
+
+
+
             }}
           >
             <ListItemIcon
@@ -187,7 +198,7 @@ export function Sidenav() {
 
   const DynamicNestedItems = (RootObject) => {
     return (
-      <List sx={{ background: "##F5F5F5" }}>{mapStructure(RootObject)}</List>
+      <List sx={{  width:"310px",  }}>{mapStructure(RootObject)}</List>
     );
   };
 
@@ -205,6 +216,7 @@ export function Sidenav() {
             borderTopRightRadius: "24px",
             backgroundColor: "#F5F5F5",
             boxShadow: "4px 4px 4px rgba(0, 0, 0, 0.1)",
+            padding:"10px"
           },
         }}
       >

@@ -14,6 +14,9 @@ import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import { red } from "@mui/material/colors";
+import { Bolt } from "@mui/icons-material";
+
 export function SubSidenav() {
   const theme = useTheme();
   const stateSubmenu = React.useContext(MenuContext);
@@ -40,39 +43,65 @@ export function SubSidenav() {
   }));
 
   const ControlDrawerHeader = () => {
-    
+    stateSubmenu.setSubMenu(false);
+
+
   };
 
   const list = (anchor) => (
     <Box
-      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
+      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 350 }}
       role="presentation"
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
         {[
-          "Inbox",
-          "Starred",
-          "Send email",
-          "Drafts",
-          "All mail",
-          "Trash",
-          "Spam",
+          "Historial de operaciones",
+          "Mis productos",
+          "Estatus de solicitudes",
+          "Operaciones programadas",
+           
         ].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
+          <ListItem
+            key={text}
+            disablePadding
+            sx={{
+              width: "300px",
+              height: "80px",
+              left: "12px",
+              right: "16%",
+              top: "12px",
+            }}
+          >
+            <ListItemButton
+              sx={{
+                ":hover": {
+                  backgroundColor: "#FFFFFF",
+                  borderRadius: "8px",
+                },
+              }}
+            >
+              <ListItemText
+                primary={text}
+                primaryTypographyProps={{
+                  fontSize: "22px",
+                  fontFamily: "Nunito",
+                  fontWeight: "550",
+                  lineHeight: "22px",
+                  letterSpacing: "0em",
+                  textAlign: "left",
+                  color: "#000000",
+                 
+                }}
+              />
             </ListItemButton>
           </ListItem>
         ))}
       </List>
     </Box>
   );
- 
+
   return (
     <div>
       <React.Fragment key={"left"}>
@@ -82,23 +111,47 @@ export function SubSidenav() {
           onClose={toggleDrawer("left", false)}
           onOpen={toggleDrawer("left", true)}
           ModalProps={{
-            slotProps: { backdrop: { invisible: true } },}}
-            PaperProps={{
-              sx: {
-                borderTopRightRadius: "20px",backgroundColor: "#F5F5F5"
-              }
-            }}
+            slotProps: { backdrop: { invisible: true } },
+          }}
+          PaperProps={{
+            sx: {
+              borderTopRightRadius: "24px",
+              backgroundColor: "#F5F5F5",
+              boxShadow: "4px 4px 4px rgba(0, 0, 0, 0.1)",
+            },
+          }}
         >
-          <DrawerHeader>
+          <DrawerHeader
+            sx={{
+              backgroundColor: "#FFFFFF",
+              borderBottomLeftRadius: "8px",
+              borderBottomRightRadius: "8px",
+              height:"80px"
+            }}
+          >
             <IconButton onClick={ControlDrawerHeader}>
-              {theme.direction === "rtl" ? (
-                <ChevronRightIcon />
-              ) : (
-                <ChevronLeftIcon />
-              )}
+              <ChevronLeftIcon
+                style={{
+                  color: "#4A96D2",
+                  width: "34px",
+                  height: "34px",
+                }}
+              />
             </IconButton>
+            <ListItemText
+              primary="Consultas"
+              primaryTypographyProps={{
+                fontSize: "24px",
+                fontFamily: "Nunito",
+                fontWeight: "800",
+                lineHeight: "27px",
+                letterSpacing: "0em",
+                textAlign: "center",
+                color: "#373737",
+              }}
+            />
           </DrawerHeader>
-          <Divider />
+
           {list("left")}
         </SwipeableDrawer>
       </React.Fragment>
