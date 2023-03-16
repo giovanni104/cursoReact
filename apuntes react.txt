@@ -79,3 +79,8 @@ https://www.youtube.com/watch?v=dJaY43Butm8
 form dinamico
   
 	 https://codesandbox.io/embed/epic-fire-3fjbd?fontsize=14
+	 
+	 https://es.stackoverflow.com/questions/323903/c%C3%B3mo-cargar-el-combo-de-d%C3%ADas-en-javascript-a-partir-de-un-select-de-a%C3%B1o-y-mes
+	 
+	 https://www.freecodecamp.org/espanol/news/pasar-data-y-eventos-entre-componentes-en-reactjs/
+ 
