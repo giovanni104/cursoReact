@@ -3,8 +3,12 @@ import React, { useState, Fragment } from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { Formdate } from "../formDate/FormDate";
+import IconButton from "@mui/material/IconButton";
+import AddIcon from "@mui/icons-material/Add";
+import Tooltip from "@mui/material/Tooltip";
 
 import "./home.css";
+import { height } from "@mui/system";
 export const Home = () => {
   const formData = {
     cuenta: "Gastos personales 0102***3245",
@@ -21,7 +25,7 @@ export const Home = () => {
       frecuencia: "",
       anio: "",
       mes: "",
-      dia: ""
+      dia: "",
     },
   };
 
@@ -77,20 +81,11 @@ export const Home = () => {
     setInputFields(values);
   };
 
-
-  const handlePeriodoChange = (index,datos) => {
-    const values = [...inputFields];     
-        values[index].programa = datos;
-        setInputFields(values);
-    }
-
-  
- 
-
-
-
-
-
+  const handlePeriodoChange = (index, datos) => {
+    const values = [...inputFields];
+    values[index].programa = datos;
+    setInputFields(values);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -102,9 +97,14 @@ export const Home = () => {
 
   return (
     <>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Box
+        container="main"
+        sx={{ width: "1054px", p: 3 }}
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+      >
         <>
-         
           <h1>Dynamic Form Fields in React</h1>
           <form onSubmit={handleSubmit}>
             <div className="form-row">
@@ -264,6 +264,62 @@ export const Home = () => {
                           </select>
                         </div>
                       </Grid>
+
+                      <Grid item xs={6}>
+                        <div>
+                          <Formdate
+                            handleInputChange={handlePeriodoChange}
+                            index={index}
+                          />
+                        </div>
+                      </Grid>
+
+                      <Grid item xs={6}>
+                        <div style={{   width: "401px" }}>
+                          <Tooltip
+                            title="Agregar transacción"
+                            arrow
+                            PopperProps={{
+                              sx: {
+                                "& .MuiTooltip-tooltip": {
+                                  color: "white",
+                                  backgroundColor: "#4A96D2",
+                                  fontFamily: "Nunito",
+                                  fontSize: "14px",
+                                  fontWeight: "800",
+                                  lineHeight: "19px",
+                                  letterSpacing: "0em",
+                                  width: "159px",
+                                  height: "47px",
+                                  textAlign: "center",
+                                  paddingTop: "9%",
+                                },
+                              },
+                            }}
+                          >
+                            <IconButton
+                              size="large"
+                              sx={{
+                                marginLeft:"350px",
+                                position:"unset",
+                                color: "#4A96D2",
+                                backgroundColor: "white",
+                                ":hover": {
+                                  color: "white",
+                                  backgroundColor: "#4A96D2",
+                                  opacity: 0.9,
+                                },
+                                border:"1px solid #FFFFFF",
+                                boxShadow:"0px 4px 4px rgba(0, 0, 0, 0.1)",
+                                right: 50,
+                                bottom: 50,
+                              }}
+                            >
+                              <AddIcon />
+                            </IconButton>
+                          </Tooltip>
+                        </div>
+                      </Grid>
                     </Grid>
                   </div>
 
@@ -275,8 +331,6 @@ export const Home = () => {
                   >
                     -
                   </button>
-
-                  <Formdate handleInputChange={handlePeriodoChange} index={index} />
                 </Fragment>
               ))}
             </div>
@@ -288,6 +342,7 @@ export const Home = () => {
             >
               +
             </button>
+
             <div className="submit-button">
               <button
                 className="btn btn-primary mr-2"
@@ -304,6 +359,7 @@ export const Home = () => {
                 Reset Form
               </button>
             </div>
+
             <br />
             <pre>{JSON.stringify(inputFields, null, 2)}</pre>
           </form>

@@ -6,6 +6,8 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import IconButton from "@mui/material/IconButton";
+import EventNoteOutlinedIcon from '@mui/icons-material/EventNoteOutlined';
 export const Formdate = ({handleInputChange,index}) => {
     const [open, setOpen] = React.useState(false);
 
@@ -41,9 +43,27 @@ export const Formdate = ({handleInputChange,index}) => {
 
   return (
     <div>
-            <Button variant="outlined" onClick={handleClickOpen}>
-              Open form dialog
-            </Button>
+          <IconButton  onClick={handleClickOpen}
+                              size="large"
+                              sx={{
+                               
+                                position:"unset",
+                                color: "#4A96D2",
+                                backgroundColor: "white",
+                                ":hover": {
+                                  color: "white",
+                                  backgroundColor: "#4A96D2",
+                                  opacity: 0.9,
+                                },
+                                border:"1px solid #FFFFFF",
+                                boxShadow:"0px 4px 4px rgba(0, 0, 0, 0.1)",
+                                right: 50,
+                                bottom: 50,
+                              }}
+                            >
+                              <EventNoteOutlinedIcon />
+                            </IconButton>Fecha valor: 24/01/2023
+      
             <Dialog maxWidth={"xs"} open={open} onClose={handleClose}>
               <DialogTitle>Subscribe</DialogTitle>
               <DialogContent>
