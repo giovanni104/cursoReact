@@ -8,6 +8,11 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import IconButton from "@mui/material/IconButton";
 import EventNoteOutlinedIcon from '@mui/icons-material/EventNoteOutlined';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
+import NativeSelect from '@mui/material/NativeSelect';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 export const Formdate = ({handleInputChange,index}) => {
     const [open, setOpen] = React.useState(false);
 
@@ -26,7 +31,18 @@ export const Formdate = ({handleInputChange,index}) => {
 
   };
 
-
+  const names = [
+    'Oliver Hansen',
+    'Van Henry',
+    'April Tucker',
+    'Ralph Hubbard',
+    'Omar Alexander',
+    'Carlos Abbott',
+    'Miriam Wagner',
+    'Bradley Wilkerson',
+    'Virginia Andrews',
+    'Kelly Snyder',
+  ];
 
 
 
@@ -65,21 +81,8 @@ export const Formdate = ({handleInputChange,index}) => {
                             </IconButton>Fecha valor: 24/01/2023
       
             <Dialog maxWidth={"xs"} open={open} onClose={handleClose}>
-              <DialogTitle>Subscribe</DialogTitle>
-              <DialogContent>
-                <DialogContentText>
-                  To subscribe to this website, please enter your email address
-                  here. We will send updates occasionally.
-                </DialogContentText>
-                <TextField
-                  autoFocus
-                  margin="dense"
-                  id="name"
-                  label="Email Address"
-                  type="email"
-                  fullWidth
-                  variant="standard"
-                />
+              
+              <DialogContent>               
 
                 <div className="divInputs">
                   <select name="concepto" id="concepto" className="selectText">
@@ -92,6 +95,35 @@ export const Formdate = ({handleInputChange,index}) => {
                     <option value="audi">Audi</option>
                   </select>
                 </div>
+
+
+                <FormControl sx={{ m: 1, minWidth: 120, maxWidth: 300 }}>
+        <InputLabel shrink htmlFor="select-multiple-native">
+          Native
+        </InputLabel>
+        <Select
+        
+          native
+         
+          // @ts-ignore Typings are not considering `native`
+         
+          label="Native"
+          inputProps={{
+            id: 'select-multiple-native',
+          }}
+        >
+          {names.map((name) => (
+            <option key={name} value={name}>
+              {name}
+            </option>
+          ))}
+        </Select>
+      </FormControl>
+ 
+
+
+
+
               </DialogContent>
               <DialogActions>
                 <Button onClick={handleClose}>Cancel</Button>
