@@ -1,0 +1,58 @@
+.selectTexForm {
+  box-sizing: border-box;
+  /* Auto layout */
+ 
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  height: 50px;
+  width: 400px;
+  left: 10px;
+  top: 15px;
+  /* Grises/Blanco */
+  background: #ffffff;
+  border: 1px solid rgba(123, 123, 123, 0.5);
+  border-radius: 4px;
+  padding: 10px 10px 10px 20px;
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22px;
+  /* identical to box height */
+ 
+ 
+
+  color: #7b7b7b;
+}
+
+ 
+
+.divInputsFormDate {
+  text-align: right;
+  width: 401px; 
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+  padding-bottom: 10px;
+}
+
+
+.selectTextDate{
+    height: 50px;
+    width: 140px;
+    
+    top: 0px;
+    border-radius: 4px;
+
+/* Grises/Blanco */
+background: #FFFFFF;
+
+/* Grises/Medio */
+border:  #D9D9D9;
+ 
+
+}
+
