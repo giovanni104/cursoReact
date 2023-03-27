@@ -57,6 +57,8 @@
   background: #ffffff;
   display: flex;
   margin: 0 auto;
+  margin-top: 56px;
+  
 }
 
 
@@ -155,5 +157,23 @@
     color: #7b7b7b;
   }
 
- 
- 
+  .MuiAccordionSummary-root{
+    border-radius: 10px !important; 
+    width: 1016px !important;
+     
+  }
+
+  .MuiPaper-root{
+    position:  unset  !important;
+
+  }
+  
+  .trash:hover img{
+    content: url("../assets/trash_blanco.svg");
+}
+  
+
+
+
+
+  
