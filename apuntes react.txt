@@ -83,4 +83,8 @@ form dinamico
 	 https://es.stackoverflow.com/questions/323903/c%C3%B3mo-cargar-el-combo-de-d%C3%ADas-en-javascript-a-partir-de-un-select-de-a%C3%B1o-y-mes
 	 
 	 https://www.freecodecamp.org/espanol/news/pasar-data-y-eventos-entre-componentes-en-reactjs/
- 
+	 
+custom tooltip
+https://smartdevpreneur.com/the-essential-mui-tooltip-demo-with-custom-position-arrow-and-internal-components/
+https://smartdevpreneur.com/how-to-style-the-material-ui-tooltip/
+ https://stackoverflow.com/questions/64686233/how-to-use-button-collapse-with-material-ui-accordion

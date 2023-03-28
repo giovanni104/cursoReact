@@ -8,7 +8,8 @@ import EventNoteOutlinedIcon from "@mui/icons-material/EventNoteOutlined";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-
+import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Grid";
 import "./formdate.css";
 
 export const Formdate = ({ handleInputChange, index }) => {
@@ -113,27 +114,44 @@ export const Formdate = ({ handleInputChange, index }) => {
 
   return (
     <div>
-      <IconButton
-        onClick={handleClickOpen}
-        size="large"
-        sx={{
-          position: "unset",
-          color: "#4A96D2",
-          backgroundColor: "white",
-          ":hover": {
-            color: "white",
-            backgroundColor: "#4A96D2",
-            opacity: 0.9,
-          },
-          border: "1px solid #FFFFFF",
-          boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.1)",
-          right: 50,
-          bottom: 50,
-        }}
-      >
-        <EventNoteOutlinedIcon />
-      </IconButton>
-      Fecha valor: 24/01/2023
+      <Grid container spacing={-5}  >
+        <Grid item xs={2}>
+          <IconButton
+            onClick={handleClickOpen}
+            size="large"
+            sx={{
+              position: "unset",
+              color: "white",
+              backgroundColor: "#0067B1",
+              ":hover": {
+                color: "white",
+                backgroundColor: "#004A72",
+                opacity: 0.9,
+              },
+              border: "1px solid #FFFFFF",
+              boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.1)",
+              right: 50,
+              bottom: 50,
+            }}
+          >
+            <EventNoteOutlinedIcon />
+          </IconButton>
+        </Grid>
+
+        <Grid item xs={6}  >
+          <Typography
+            fontFamily={"Nunito"}
+            fontSize={"16px"}
+            color={"#7B7B7B"}
+            fontWeight={"400"}
+            fontStyle={"normal"}
+            marginTop={"12px"}
+           
+          >Fecha valor: 24/01/2023
+          </Typography>
+        </Grid>
+      </Grid>
+
       <Dialog maxWidth={"sm"} open={open} onClose={handleClose}>
         <DialogContent>
           <div className="divInputsFormDate">

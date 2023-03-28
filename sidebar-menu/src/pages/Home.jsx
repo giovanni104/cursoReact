@@ -27,20 +27,23 @@ export const Home = () => {
       mes: "",
       dia: "",
     },
+  
   };
 
   const [inputFields, setInputFields] = useState([formData]);
 
+
   const handleAddFields = () => {
     const values = [...inputFields];
     values.push(JSON.parse(JSON.stringify(formData)));
-    setInputFields(values);
+    setInputFields(values); 
   };
 
   const handleRemoveFields = (index) => {
     const values = [...inputFields];
     values.splice(index, 1);
     setInputFields(values);
+    setlastAcordin(inputFields.length-1);
   };
 
   const handleInputChange = (index, event) => {
@@ -121,13 +124,14 @@ export const Home = () => {
                     index={index}
                   />
                 ) : (
-                  <Accordion  
+
+
+                  
+                  <Accordion    
                     key={index}
                     sx={{
                       paddingBottom: "10px",
-                      boxShadow: "none",
-                       
-                      
+                      boxShadow: "none",  
                     }}
                   >
                     <AccordionSummary

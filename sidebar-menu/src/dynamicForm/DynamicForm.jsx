@@ -4,11 +4,8 @@ import { Formdate } from "../formDate/FormDate";
 import IconButton from "@mui/material/IconButton";
 import AddIcon from "@mui/icons-material/Add";
 import Tooltip from "@mui/material/Tooltip";
-import { height } from "@mui/system";
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import logo from "../assets/trash_azul.svg";
 
-
+import icon_trash from "../assets/trash_azul.svg";
 
 
 
@@ -20,7 +17,7 @@ export const DynamicForm = ({
   inputField,
   index,
 }) => {
-  console.log(index);
+
 
   return (
     <Fragment key={`${inputField}~${index}`}>
@@ -44,7 +41,7 @@ export const DynamicForm = ({
           }}
           onClick={() => handleRemoveFields(index)}
         >
-          <img    src={logo} height={23} width={23}/>
+          <img    src={icon_trash} height={23} width={23}/>
         </IconButton>
       )}
       <div className="divBloque">
@@ -197,7 +194,7 @@ export const DynamicForm = ({
                   sx: {
                     "& .MuiTooltip-tooltip": {
                       color: "white",
-                      backgroundColor: "#4A96D2",
+                      backgroundColor: "#004A72",
                       fontFamily: "Nunito",
                       fontSize: "14px",
                       fontWeight: "800",
@@ -208,6 +205,11 @@ export const DynamicForm = ({
                       textAlign: "center",
                       paddingTop: "9%",
                     },
+                    "& .MuiTooltip-arrow": {                       
+                      "&::before": {
+                        backgroundColor: "#004A72",
+                      },
+                    }
                   },
                 }}
               >
@@ -216,11 +218,11 @@ export const DynamicForm = ({
                   sx={{
                     marginLeft: "350px",
                     position: "unset",
-                    color: "#4A96D2",
-                    backgroundColor: "white",
+                    color: "white",
+                    backgroundColor: "#0067B1",
                     ":hover": {
                       color: "white",
-                      backgroundColor: "#4A96D2",
+                      backgroundColor: "#004A72",
                       opacity: 0.9,
                     },
                     border: "1px solid #FFFFFF",
@@ -230,7 +232,7 @@ export const DynamicForm = ({
                   }}
                   onClick={() => handleAddFields()}
                 >
-                  <AddIcon />
+                   <AddIcon></AddIcon>
                 </IconButton>
               </Tooltip>
             </div>
