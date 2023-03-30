@@ -4,12 +4,11 @@ import { Formdate } from "../formDate/FormDate";
 import IconButton from "@mui/material/IconButton";
 import AddIcon from "@mui/icons-material/Add";
 import Tooltip from "@mui/material/Tooltip";
-
 import icon_trash from "../assets/trash_azul.svg";
+import "./form.css";
 
 
-
-export const DynamicForm = ({
+export const FormPay = ({
   handleInputChange,
   handleRemoveFields,
   handlePeriodoChange,
@@ -240,14 +239,7 @@ export const DynamicForm = ({
         </Grid>
       </div>
 
-      <button
-        className="btn btn-link"
-        type="button"
-        disabled={index === 0}
-        onClick={() => handleRemoveFields(index)}
-      >
-        -
-      </button>
+   
     </Fragment>
   );
 };
