@@ -1,0 +1,66 @@
+[data-tab-info] {
+  display: none;
+}
+
+.active[data-tab-info] {
+  display: block;
+}
+
+.tabs {
+    font-family: 'Nunito';
+    font-style: normal;
+   
+    font-size: 16px;
+    line-height: 22px;
+  color: #2c2c2c;
+  display: flex;
+  margin: 0;
+}
+
+.tabs span {
+  padding: 10px;
+  border: 1px solid rgb(255, 255, 255);
+  height: 40px;
+  width: 100px;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+ 
+}
+
+.tabs #tab_2h {
+ 
+     
+  }
+
+ 
+.act{
+    cursor: pointer;
+    color: black;
+    border-bottom: 3px solid #E21050!important;
+    font-weight: 700;
+}
+
+.contenTabs {     
+    height: 35px;
+    width: 120px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+
+    
+  }
+  .contenTabs2 {
+    border-left: 2px solid  #6F6D69!important;
+    border-right:2px solid  #6F6D69 !important;
+     
+    height: 35px;
+    width: 120px;
+ 
+    display:flex;
+    justify-content: center;
+    align-items: center;
+
+
+
+  }
