@@ -179,13 +179,13 @@ export const FormPay = ({
           </Grid>
 
           <Grid item xs={6}>
-            <div>
+            <div  style={{ marginTop: "15px" }}>
               <Formdate handleInputChange={handlePeriodoChange} index={index} />
             </div>
           </Grid>
 
           <Grid item xs={6}>
-            <div style={{ width: "401px" }}>
+            <div style={{ width: "401px", marginTop: "15px" }}>
               <Tooltip
                 title="Agregar transacción"
                 arrow

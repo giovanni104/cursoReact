@@ -3,7 +3,8 @@ import Box from "@mui/material/Box";
  
 import { FormPay } from "../form/FormPay";
 import { FormAccordion } from "../formAccordion/FormAccordion";
-import { formData, setChangeValues } from "./home_";
+import { formData, setChangeValues } from "./dynamicForm_";
+
 
 export const DynamicForm = () => {
     const [inputFields, setInputFields] = useState([formData]);
@@ -42,7 +43,7 @@ export const DynamicForm = () => {
     const resetForm = (e) => setInputFields([formData]);
   
     return (
-      <>
+      <div  style={{marginTop:"40px"}}>
         <Box
           container="main"
           sx={{ width: "1054px", p: 3 }}
@@ -51,9 +52,9 @@ export const DynamicForm = () => {
           justifyContent="center"
         >
           <>
-            <h1>Dynamic Form Fields in React</h1>
+          
             <form onSubmit={handleSubmit}>
-              <div className="form-row">
+              <div  >
                 {inputFields.map((inputField, index) =>
                   inputFields.length == 1 ? (
                     <FormPay
@@ -81,7 +82,7 @@ export const DynamicForm = () => {
                 )}
               </div>
   
-              <div className="submit-button">
+             {/*  <div className="submit-button">
                 <button
                   className="btn btn-primary mr-2"
                   type="submit"
@@ -99,11 +100,11 @@ export const DynamicForm = () => {
               </div>
   
               <br />
-              <pre>{JSON.stringify(inputFields, null, 2)}</pre>
+          <pre>{JSON.stringify(inputFields, null, 2)}</pre>*/}
             </form>
           </>
         </Box>
-      </>
+      </div>
     );
   };
   

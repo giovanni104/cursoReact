@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
-import { DynamicForm } from "./DynamicForm";
+import { DynamicForm } from "../dynamicForm/DynamicForm";
 import "./home.css";
 
 export const Home = () => {
@@ -32,10 +32,10 @@ export const Home = () => {
   };
 
   return (
-    <>
+    <div className="contenedor">
       <Box
         container="main"
-        sx={{ width: "1054px", p: 3 }}
+        sx={{ width: "1054px", p: 3  }}
         direction="column"
         alignItems="center"
         justifyContent="center"
@@ -72,6 +72,6 @@ export const Home = () => {
 
        
       </Box>
-    </>
+    </div>
   );
 };
