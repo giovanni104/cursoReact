@@ -49,6 +49,22 @@ https://gist.github.com/Klerith/ca7e57fae3c9ab92ad08baadc6c26177
 https://redux-toolkit.js.org/tutorials/quick-start
 
 
+------ migrar de js a ts
+
+crear archivo tsconfig.json y dejarlo en blanco y despues ejecutar
+ yarn add --dev typescript @types/react  @types/node
+
+------si es con la 17
+
+yarn remove @types/react
+Instalar la versión de types/react 17 compatible con los types/node 17 que solucionó mi problema
+yarn add --dev @types/react@17.0.39
+Sino al momento de instalar se podría hacer la instalación directa de la versión que es compatible:
+yarn add --dev typescript @types/react@17.0.39 @types/node
+
+
+
+
 
 yarn dev --force
 
