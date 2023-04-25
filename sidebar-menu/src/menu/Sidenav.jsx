@@ -3,17 +3,15 @@ import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
 import CssBaseline from "@mui/material/CssBaseline";
-import Divider from "@mui/material/Divider";
+ ;
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 
-import InboxIcon from "@mui/icons-material/MoveToInbox";
+ 
 import AssessmentOutlinedIcon from "@mui/icons-material/AssessmentOutlined";
 import ListItemIcon from "@mui/material/ListItemIcon";
-import IconButton from "@mui/material/IconButton";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+ 
 import WifiProtectedSetupOutlinedIcon from "@mui/icons-material/WifiProtectedSetupOutlined";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import CleanHandsOutlinedIcon from "@mui/icons-material/CleanHandsOutlined";
@@ -21,17 +19,13 @@ import CleanHandsOutlinedIcon from "@mui/icons-material/CleanHandsOutlined";
 import { SubSidenav } from "./SubSidenav";
 import { MenuContext } from "../context/MenuContext";
 import { navData } from "./dataMenu";
-import { DrawerHeader, Drawer } from "./menuControles";
+import { Drawer } from "./menuControles";
 import { useNavigate } from "react-router-dom";
 
 import logo from "../assets/LOGO-BDV-1.png";
-import logo2 from "../assets/LOGO-BDV-2.png";
+ 
 import logoFull from "../assets/logo.png"; 
-
-import { display } from "@mui/system";
-
-
-
+ 
 
 export function Sidenav() {
   const navigate = useNavigate();
