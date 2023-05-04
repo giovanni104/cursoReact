@@ -25,30 +25,19 @@ export function Horizontal() {
     setAnchorEl(null);
   };
 
-  const hover=(event ) => {
 
-    const button = document.getElementById('prueba_img');
-    button.setAttribute('src','http://dummyimage.com/100x100/eb00eb/fff')
-   
-
-    //console.log(event.target.id)
-    //event.target.setAttribute('src', 'http://dummyimage.com/100x100/eb00eb/fff');
-  }
+ 
   
-  const unhover=(event) => {
-
-    const button = document.getElementById('prueba_img');
-    button.setAttribute('src','http://dummyimage.com/100x100/000/fff')
-
-
-   // console.log(event.target.id)
-   // event.target.setAttribute('src', 'http://dummyimage.com/100x100/000/fff');
-  }
-
-
-
-
-
+    const hover=(event ) => { 
+      const button = document.getElementById(`${event.currentTarget.id}_img`);
+      button.setAttribute('src','http://dummyimage.com/100x100/eb00eb/fff') 
+    }
+    
+    const unhover=(event) => {     
+      const button = document.getElementById(`${event.currentTarget.id}_img`);
+      button.setAttribute('src','http://dummyimage.com/100x100/000/fff')  
+    }
+ 
 
   return (
     <div className="div_menu">
@@ -203,8 +192,8 @@ export function Horizontal() {
           </ListItem>
 
           <ListItem id="prueba"
-         // onMouseOver={hover}
-          //onMouseOut={unhover}
+          onMouseOver={hover}
+          onMouseOut={unhover}
             disablePadding
             sx={{
               maxWidth: "180px",
@@ -222,12 +211,6 @@ export function Horizontal() {
                   color: "white",
                   backgroundColor: "#4A96D2",
                   borderRadius: "8px 8px 0px 0px",
-                },
-                ":hover .pruebaClass": {
-                  content:url('http://dummyimage.com/100x100/eb00eb/fff')
-                  
-                  
-                  
                 }
               }}
             >
@@ -240,7 +223,7 @@ export function Horizontal() {
               >
                 <img id="prueba_img"
                   src={logo}
-                  className={"pruebaClass"}
+                  
                   style={{
                     width: "20px",
                     height: "20px",
