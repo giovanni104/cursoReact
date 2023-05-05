@@ -1,12 +1,14 @@
 import * as React from "react";
  
  import { MenuHorizontal} from "./menuHorizontal/MenuHorizontal"
-export function Horizontal() {
- 
+ import { menu } from "./menuHorizontal/dataMenu";
 
+
+
+export function Horizontal() {
   return (
     <>
-      <MenuHorizontal/>  
+      <MenuHorizontal dataMenu={menu}/>  
     </>
   );
 }

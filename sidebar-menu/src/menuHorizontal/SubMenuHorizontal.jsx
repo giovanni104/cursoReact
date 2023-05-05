@@ -9,30 +9,22 @@ import ListItemText from "@mui/material/ListItemText";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import "./horizontal.css";
 
-import { menuData } from "./horizontalDinamic";
+export const SubMenuHorizontal = ({
+  handleClose,
+  menuFields,
+  setMenuFields,
+}) => {
+  //const [menuFields, setMenuFields] = React.useState([menuData]);
 
-export const SubMenuHorizontal= ({
-    handleClose,
- 
-  }) => {
-  const [menuFields, setMenuFields] = React.useState([]);
-
-  React.useEffect(() => {
-    
-    const values = [...menuFields];
-    values.push(JSON.parse(JSON.stringify(menuData)));
-    setMenuFields(values);
-  }, []);
-
-  const hover = (event) => {
+  const hover = (id) => {
     const menuValues = [...menuFields];
-    menuValues[0].stateImg = false;
+    menuValues[id].stateImg = false;
     setMenuFields(menuValues);
   };
 
-  const unhover = (event) => {
+  const unhover = (id) => {
     const menuValues = [...menuFields];
-    menuValues[0].stateImg = true;
+    menuValues[id].stateImg = true;
     setMenuFields(menuValues);
   };
 
@@ -44,87 +36,83 @@ export const SubMenuHorizontal= ({
         component={Stack}
         direction="row"
       >
-
-
-
-        <ListItem
-          id="prueba"
-          onMouseOver={hover}
-          onMouseOut={unhover}
-          disablePadding
-          sx={{
-            maxWidth: "180px",
-            maxHeight: "50px",
-          }}
-          onClick={(event) => handleClose()  }
-          
-        >
-          <ListItemButton
-            sx={{
-              height: "55px",
-              backgroundColor: "#FFFFFF",
-              borderRadius: "8px 8px 0px 0px",
-              ":hover": {
-                color: "white",
-                backgroundColor: "#4A96D2",
-                borderRadius: "8px 8px 0px 0px",
-                height: "55px",
-              },
-            }}
-          >
-            <ListItemIcon
+        {menuFields.map((data, index) => {
+          return (
+            <ListItem key={index}             
+              onMouseOver={(event) => hover(index)}
+              onMouseOut={(event) => unhover(index)}
+              disablePadding
+              
               sx={{
-                minWidth: 0,
-                mr: "auto",
-                justifyContent: "center",
+                width: "250px",
+                maxHeight: "50px",
+              
               }}
+              onClick={(event) => handleClose()}
             >
-              <img
-                id="prueba_img"
-                src={
-                  menuFields[0].stateImg
-                    ? menuFields[0].img1
-                    : menuFields[0].img2
-                }
-                style={{
-                  width: "20px",
-                  height: "20px",
-                  left: "8px",
-                  top: "10px",
+              <ListItemButton   key={index}
+                sx={{
+                  height: "55px",
+                  backgroundColor: "#FFFFFF",
+                  borderRadius: "8px 8px 0px 0px",
+               
+                  ":hover": {
+                    color: "white",
+                    backgroundColor: "#4A96D2",
+                    borderRadius: "8px 8px 0px 0px",
+                    height: "55px",
+                 
+
+                    
+                  },
                 }}
-              />
-            </ListItemIcon>
-            <ListItemText
-              primary={"Transacciones"}
-              primaryTypographyProps={{
-                fontSize: "16px",
-                fontFamily: "Nunito",
-                fontWeight: "400",
-                lineHeight: "22px",
-                letterSpacing: "0em",
-                textAlign: "center",
-              }}
-            />
+              >
+                <ListItemIcon  key={index}
+                  sx={{
+                    minWidth: 0,
+                    mr: "auto",
+                    justifyContent: "center",
+                  }}
+                >
+                  <img
+                    id={index}
+                    src={data.stateImg ? data.img1 : data.img2}
+                    style={{
+                      width: "20px",
+                      height: "20px",
+                      left: "8px",
+                      top: "10px",
+                    }}
+                  />
+                </ListItemIcon>
+                <ListItemText sx={{marginLeft:"10px" ,width:""}}
+                  primary={data.text}
+                  primaryTypographyProps={{
+                    fontSize: "16px",
+                    fontFamily: "Nunito",
+                    fontWeight: "400",
+                    lineHeight: "22px",
+                    letterSpacing: "0em",
+                    textAlign: "left",
+                  }}
+                />
 
-            {!menuFields[0].stateImg > 0 && (
-              <ArrowForwardIcon
-                id="prueba_row"
-                style={{
-                  width: "20px",
-                  height: "20px",
-                  left: "8px",
-                  top: "10px",
-                }}
-              />
-            )}
-          </ListItemButton>
-        </ListItem>
-
-
-
-
+                {!data.stateImg > 0 && (
+                  <ArrowForwardIcon
+                    id="prueba_row"
+                    style={{
+                      width: "20px",
+                      height: "20px",
+                      left: "8px",
+                      top: "10px",
+                    }}
+                  />
+                )}
+              </ListItemButton>
+            </ListItem>
+          );
+        })}
       </List>
-      
     </>
-  )
-}
+  );
+};
