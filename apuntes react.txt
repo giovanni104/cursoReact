@@ -65,6 +65,11 @@ yarn add --dev typescript @types/react@17.0.39 @types/node
 
 
 
+-----tipear objetos
+
+https://app.quicktype.io/
+
+
 
 yarn dev --force
 
