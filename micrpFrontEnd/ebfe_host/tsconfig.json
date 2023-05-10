@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "noUnusedParameters": true,       /* Raise an error when a function parameter isn't read. */
+    "noImplicitReturns": true,       /* Enable error reporting for codepaths that do not explicitly return in a function. */  
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/utils/util.jsx", "src/pages/index.jsx", "src/components/common/Wrapper.js", "src/pages/_app.tsx"],
+  "exclude": ["node_modules"]
+}
