@@ -5,12 +5,13 @@ import { Settings } from "./pages/Settings";
 import { Sidenav } from "./menu/Sidenav";
 import MenuContextProvider from "./context/MenuContext";
 import  {Horizontal} from "./Horizontal";
+import {Chat} from "./chat"
 function App() {
   return (
     <>
+<Chat></Chat>
 
-
-<Horizontal/>
+ 
     </>
   );
 }
