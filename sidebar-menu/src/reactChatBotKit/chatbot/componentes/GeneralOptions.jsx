@@ -1,4 +1,4 @@
-import Options from "./Options";
+import Options from "./Options2";
 
 const GeneralOptions = (props) => {
 
@@ -14,27 +14,27 @@ let mensaje="";
   }
 
 
-
+  
 
   const options = [
     {
       name: "Seguridad",
-      handler: props.actionProvider.handleCustom,
+      handler:  "seguridad",
       id: 1
     },
     {
       name: "Afiliaciones",
-      handler: props.actionProvider.handleCustom,
+      handler: "afiliaciones",
       id: 2
     },
     {
       name: "Mercado cambiario",
-      handler: props.actionProvider.handleCustom,
+      handler: "mercadocambiario",
       id: 3
     },
     {
       name: "Límites de operaciones",
-      handler: props.actionProvider.handleCustom,
+      handler: "limitesoperaciones",
       id: 4
     }
   ];

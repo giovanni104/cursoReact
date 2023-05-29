@@ -1,7 +1,7 @@
  
 import Options from "./Options";
 
-const CustomMessage = (props) => {
+const CustomMessageP = (props) => {
   const options = [
     {
       name: "Cambio de contraseña",
@@ -34,7 +34,7 @@ const CustomMessage = (props) => {
   <div className="boton">  Seguridad</div>
   <div className="react-chatbot-kit-chat-bot-message-container">
     <div className="react-chatbot-kit-chat-bot-message">
-      <span>Selecciona la opción que deseas restablecer</span>
+      <span>Custom dos</span>
       </div>
       </div>
   <Options options={options}  {...props} />
@@ -46,4 +46,4 @@ const CustomMessage = (props) => {
  
 };
 
-export default CustomMessage;
+export default CustomMessageP;

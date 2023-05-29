@@ -3,19 +3,15 @@ import React from 'react';
 
 const MessageParser = ({ children, actions }) => {
   const parse = (message) => {
-    if (message.includes('hello')) {
-      actions.handleHello();
-    }
+   
 
-    if (message.includes('dog')) {
-      actions.handleDog();
-    }
+    
 
-    if (message.includes('lista')) {
-      actions.handleList({ mensaje: "presente" });
+    if (message.includes('menu')) {
+      actions.handleGeneralOptions();
     }
     if (message.includes('seguridad')) {
-      actions.handleCustom();
+      actions.handleMenuSeguridad();
     }
     
 

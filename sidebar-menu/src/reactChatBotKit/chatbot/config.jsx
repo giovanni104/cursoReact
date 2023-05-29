@@ -1,8 +1,9 @@
-import { createChatBotMessage,createCustomMessage } from "react-chatbot-kit";
-import DogPicture from "./componentes/DogPicture";
+import { createChatBotMessage, createCustomMessage } from "react-chatbot-kit";
+ 
 import CoBotAvatar from "./componentes/CoBotavatar";
-import Overview from "./componentes/Overview";
-import CustomMessage from './componentes/CustomMessage';
+import GeneralOptions from "./componentes/GeneralOptions";
+import SubMenu from "./componentes/SubMenu";
+import CustomMessageP from "./componentes/CustomMessageP";
 const botName = "ExcitementBot";
 const config = {
   botName: "Prueba",
@@ -15,32 +16,26 @@ const config = {
       {
         withAvatar: false,
         delay: 400,
-        widget: "overview"
+        widget: "generalOptions",
       }
-    )/*,
-    createCustomMessage('Test', 'custom'),*/
+    )  
   ],
   customComponents: { botAvatar: (props) => <CoBotAvatar {...props} /> },
-   
+
   customMessages: {
-    custom: (props) => <CustomMessage {...props} />,
+    seguridad: (props) => <SubMenu {...props} />,
+    afiliaciones: (props) => <SubMenu {...props} />,
+    mercadocambiario: (props) => <SubMenu {...props} />,
+    limitesoperaciones: (props) => <SubMenu {...props} />,   
+    custom2: (props) => <CustomMessageP {...props} />,
   },
-  widgets: [
-    {
-      widgetName: "dogPicture",
-      widgetFunc: (props) => <DogPicture {...props} />,
-    },
+  widgets: [  
 
     {
-      widgetName: "overview",
-      widgetFunc: (props) => <Overview {...props} />,
+      widgetName: "generalOptions",
+      widgetFunc: (props) => <GeneralOptions {...props} />,
       mapStateToProps: ["messages"],
-    },
-    {
-      widgetName: "custom1",
-      widgetFunc: (props) => <CustomMessage {...props} />,
-      mapStateToProps: ["messages"],
-    },
+    } 
   ],
 };
 export default config;
