@@ -5,6 +5,21 @@ import GeneralOptions from "./componentes/GeneralOptions";
 import SubMenu from "./componentes/SubMenu";
 import CustomMessageP from "./componentes/CustomMessageP";
 const botName = "ExcitementBot";
+
+const parametros = [
+  {"topic":"seguridad","action":"seguridad"},
+  {"topic":"afiliaciones","action":"afiliaciones"},
+  {"topic":"mercadocambiario","action":"mercadocambiario"},
+  {"topic":"limitesoperaciones","action":"limitesoperaciones"}
+  ]
+  const chatOpciones = (list)=>{
+    var opciones = {};
+    list.forEach(element => {
+      opciones[element.topic] = (props) => <SubMenu {...props} opcion={element.topic} />;    
+    });
+    return opciones;
+  }
+
 const config = {
   botName: "Prueba",
   initialMessages: [
@@ -22,13 +37,7 @@ const config = {
   ],
   customComponents: { botAvatar: (props) => <CoBotAvatar {...props} /> },
 
-  customMessages: {
-    seguridad: (props) => <SubMenu {...props} />,
-    afiliaciones: (props) => <SubMenu {...props} />,
-    mercadocambiario: (props) => <SubMenu {...props} />,
-    limitesoperaciones: (props) => <SubMenu {...props} />,   
-    custom2: (props) => <CustomMessageP {...props} />,
-  },
+  customMessages:  chatOpciones(parametros),
   widgets: [  
 
     {
@@ -39,3 +48,6 @@ const config = {
   ],
 };
 export default config;
+
+
+
