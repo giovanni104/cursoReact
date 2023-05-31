@@ -5,7 +5,7 @@ const SubMenu = (props) => {
   let opcionSubmenu;
   let title="";
   let options = [];
-console.log(props)
+//console.log(props)
 
  
   opcionSubmenu = submenu.filter(function (submenu) {

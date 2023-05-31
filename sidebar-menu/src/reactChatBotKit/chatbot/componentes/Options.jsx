@@ -1,6 +1,9 @@
 import icon from "../../../assets/iconlist.svg";
 
 const Options = (props) => {
+
+//console.log(props.options);
+
   return (
     <div className="options">
       <h1 className="options-header">{props.mensaje}</h1>
@@ -9,7 +12,11 @@ const Options = (props) => {
           return (<div key={option.id}    className="options-contenedor-flexbox">
             <div
               className="option-item"
-              onClick={option.handler}
+              
+              onClick={() => {
+                props.actions.handleCustom( option.handler+option.id   )
+               
+              }}
               key={option.id}
             >
               {option.name}

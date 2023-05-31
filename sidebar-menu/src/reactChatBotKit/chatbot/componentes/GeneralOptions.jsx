@@ -2,18 +2,7 @@ import Options from "./Options2";
 
 const GeneralOptions = (props) => {
 
-let mensaje="";
-
-  const results = props.messages.filter(function (submenu) {
-    return submenu.widget == "overview" && submenu.hasOwnProperty('mensaje')  ;
-  });
-
-  if(results.length!==0) {
-
-    mensaje=results[results.length-1].mensaje;
-  }
-
-
+ 
   
 
   const options = [
@@ -38,7 +27,7 @@ let mensaje="";
       id: 4
     }
   ];
-  return <Options options={options}  mensaje={mensaje}    {...props} />;
+  return <Options options={options}      {...props} />;
 };
 
 export default GeneralOptions;

@@ -1,49 +1,37 @@
- 
-import Options from "./Options";
-
+import { response } from "./dataSubMenuResponse";
+import "./CustomMessageStyle.css";
 const CustomMessageP = (props) => {
-  const options = [
-    {
-      name: "Cambio de contraseña",
-      handler: props.actionProvider.handleDog,
-      id: 1
-    },
-    {
-      name: "Actualización de correo",
-      handler: props.actionProvider.handleDog,
-      id: 2
-    },
-    {
-      name: "Preguntas de seguridad",
-      handler: props.actionProvider.handleDog,
-      id: 3
-    },
-    {
-      name: "Actualizacion de Clavemóvil",
-      handler: props.actionProvider.handleDog,
-      id: 4
-    }
-    ,
-    {
-      name: "Ami Ven",
-      handler: props.actionProvider.handleDog,
-      id:5
-    }
-  ];
-  return <>
-  <div className="boton">  Seguridad</div>
-  <div className="react-chatbot-kit-chat-bot-message-container">
-    <div className="react-chatbot-kit-chat-bot-message">
-      <span>Custom dos</span>
-      </div>
-      </div>
-  <Options options={options}  {...props} />
-  </>;
-  
-  
-  
-  
- 
-};
+  let title = "";
+  let category = "";
+  let options = [];
+  let opcionSubmenu = response.filter(function (response) {
+    return response.id == props.opcion;
+  });
 
+  if (opcionSubmenu.length !== 0) {
+    options = opcionSubmenu[0].response;
+    title = opcionSubmenu[0].title;
+    category=opcionSubmenu[0].opcion;
+  }
+  return (
+    <>
+     <div className="botonChat"> {category}</div>
+      <div className="react-chatbot-kit-chat-bot-message-container">
+        <div className="react-chatbot-kit-chat-bot-message">
+          <span>{title}</span>
+        </div>
+      </div>
+      <div className="react-chatbot-kit-chat-bot-message-container">
+        <div className="react-chatbot-kit-chat-bot-message">
+          <ol style={{marginLeft:"-15px"}} >
+            {options.map((option) => {
+              return <li key={option}>{option}</li>;
+            })}
+          </ol>
+        </div>{" "}
+      </div>
+    </>
+  );
+};
+ 
 export default CustomMessageP;

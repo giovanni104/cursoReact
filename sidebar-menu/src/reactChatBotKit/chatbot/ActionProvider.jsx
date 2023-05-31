@@ -25,8 +25,10 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
 
 
 
-  const handleSubMenu = (options) => {
-    const message = createCustomMessage(options, options,{message: options });
+  const handleSubMenu = (options,props) => {
+
+    console.log("handleSubMenu",options);
+    const message = createCustomMessage(options, options);
 
     setState((prev) => ({
       ...prev,
@@ -36,9 +38,11 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
 
 
 
-  const handleCustom2 = (options) => {
-    const message = createCustomMessage("Test", "custom2");
+  const handleCustom = (options) => {
 
+
+
+    const message = createCustomMessage("Test", options);
     setState((prev) => ({
       ...prev,
       messages: [...prev.messages, message],
@@ -51,7 +55,7 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
       {React.Children.map(children, (child) => {
         return React.cloneElement(child, {
           actions: {       
-            handleGeneralOptions,handleSubMenu,handleCustom2
+            handleGeneralOptions,handleSubMenu,handleCustom
           },
         });
       })}

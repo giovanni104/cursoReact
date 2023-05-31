@@ -1,0 +1,22 @@
+.botonChat {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    height: 40px;
+    width: fit-content;
+    background: #4A96D2;
+    border: 1px solid #D9D9D9;
+    border-radius: 8px;
+    flex: none;
+    order: 3;
+    flex-grow: 0;
+    color: #FFFFFF;
+    font-family: "Nunito";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    padding-left: 6px;
+    padding-right: 6px;
+}

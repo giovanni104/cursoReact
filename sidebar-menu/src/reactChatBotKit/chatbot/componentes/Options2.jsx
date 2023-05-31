@@ -12,7 +12,7 @@ const Options = (props) => {
              
 
               onClick={() => {
-                props.actionProvider.handleSubMenu(option.handler)
+                props.actionProvider.handleSubMenu(option.handler,props)
                
               }}
 

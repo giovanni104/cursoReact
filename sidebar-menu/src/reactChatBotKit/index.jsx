@@ -16,7 +16,7 @@ export const Chat = () => {
   return (
     <>
       <div style={{ maxWidth: "430px", maxHeight: "700px" }}>
-        <ChatContextProvider>
+      
           <Chatbot
             headerText="¿Qué deseas hacer?"
             placeholderText="Escribe aquí"
@@ -24,7 +24,7 @@ export const Chat = () => {
             actionProvider={ActionProvider}
             messageParser={MessageParser}
           />
-        </ChatContextProvider>
+       
       </div>
     </>
   );

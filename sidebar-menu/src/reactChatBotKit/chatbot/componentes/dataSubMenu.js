@@ -5,27 +5,27 @@ export const submenu  =  [
     opciones: [
       {
         name: "Cambio de contraseña",
-        handler:"handleCustom2",
+        handler:"seguridad",
         id: 1,
       },
       {
         name: "Actualización de correo",
-        handler: "handleCustom2",
+        handler: "seguridad",
         id: 2,
       },
       {
         name: "Preguntas de seguridad",
-        handler: "handleCustom2",
+        handler: "seguridad",
         id: 3,
       },
       {
         name: "Actualizacion de Clavemóvil",
-        handler: "handleCustom2",
+        handler: "seguridad",
         id: 4,
       },
       {
         name: "Ami Ven",
-        handler: "handleCustom2",
+        handler: "seguridad",
         id: 5,
       },
     ],
@@ -36,27 +36,27 @@ export const submenu  =  [
     opciones: [
       {
         name: "Cambio de contraseña2",
-        handler: "handleCustom2",
+        handler: "custom",
         id: 1,
       },
       {
         name: "Actualización de correo2",
-        handler: "handleCustom2",
+        handler: "custom",
         id: 2,
       },
       {
         name: "Preguntas de seguridad2",
-        handler: "handleCustom2",
+        handler: "custom",
         id: 3,
       },
       {
         name: "Actualizacion de Clavemóvil2",
-        handler: "handleCustom2",
+        handler: "custom",
         id: 4,
       },
       {
         name: "Ami Ven2",
-        handler: "handleCustom2",
+        handler: "custom",
         id: 5,
       },
     ],
@@ -67,27 +67,27 @@ export const submenu  =  [
     opciones: [
       {
         name: "Cambio de contraseña3",
-        handler: "handleCustom2",
+        handler: "custom",
         id: 1,
       },
       {
         name: "Actualización de correo3",
-        handler: "handleCustom2",
+        handler: "custom",
         id: 2,
       },
       {
         name: "Preguntas de seguridad3",
-        handler: "handleCustom2",
+        handler: "custom",
         id: 3,
       },
       {
         name: "Actualizacion de Clavemóvil3",
-        handler: "handleCustom2",
+        handler: "custom",
         id: 4,
       },
       {
         name: "Ami Ven3",
-        handler: "handleCustom2",
+        handler: "custom",
         id: 5,
       },
     ],
@@ -98,27 +98,27 @@ export const submenu  =  [
     opciones: [
       {
         name: "Cambio de contraseña4",
-        handler: "handleCustom2",
+        handler: "custom",
         id: 1,
       },
       {
         name: "Actualización de correo4",
-        handler: "handleCustom2",
+        handler: "custom",
         id: 2,
       },
       {
         name: "Preguntas de seguridad4",
-        handler: "handleCustom2",
+        handler: "custom",
         id: 3,
       },
       {
         name: "Actualizacion de Clavemóvil4",
-        handler: "handleCustom2",
+        handler: "custom",
         id: 4,
       },
       {
         name: "Ami Ven4",
-        handler: "handleCustom2",
+        handler: "custom",
         id: 5,
       },
     ],
