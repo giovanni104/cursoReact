@@ -25,7 +25,7 @@ const CustomMessageP = (props) => {
         <div className="react-chatbot-kit-chat-bot-message">
           <ol style={{marginLeft:"-15px"}} >
             {options.map((option) => {
-              return <li key={option}>{option}</li>;
+              return <li className="liOpciones"    key={option}>{option}</li>;
             })}
           </ol>
         </div>{" "}

@@ -9,7 +9,9 @@ import {Chat} from "./reactChatBotKit/index"
 function App() {
   return (
     <>
-<Chat></Chat>
+<Home/>  
+
+ 
 
  
     </>
