@@ -20,7 +20,7 @@ import { Bolt } from "@mui/icons-material";
 export function SubSidenav() {
   const theme = useTheme();
   const stateSubmenu = React.useContext(MenuContext);
-  
+
   const toggleDrawer = (anchor, open) => (event) => {
     if (
       event &&

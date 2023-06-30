@@ -49,27 +49,6 @@ https://gist.github.com/Klerith/ca7e57fae3c9ab92ad08baadc6c26177
 https://redux-toolkit.js.org/tutorials/quick-start
 
 
------- migrar de js a ts
-
-crear archivo tsconfig.json y dejarlo en blanco y despues ejecutar
- yarn add --dev typescript @types/react  @types/node
-
-------si es con la 17
-
-yarn remove @types/react
-Instalar la versión de types/react 17 compatible con los types/node 17 que solucionó mi problema
-yarn add --dev @types/react@17.0.39
-Sino al momento de instalar se podría hacer la instalación directa de la versión que es compatible:
-yarn add --dev typescript @types/react@17.0.39 @types/node
-
-
-
-
------tipear objetos
-
-https://app.quicktype.io/
-
-
 
 yarn dev --force
 
@@ -113,3 +92,29 @@ https://smartdevpreneur.com/how-to-style-the-material-ui-tooltip/
  
  
  props.actionProvider.handleSubMenu(option.handler)
+ 
+ 
+ yarn create-next-app@13.3.0
+ 
+ npx create-next-app@13.3.0
+ 
+ 
+ npx create-next-app@latest
+ ebfe_transactions
+ 
+ 
+    
+//Pantallas muy pequeñas  (móviles en portrait de menos de 576px)
+//No hace falta media-query porque será nuestro diseño por defecto
+
+//Pantallas pequeñas (móviles en landscape de más de 576px)
+@media (min-width: 576px) { ... }
+
+//Pantallas medianas (tablets de más de 768px)
+@media (min-width: 768px) { ... }
+
+//Pantallas grandes (desktops de más de 992px)
+@media (min-width: 992px) { ... }
+
+//Pantallas muy grandes (desktops de más de 1200px)
+@media (min-width: 1200px) { ... }
