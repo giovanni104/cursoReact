@@ -88,3 +88,33 @@ custom tooltip
 https://smartdevpreneur.com/the-essential-mui-tooltip-demo-with-custom-position-arrow-and-internal-components/
 https://smartdevpreneur.com/how-to-style-the-material-ui-tooltip/
  https://stackoverflow.com/questions/64686233/how-to-use-button-collapse-with-material-ui-accordion
+ 
+ 
+ 
+ props.actionProvider.handleSubMenu(option.handler)
+ 
+ 
+ yarn create-next-app@13.3.0
+ 
+ npx create-next-app@13.3.0
+ 
+ 
+ npx create-next-app@latest
+ ebfe_transactions
+ 
+ 
+    
+//Pantallas muy pequeñas  (móviles en portrait de menos de 576px)
+//No hace falta media-query porque será nuestro diseño por defecto
+
+//Pantallas pequeñas (móviles en landscape de más de 576px)
+@media (min-width: 576px) { ... }
+
+//Pantallas medianas (tablets de más de 768px)
+@media (min-width: 768px) { ... }
+
+//Pantallas grandes (desktops de más de 992px)
+@media (min-width: 992px) { ... }
+
+//Pantallas muy grandes (desktops de más de 1200px)
+@media (min-width: 1200px) { ... }

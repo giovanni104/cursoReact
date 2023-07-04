@@ -6,7 +6,6 @@ import "react-chatbot-kit/build/main.css";
 import config from "./chatbot/config";
 import ActionProvider from "./chatbot/ActionProvider";
 import MessageParser from "./chatbot/MessageParser";
-import ChatContextProvider from "./chatbot/context/ChatContext";
 
 //https://fredrikoseberg.github.io/react-chatbot-kit-docs/docs/getting-started
 
