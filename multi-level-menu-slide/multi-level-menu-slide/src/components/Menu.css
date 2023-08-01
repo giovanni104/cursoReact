@@ -1,0 +1,30 @@
+.main-menu {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .menu-item {
+    position: relative;
+    padding: 10px 15px;
+    cursor: pointer;
+  }
+  
+  .menu-item-label {
+    display: inline-block;
+  }
+  
+  .submenu {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    background-color: #f1f1f1;
+    padding: 5px;
+    z-index: 1;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+  
+  .menu-item:hover .submenu {
+    max-height: 200px; /* Set an appropriate value to determine the maximum height of the submenu */
+  }

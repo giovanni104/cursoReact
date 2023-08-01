@@ -118,3 +118,8 @@ https://smartdevpreneur.com/how-to-style-the-material-ui-tooltip/
 
 //Pantallas muy grandes (desktops de más de 1200px)
 @media (min-width: 1200px) { ... }
+
+
+
+https://www.youtube.com/playlist?list=PLRM7PpbqqStKRJOMtdwSa6CT6nsRrYvcn
+npx create-next-app@13.2.4
