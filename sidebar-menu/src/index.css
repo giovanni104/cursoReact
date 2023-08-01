@@ -1,1 +1,11 @@
 @import url('https://fonts.googleapis.com/css?family=Nunito');
+
+.fondo{
+    background-color: black;
+    width: 100%;
+    min-height: 100vh;
+}
+
+.bordes{
+    border:1px solid white;
+}
