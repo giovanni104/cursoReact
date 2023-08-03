@@ -11,7 +11,11 @@ export const origenSlice = createSlice({
     comprar: (state, action) => {
       state.miCarrito = [...state.miCarrito, action.payload];
     },
-    devolver: (state, action) => {},
+    devolver: (state, action) => {
+      state.miCarrito = state.miCarrito.filter(
+        (objeto) => objeto.producto !== action.payload
+      );
+    },
   },
 });
 export const { guardarCategoria, comprar, devolver } = origenSlice.actions;

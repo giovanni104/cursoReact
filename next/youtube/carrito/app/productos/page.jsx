@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Ficha from "../componentes/Ficha";
 import estilos from "./productos.module.css"
 const cargarDatos = () => {
@@ -15,6 +16,7 @@ const page = async () => {
           <Ficha valor={valor} />
         ))}
       </div>
+      <Link href="/productos"><button>Volver</button></Link>
     </>
   );
 };

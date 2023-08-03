@@ -1,14 +1,19 @@
-import Link from "next/link"
+import Link from "next/link";
 
- const page=()=> {
+const page = () => {
   return (
-    <div>Pagina principal
-    <Link href="/categorias"><button>Categorias</button></Link>
-    <Link href="/productos"><button>Productos</button></Link>
-    
+    <div>
+      Pagina principal
+      <div>
+        <Link href="/categorias">
+          <button>Categorias</button>
+        </Link>
+        <Link href="/productos">
+          <button>Productos</button>
+        </Link>
+      </div>
     </div>
-    
-  )
-}
+  );
+};
 
-export default page
+export default page;
