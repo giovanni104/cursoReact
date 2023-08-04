@@ -7,7 +7,9 @@ export const origenSlice = createSlice({
     miCarrito: [],
   },
   reducers: {
-    guardarCategoria: (state, action) => {},
+    guardarCategoria: (state, action) => {
+      state.categoria = action.payload;
+    },
     comprar: (state, action) => {
       state.miCarrito = [...state.miCarrito, action.payload];
     },

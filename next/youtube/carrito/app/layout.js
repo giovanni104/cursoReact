@@ -1,5 +1,5 @@
 import Providers from "@/store/provider";
-import { Montserrat } from "@next/font/google";
+import { Montserrat } from "next/font/google";
 import Carrito from "./carrito/Carrito"
 const fuente = Montserrat({
   weight: "400",

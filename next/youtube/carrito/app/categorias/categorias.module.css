@@ -1,0 +1,18 @@
+.columnas{
+    display: flex;
+    justify-content: space-evenly;
+    text-align: center;
+}
+.columna{
+    text-transform: capitalize;
+    font-size: 1.6em;
+    width: 23%;
+    padding: 22px 12px;
+    box-sizing: border-box;
+    border: 1px dotted #323232;
+    cursor: pointer;
+}
+.categoria{
+    color: white;
+    background-color: #323232;
+}
