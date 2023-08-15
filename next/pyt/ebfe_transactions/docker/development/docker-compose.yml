@@ -1,0 +1,13 @@
+networks:
+  frontend:
+    external: true
+services:
+  ebfe_transacions:
+    build:
+      context: ../../
+      dockerfile: docker/development/Dockerfile
+    image: ebfe_transacions
+    networks:
+      - frontend
+    ports:
+      - '3001:3001'

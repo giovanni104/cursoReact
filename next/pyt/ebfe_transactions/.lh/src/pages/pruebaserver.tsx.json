@@ -1,0 +1,26 @@
+{
+    "sourceFile": "src/pages/pruebaserver.tsx",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1691075605150,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1691075620354,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,14 +1,14 @@\n import dynamic from 'next/dynamic'\n \n  \n \n-export function LocalPage(props) {\n-  return <Transfer {...props} />\n+export function LocalPage( ) {\n+  return <div   />\n }\n \n export const getServerSideProps = async (ctx) => {\n-    const transfer = await import('mf_transfer/prueba')\n+ \n   \n     if (transfer.getServerSideProps) {\n       return transfer.getServerSideProps(ctx)\n     }\n"
+                },
+                {
+                    "date": 1691075628855,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,14 +5,12 @@\n export function LocalPage( ) {\n   return <div   />\n }\n \n-export const getServerSideProps = async (ctx) => {\n+export const getServerSideProps = async ( ) => {\n  \n   \n-    if (transfer.getServerSideProps) {\n-      return transfer.getServerSideProps(ctx)\n-    }\n+    \n   \n     return {\n       props: {},\n     }\n"
+                }
+            ],
+            "date": 1691075605150,
+            "name": "Commit-0",
+            "content": "import dynamic from 'next/dynamic'\n\n \n\nexport function LocalPage(props) {\n  return <Transfer {...props} />\n}\n\nexport const getServerSideProps = async (ctx) => {\n    const transfer = await import('mf_transfer/prueba')\n  \n    if (transfer.getServerSideProps) {\n      return transfer.getServerSideProps(ctx)\n    }\n  \n    return {\n      props: {},\n    }\n  }"
+        }
+    ]
+}

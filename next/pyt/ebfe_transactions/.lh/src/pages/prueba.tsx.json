@@ -1,0 +1,58 @@
+{
+    "sourceFile": "src/pages/prueba.tsx",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 10,
+            "patches": [
+                {
+                    "date": 1691502330630,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1691502346076,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,9 @@\n      \r\n  \r\n        <Transaccion></Transaccion> \r\n        <Button variant=\"contained\" color=\"primary\" onClick={handlerAuthPassword}>\r\n-        Continuar\r\n+        PRUEBA DE LLAMADO\r\n       </Button>\r\n     </>\r\n   )\r\n }\r\n"
+                },
+                {
+                    "date": 1691502647334,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,11 +1,18 @@\n import React from 'react'\r\n import { NextPage } from 'next'\r\n  import {  Transaccion } from '../components/transaccion/transaccion'\r\n import { Button } from '@mui/material'\r\n+import axios from 'axios'\r\n \r\n+const publicFetch = axios.create({\r\n+  baseURL: process.env.NEXT_PUBLIC_API_URL,\r\n+})\r\n+const handlerAuthPassword = async () => {\r\n+  const  respuesta = await publicFetch.get(`dummy`)\r\n+  console.log('respuesta')\r\n+}\r\n \r\n-\r\n const prueba: NextPage = (props) => {\r\n   return (\r\n     <>\r\n      \r\n"
+                },
+                {
+                    "date": 1691502840695,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,12 +16,13 @@\n   return (\r\n     <>\r\n      \r\n  \r\n-       <Transaccion></Transaccion> \r\n+       <Transaccion>\r\n        <Button variant=\"contained\" color=\"primary\" onClick={handlerAuthPassword}>\r\n         PRUEBA DE LLAMADO\r\n       </Button>\r\n+      </Transaccion> \r\n     </>\r\n   )\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1691502854948,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,13 +16,13 @@\n   return (\r\n     <>\r\n      \r\n  \r\n-       <Transaccion>\r\n+       <Transaccion>   </Transaccion> \r\n        <Button variant=\"contained\" color=\"primary\" onClick={handlerAuthPassword}>\r\n         PRUEBA DE LLAMADO\r\n       </Button>\r\n-      </Transaccion> \r\n+   \r\n     </>\r\n   )\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1691502864095,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,10 +15,8 @@\n const prueba: NextPage = (props) => {\r\n   return (\r\n     <>\r\n      \r\n- \r\n-       <Transaccion>   </Transaccion> \r\n        <Button variant=\"contained\" color=\"primary\" onClick={handlerAuthPassword}>\r\n         PRUEBA DE LLAMADO\r\n       </Button>\r\n    \r\n"
+                },
+                {
+                    "date": 1691504654570,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,9 @@\n   baseURL: process.env.NEXT_PUBLIC_API_URL,\r\n })\r\n const handlerAuthPassword = async () => {\r\n   const  respuesta = await publicFetch.get(`dummy`)\r\n-  console.log('respuesta')\r\n+  console.log(\"Se Consume el servicio\"+respuesta)\r\n }\r\n \r\n const prueba: NextPage = (props) => {\r\n   return (\r\n"
+                },
+                {
+                    "date": 1691504733233,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,9 @@\n   baseURL: process.env.NEXT_PUBLIC_API_URL,\r\n })\r\n const handlerAuthPassword = async () => {\r\n   const  respuesta = await publicFetch.get(`dummy`)\r\n-  console.log(\"Se Consume el servicio\"+respuesta)\r\n+  console.log(\"Se Consume el servicio \"+respuesta)\r\n }\r\n \r\n const prueba: NextPage = (props) => {\r\n   return (\r\n"
+                },
+                {
+                    "date": 1691533494359,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,8 +7,9 @@\n const publicFetch = axios.create({\r\n   baseURL: process.env.NEXT_PUBLIC_API_URL,\r\n })\r\n const handlerAuthPassword = async () => {\r\n+  'use server'\r\n   const  respuesta = await publicFetch.get(`dummy`)\r\n   console.log(\"Se Consume el servicio \"+respuesta)\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1691590476436,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,13 +6,8 @@\n \r\n const publicFetch = axios.create({\r\n   baseURL: process.env.NEXT_PUBLIC_API_URL,\r\n })\r\n-const handlerAuthPassword = async () => {\r\n-  'use server'\r\n-  const  respuesta = await publicFetch.get(`dummy`)\r\n-  console.log(\"Se Consume el servicio \"+respuesta)\r\n-}\r\n \r\n const prueba: NextPage = (props) => {\r\n   return (\r\n     <>\r\n"
+                },
+                {
+                    "date": 1691590485670,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,8 +6,13 @@\n \r\n const publicFetch = axios.create({\r\n   baseURL: process.env.NEXT_PUBLIC_API_URL,\r\n })\r\n+const handlerAuthPassword = async () => {\r\n+ \r\n+  const  respuesta = await publicFetch.get(`dummy`)\r\n+  console.log(\"Se Consume el servicio \"+respuesta)\r\n+}\r\n \r\n const prueba: NextPage = (props) => {\r\n   return (\r\n     <>\r\n"
+                }
+            ],
+            "date": 1691502330630,
+            "name": "Commit-0",
+            "content": "import React from 'react'\r\nimport { NextPage } from 'next'\r\n import {  Transaccion } from '../components/transaccion/transaccion'\r\nimport { Button } from '@mui/material'\r\n\r\n\r\n\r\nconst prueba: NextPage = (props) => {\r\n  return (\r\n    <>\r\n     \r\n \r\n       <Transaccion></Transaccion> \r\n       <Button variant=\"contained\" color=\"primary\" onClick={handlerAuthPassword}>\r\n        Continuar\r\n      </Button>\r\n    </>\r\n  )\r\n}\r\n\r\nexport default prueba\r\n"
+        }
+    ]
+}

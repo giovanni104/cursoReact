@@ -1,0 +1,38 @@
+{
+    "sourceFile": "src/pages/api/dummy/index.ts",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 5,
+            "patches": [
+                {
+                    "date": 1691503934931,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1691504013476,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -28,6 +28,6 @@\n   console.log(respuesta)\n }\n const getMenu = async (messageId: string) => {\n   const response = await menuApi.get('dummy')\n-console.log(response)\n+console.log(response.data.responseBody)\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1691504128645,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -28,6 +28,7 @@\n   console.log(respuesta)\n }\n const getMenu = async (messageId: string) => {\n   const response = await menuApi.get('dummy')\n+  return response \n console.log(response.data.responseBody)\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1691504224161,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -24,11 +24,12 @@\n   req: NextApiRequest,\n   res: NextApiResponse<Data>\n ) {\n   const respuesta = await getMenu('messageId')\n-  console.log(respuesta)\n+  return \n }\n const getMenu = async (messageId: string) => {\n   const response = await menuApi.get('dummy')\n-  return response \n-console.log(response.data.responseBody)\n+  console.log(response.data.responseBody)\n+  return response.data.responseBody \n+\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1691504461515,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -24,9 +24,9 @@\n   req: NextApiRequest,\n   res: NextApiResponse<Data>\n ) {\n   const respuesta = await getMenu('messageId')\n-  return \n+  return respuesta\n }\n const getMenu = async (messageId: string) => {\n   const response = await menuApi.get('dummy')\n   console.log(response.data.responseBody)\n"
+                },
+                {
+                    "date": 1691506346338,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -24,9 +24,11 @@\n   req: NextApiRequest,\n   res: NextApiResponse<Data>\n ) {\n   const respuesta = await getMenu('messageId')\n-  return respuesta\n+\n+  return res.status(200).json(respuesta)\n+  \n }\n const getMenu = async (messageId: string) => {\n   const response = await menuApi.get('dummy')\n   console.log(response.data.responseBody)\n"
+                }
+            ],
+            "date": 1691503934931,
+            "name": "Commit-0",
+            "content": "// Next.js API route support: https://nextjs.org/docs/api-routes/introduction\nimport type { NextApiRequest, NextApiResponse } from 'next'\nimport axios from 'axios'\n\ntype Data = {\n  name: string\n}\nconst menuApi = axios.create({\n  baseURL: process.env.BACK_PUBLIC_API_URL,\n})\nmenuApi.interceptors.response.use(\n  (response) => {\n    const MessageId = response.data.messageID\n   // set(MessageId, MessageId)\n    return response\n  },\n  (error) => {\n    // Handle response errors here\n    console.log('menu interceptors rror ')\n    return Promise.reject(error)\n  }\n)\nexport default async  function handler(\n  req: NextApiRequest,\n  res: NextApiResponse<Data>\n) {\n  const respuesta = await getMenu('messageId')\n  console.log(respuesta)\n}\nconst getMenu = async (messageId: string) => {\n  const response = await menuApi.get('dummy')\nconsole.log(response)\n}"
+        }
+    ]
+}

@@ -1,0 +1,34 @@
+{
+    "sourceFile": "docker/development/docker-compose.yml",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 4,
+            "patches": [
+                {
+                    "date": 1690842579508,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1690842592160,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,8 @@\n services:\n-  ebfe_host_web:\n+  ebfe_transacions:\n     build:\n       context: ../../\n       dockerfile: docker/development/Dockerfile\n-    image: ebfe_transacions_web\n+    image: ebfe_transacions\n     ports:\n       - '3000:3000'\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1690844011289,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,5 +4,5 @@\n       context: ../../\n       dockerfile: docker/development/Dockerfile\n     image: ebfe_transacions\n     ports:\n-      - '3000:3000'\n\\ No newline at end of file\n+      - '3001:3001'\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1690895618248,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,7 @@\n+networks:\n+  frontend:\n+    external: true\n services:\n   ebfe_transacions:\n     build:\n       context: ../../\n"
+                },
+                {
+                    "date": 1690895638935,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,6 +6,8 @@\n     build:\n       context: ../../\n       dockerfile: docker/development/Dockerfile\n     image: ebfe_transacions\n+    networks:\n+      - frontend\n     ports:\n       - '3001:3001'\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1690842579508,
+            "name": "Commit-0",
+            "content": "services:\n  ebfe_host_web:\n    build:\n      context: ../../\n      dockerfile: docker/development/Dockerfile\n    image: ebfe_transacions_web\n    ports:\n      - '3000:3000'"
+        }
+    ]
+}

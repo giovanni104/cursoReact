@@ -1,0 +1,73 @@
+{
+	"form": {		
+		"tipodoc_Numdoc": {
+			"title": "Introduce tu documento de identidad",
+			"required": "Este campo es obligatorio",
+			"tipopDoc_placeholder": "Tipo Documento",
+			"name": "El formato introducido no es el correcto",
+			"mail": "Debes introducir una dirección correcta",
+			"phone": "Debes introducir un número correcto",
+			"selDataInfo": "Debes seleccionar un tipo de documento",
+			"numDoc_placeholder": "Documento",
+			"numDoc": "Debes introducir un número de documento",
+			"numDoc_max_size": "El tamaño maximo es de {{val}} caracteres"
+		},
+		"token": {
+			"titleSMS": "Introduce tu código enviado a tu SMS",
+			"titleEmail": "Introduce tu código enviado a tu correo electrónico",
+			"required": "Este campo es obligatorio",
+			"min": "La longitud del token debe de ser de 8 caracteres",
+			"soloNumeros": "Este campo solo acepta números"
+		},
+		"userAndEmail": {
+			"title": "",
+			"user_unique": "Usuario único",
+			"user_unique_placeholder": "Usuario único",
+			"user_min_size": "Usuario, tamaño minímo 6 caracteres",
+			"user_max_size": "Usuario, tamaño máximo 20 caracteres",
+			"required": "Este campo es obligatorio",
+			"email_placeholder": "Correo electrónico",
+			"email_con_placeholder": "Confirmación de correo electrónico",
+			"email_invalid": "Debe de ingresar un email válido",
+			"confirmEmail": "El email y la confirmación no corresponden"
+		},
+		"newPassw": {
+			"title1": "Tu contraseña debe contener caracteres alfanúmericos ",
+			"title2": "Tu contraseña no prodra contener",
+			"new_passw_placeholder": "Nueva contraseña",
+			"new_passw_min_size": "Contraseña, tamaño minímo 6 caracteres",
+			"new_passw_max_size": "Contraseña, tamaño máximo 20 caracteres",
+			"required": "Este campo es obligatorio",
+			"new_passw_con_placeholder": "Repita la nueva contraseña",
+			"passw_invalid": "Debe de ingresar una contraseña válido",
+			"confirmPassw": "La contraseña y la confirmación no corresponden",
+			"new_passw_exp_placeholder": "Tiempo de expiración"
+		},
+		"newQuestions": {
+			"title1": "Tu contraseña debe contener caracteres alfanúmericos ",
+			"required": "Este campo es obligatorio",
+			"new_question_placeholder": "Pregunta personalizada",
+			"new_response_placeholder": "Respuesta personalizada",
+			"new_question_min_size": "Las Pregunta, deben de tener un tamaño minímo 10 caracteres",
+			"new_question_max_size": "Las Pregunta, deben de tener un tamaño máximo 150 caracteres",
+			"new_response_min_size": "Las Respuesta, deben de tener un tamaño minímo 10 caracteres",
+			"new_response_max_size": "Las Respuesta, deben de tener un tamaño máximo 50 caracteres",
+			"caracteres_ivalidos": "Se han ingresado caracteres inválidos"
+		},
+		"completed": {
+			"title": "!Registro Exitoso!",
+			"message1": "Ya se encuentra afiliado a nuestra banca en línea",
+			"message2": "Descarga la aplicación ",
+			"amiVen": "AMI Ven",
+			"message3": "a través de la tienda virtual en tu dispositivo móvil para realizar tus transacciones de forma rápida y segura"
+		},
+        "steps":{
+            "step1":"Inicia tu registro en nuestra banca en línea",
+            "step2":"",
+            "step3":"Crea tu usaurio único",
+            "step4":"",
+            "step5":"Crea tu contraseña",
+            "step6":"Crea tus preguntas de seguridad"
+        }
+	}
+}

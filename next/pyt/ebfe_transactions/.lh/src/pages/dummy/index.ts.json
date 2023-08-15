@@ -1,0 +1,34 @@
+{
+    "sourceFile": "src/pages/dummy/index.ts",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 4,
+            "patches": [
+                {
+                    "date": 1691501135238,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1691501809438,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,8 +12,12 @@\n export default function handler(\n   req: NextApiRequest,\n   res: NextApiResponse<Data>\n ) {\n+ \n \n-\n   res.status(200).json({ name: 'John Doe' })\n }\n+const getMenu = async (messageId: string) => {\n+  const response = await menuApi.get('dummy')\n+  \n+}\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1691501889177,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,15 +1,28 @@\n // Next.js API route support: https://nextjs.org/docs/api-routes/introduction\n import type { NextApiRequest, NextApiResponse } from 'next'\n import axios from 'axios'\n \n+\n type Data = {\n   name: string\n }\n const menuApi = axios.create({\n   baseURL: process.env.BACK_PUBLIC_API_URL,\n })\n+menuApi.interceptors.response.use(\n+  (response) => {\n+    const MessageId = response.data.messageID\n+   // set(MessageId, MessageId)\n \n+    return response\n+  },\n+  (error) => {\n+    // Handle response errors here\n+    console.log('menu interceptors rror ')\n+    return Promise.reject(error)\n+  }\n+)\n export default function handler(\n   req: NextApiRequest,\n   res: NextApiResponse<Data>\n ) {\n@@ -18,6 +31,6 @@\n   res.status(200).json({ name: 'John Doe' })\n }\n const getMenu = async (messageId: string) => {\n   const response = await menuApi.get('dummy')\n-  \n+\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1691502066006,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,15 +21,14 @@\n     console.log('menu interceptors rror ')\n     return Promise.reject(error)\n   }\n )\n-export default function handler(\n+export default async  function handler(\n   req: NextApiRequest,\n   res: NextApiResponse<Data>\n ) {\n- \n-\n-  res.status(200).json({ name: 'John Doe' })\n+  const respuesta = await getMenu('messageId')\n+  console.log(respuesta)\n }\n const getMenu = async (messageId: string) => {\n   const response = await menuApi.get('dummy')\n \n"
+                },
+                {
+                    "date": 1691503471234,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,8 @@\n // Next.js API route support: https://nextjs.org/docs/api-routes/introduction\n import type { NextApiRequest, NextApiResponse } from 'next'\n import axios from 'axios'\n \n-\n type Data = {\n   name: string\n }\n const menuApi = axios.create({\n@@ -12,9 +11,8 @@\n menuApi.interceptors.response.use(\n   (response) => {\n     const MessageId = response.data.messageID\n    // set(MessageId, MessageId)\n-\n     return response\n   },\n   (error) => {\n     // Handle response errors here\n"
+                }
+            ],
+            "date": 1691501135238,
+            "name": "Commit-0",
+            "content": "// Next.js API route support: https://nextjs.org/docs/api-routes/introduction\nimport type { NextApiRequest, NextApiResponse } from 'next'\nimport axios from 'axios'\n\ntype Data = {\n  name: string\n}\nconst menuApi = axios.create({\n  baseURL: process.env.BACK_PUBLIC_API_URL,\n})\n\nexport default function handler(\n  req: NextApiRequest,\n  res: NextApiResponse<Data>\n) {\n\n\n  res.status(200).json({ name: 'John Doe' })\n}\n"
+        }
+    ]
+}

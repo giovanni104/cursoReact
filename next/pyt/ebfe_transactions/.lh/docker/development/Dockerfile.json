@@ -1,0 +1,18 @@
+{
+    "sourceFile": "docker/development/Dockerfile",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1690843956301,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1690843956301,
+            "name": "Commit-0",
+            "content": "#syntax=docker/dockerfile:1.4\nFROM node:18-alpine AS base\n\n# 1. Install dependencies only when needed\nFROM base AS deps\n# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.\nRUN apk add --no-cache libc6-compat\n\nWORKDIR /app\n\n# Install dependencies based on the preferred package manager\nCOPY --link package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./\nRUN \\\n  if [ -f yarn.lock ]; then yarn --frozen-lockfile; \\\n  elif [ -f package-lock.json ]; then npm ci; \\\n  elif [ -f pnpm-lock.yaml ]; then yarn global add pnpm && pnpm i; \\\n  else echo \"Lockfile not found.\" && exit 1; \\\n  fi\n\n# 2. Rebuild the source code only when needed\nFROM base AS builder\nWORKDIR /app\nCOPY --from=deps --link /app/node_modules ./node_modules\nCOPY --link . .\n# This will do the trick, use the corresponding env file for each environment.\nCOPY --link .env.development.sample .env.production\nRUN yarn build\n\n# 3. Production image, copy all the files and run next\nFROM base AS runner\nWORKDIR /app\n\nENV NODE_ENV=production\n\nRUN \\\n  addgroup -g 1001 -S nodejs; \\\n  adduser -S nextjs -u 1001\n\nCOPY --from=builder --link /app/public ./public\n\n# Automatically leverage output traces to reduce image size\n# https://nextjs.org/docs/advanced-features/output-file-tracing\nCOPY --from=builder --link --chown=1001:1001 /app/.next/standalone ./\nCOPY --from=builder --link --chown=1001:1001 /app/.next/static ./.next/static\n\n\nUSER nextjs\n\nEXPOSE 3001\n\nENV PORT 3001\nENV HOSTNAME localhost\n\nCMD [\"node\", \"server.js\"]"
+        }
+    ]
+}

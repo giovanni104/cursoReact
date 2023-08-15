@@ -1,0 +1,22 @@
+{
+    "sourceFile": "package.json",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1691073658680,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1691764303937,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -24,7 +24,9 @@\n     \"next\": \"13.4.12\",\n     \"react\": \"18.2.0\",\n     \"react-dom\": \"18.2.0\",\n     \"typescript\": \"5.1.6\",\n-    \"webpack\": \"5.80.0\"\n+    \"webpack\": \"5.80.0\",\n+    \"eslint-config-prettier\": \"^8.8.0\",\n+    \"prettier\": \"^2.8.8\"\n   }\n }\n"
+                }
+            ],
+            "date": 1691073658680,
+            "name": "Commit-0",
+            "content": "{\n  \"name\": \"ebfetransactions\",\n  \"version\": \"0.1.0\",\n  \"description\": \"Transactions\",\n  \"author\": \"Procesos y Tecnologia\",\n  \"scripts\": {\n    \"dev\": \"next dev -p 3001\",\n    \"build\": \"next build\",\n    \"start\": \"next start\",\n    \"lint\": \"next lint\"\n  },\n  \"dependencies\": {\n    \"@emotion/react\": \"^11.10.6\",\n    \"@emotion/styled\": \"^11.10.6\",\n    \"@types/node\": \"20.3.2\",\n    \"@types/react\": \"18.2.14\",\n    \"@types/react-dom\": \"18.2.6\",\n    \"@module-federation/nextjs-mf\": \"^7.0.6\",\n    \"next\": \"13.4.12\",\n    \"react\": \"18.2.0\",\n    \"react-dom\": \"18.2.0\",\n    \"webpack\": \"5.80.0\",\n    \"@mui/icons-material\": \"^5.11.11\",\n    \"@mui/lab\": \"^5.0.0-alpha.122\",\n    \"@mui/material\": \"^5.11.12\",\n    \"css-loader\": \"^6.7.3\",\n    \"typescript\": \"5.1.6\"\n  }\n}\n"
+        }
+    ]
+}

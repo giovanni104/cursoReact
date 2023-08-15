@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+
+.MuiAccordionSummary-root {
+    border-radius: 10px !important;
+    width: 1016px !important;
+  }
+
+
+  .css-3zb9r4-MuiPaper-root-MuiAccordion-root:before {
+    position: inherit !important; 
+    left: 0;
+    top: -1px;
+    right: 0;
+    height: 1px;
+    content: "";
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 0.12);
+    -webkit-transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}

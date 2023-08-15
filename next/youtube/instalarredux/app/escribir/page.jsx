@@ -1,15 +1,29 @@
 "use client";
-
 import Link from "next/link";
-import { useSelector } from "react-redux";
+import { useState } from "react";
+import { guardarnombre } from "@/store/slice";
+import { useDispatch } from "react-redux";
 
-export const page = () => {
-  const miNombre = useSelector((state) => state.valores.nombre);
+const page = () => {
+  const [nuevoValor, setNuevoValor] = useState("");
+  const dispatch = useDispatch();
+  const modificar = () => {
+    dispatch(guardarnombre(nuevoValor));
+  };
+
   return (
     <>
-      <h1>Leer:</h1>
-      <Link href="/escribir">Escribir</Link>
-      <h2>{miNombre}</h2>
+      <h1>Escribir:</h1>
+      <div>
+        <Link href="/leer">Leer</Link>
+      </div>
+      <input
+        value={nuevoValor}
+        onChange={(e) => setNuevoValor(e.target.value)}
+      />
+      <button onClick={modificar}>Modificar el valor</button>
     </>
   );
 };
+
+export default page;
