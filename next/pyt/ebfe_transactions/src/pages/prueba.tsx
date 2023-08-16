@@ -17,9 +17,8 @@ const prueba: NextPage = (props) => {
   return (
     <>
      
-       <Button variant="contained" color="primary" onClick={handlerAuthPassword}>
-        PRUEBA DE LLAMADO
-      </Button>
+       
+      <Transaccion/>
    
     </>
   )

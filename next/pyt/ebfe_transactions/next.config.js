@@ -32,8 +32,14 @@ module.exports = {
           remotes: {},
           exposes: {
             "./prueba": "./src/pages/prueba.tsx",
+            "./redux": "./src/pages/index.tsx",
+            "./leer": "./src/pages/leer.tsx",
+            "./escribir": "./src/pages/escribir.tsx",
+            'useSelector':'react-redux',
           },
-          shared: {},
+          shared: {
+            'react-redux': {},
+          },
           extraOptions: {
             exposePages: true,
           },

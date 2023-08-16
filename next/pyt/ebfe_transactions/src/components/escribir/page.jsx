@@ -1,9 +1,9 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
-import { guardarnombre } from "@/store/slice";
+import { guardarnombre } from "@/store/store";
 import { useDispatch } from "react-redux";
-export const   Escribir = () => {
+export const Escribir = () => {
   const [nuevoValor, setNuevoValor] = useState("");
   const dispatch = useDispatch();
   const modificar = () => {
@@ -24,5 +24,3 @@ export const   Escribir = () => {
     </>
   );
 };
-
- 
