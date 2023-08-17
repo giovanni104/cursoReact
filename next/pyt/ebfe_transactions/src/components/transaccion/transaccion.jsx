@@ -33,54 +33,56 @@ export const Transaccion = () => {
   };
 
   return (
-    <div className="contenedor">
-      <Box
-        container="main"
-        sx={{ p: 3 }}
-        direction="column"
-        alignItems="center"
-        justifyContent="center"
-      >
-        <div className="tabs">
-          <div className="contenTabs">
-            <span id="tab_1h" className="act" data-tab-value="#tab_1">
-              Cuentas propias
-            </span>
-          </div>
-          <div className="contenTabs2">
-            <span id="tab_2h" data-tab-value="#tab_2">
-              Cuentas terceros
-            </span>
-          </div>
-          <div className="contenTabs2">
-            <span id="tab_3h" data-tab-value="#tab_3">
-              TCP/TDA
-            </span>
+    <div className="contenedor2">
+      <span className="titulo">Transferencias</span>
+      <div className="contenedor">
+        <Box
+          container="main"
+          sx={{ p: 3 }}
+          direction="column"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <div className="tabs">
+            <div className="contenTabs">
+              <span id="tab_1h" className="act" data-tab-value="#tab_1">
+                Cuentas propias
+              </span>
+            </div>
+            <div className="contenTabs2">
+              <span id="tab_2h" data-tab-value="#tab_2">
+                Cuentas terceros
+              </span>
+            </div>
+            <div className="contenTabs2">
+              <span id="tab_3h" data-tab-value="#tab_3">
+                TCP/TDA
+              </span>
+            </div>
+
+            <div className="contenTabs2">
+              <span id="tab_4h" data-tab-value="#tab_4">
+                Tarjetas de crédito
+              </span>
+            </div>
           </div>
 
-          <div className="contenTabs2">
-            <span id="tab_4h" data-tab-value="#tab_4">
-              Tarjetas de crédito
-            </span>
+          <div className="tab-content">
+            <div className="tabs__tab active" id="tab_1" data-tab-info>
+              <DynamicForm key={1}></DynamicForm>
+            </div>
+            <div className="tabs__tab" id="tab_2" data-tab-info>
+              <DynamicForm key={2}></DynamicForm>
+            </div>
+            <div className="tabs__tab" id="tab_3" data-tab-info>
+              <DynamicForm key={3}></DynamicForm>
+            </div>
+            <div className="tabs__tab" id="tab_4" data-tab-info>
+              <DynamicForm key={4}></DynamicForm>
+            </div>
           </div>
-        </div>
-
-        <div className="tab-content">
-          <div className="tabs__tab active" id="tab_1" data-tab-info>
-            <DynamicForm key={1}></DynamicForm>
-          </div>
-          <div className="tabs__tab" id="tab_2" data-tab-info>
-            <DynamicForm key={2}></DynamicForm>
-          </div>
-          <div className="tabs__tab" id="tab_3" data-tab-info>
-            <DynamicForm key={3}></DynamicForm>
-          </div>
-          <div className="tabs__tab" id="tab_4" data-tab-info>
-            <DynamicForm key={4}></DynamicForm>
-          </div>
-        </div>
-      </Box>
-
+        </Box>
+      </div>
       <style jsx>{`
         [data-tab-info] {
           display: none;
@@ -141,7 +143,7 @@ export const Transaccion = () => {
           box-sizing: border-box;
           position: absolute;
           left: 136px;
-          top: 150px;
+          top: 50px;
           /* Grises/Blanco */
           background: #ffffff;
           /* Grises/Claro */
@@ -151,6 +153,22 @@ export const Transaccion = () => {
           padding-right: 50px;
           padding-top: 20px;
           margin-bottom: 30px !important;
+        }
+
+        .contenedor2 {
+          position: absolute;
+          top: 120px;
+
+          height: 100%;
+          width: 100%;
+        }
+        .titulo {
+          font-family: Nunito;
+          font-size: 24px;
+          font-weight: 800;
+          line-height: 33px;
+          letter-spacing: 0em;
+          margin-left: 135px !important;
         }
       `}</style>
     </div>
