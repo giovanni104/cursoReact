@@ -16,6 +16,7 @@ export const FormPay = ({
   handleAddFields,
   inputField,
   index,
+  addVisible,
 }) => {
   return (
     <Fragment key={`${inputField}~${index}`}>
@@ -75,7 +76,7 @@ export const FormPay = ({
         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
           <Grid item xs={6}>
             <div className="divInputs">
-              <input
+              {/* <input
                 type="text"
                 className="inputText"
                 id="cuenta"
@@ -83,7 +84,22 @@ export const FormPay = ({
                 value={inputField.cuenta}
                 onChange={(event) => handleInputChange(index, event)}
               />
-              <label>Saldo disponible: Bs. 4.325,45</label>
+             <label>Saldo disponible: Bs. 4.325,45</label>*/}
+
+              <select
+                name="cuenta"
+                id="cuenta"
+                className="selectText"
+                value={inputField.cuenta}
+                onChange={(event) => handleInputChange(index, event)}
+              >
+                <option value="default">Cuenta a debitar</option>
+                <option value="0123***3245">
+                  Gastos personales 0123***3245
+                </option>
+                <option value="0123***4087">Ahorros varios 0123***4087</option>
+                <option value="0123***3580">Cuenta familiar 0123***3580</option>
+              </select>
             </div>
           </Grid>
           <Grid item xs={6}>
@@ -95,11 +111,12 @@ export const FormPay = ({
                 value={inputField.banco}
                 onChange={(event) => handleInputChange(index, event)}
               >
-                <option value="default">Pago frecuente</option>
-                <option value="volvo">Volvo</option>
-                <option value="saab">Saab</option>
-                <option value="mercedes">Mercedes</option>
-                <option value="audi">Audi</option>
+                <option value="default">Cuenta a acreditar</option>
+                <option value="0123***3245">
+                  Gastos personales 0123***3245
+                </option>
+                <option value="0123***4087">Ahorros varios 0123***4087</option>
+                <option value="0123***3580">Cuenta familiar 0123***3580</option>
               </select>
             </div>
           </Grid>
@@ -191,10 +208,10 @@ export const FormPay = ({
                 onChange={(event) => handleInputChange(index, event)}
               >
                 <option value="default">Concepto(*)</option>
-                <option value="volvo">Volvo</option>
-                <option value="saab">Saab</option>
-                <option value="mercedes">Mercedes</option>
-                <option value="audi">Audi</option>
+                <option value="Pagos">Pagos</option>
+                <option value="Alquiler condominio">Alquiler condominio</option>
+                <option value="Varios">Varios</option>
+                <option value="Otros">Otros</option>
               </select>
             </div>
           </Grid>
@@ -204,59 +221,60 @@ export const FormPay = ({
               <Formdate handleInputChange={handlePeriodoChange} index={index} />
             </div>
           </Grid>
-
-          <Grid item xs={6}>
-            <div style={{ width: "401px", marginTop: "15px" }}>
-              <Tooltip
-                title="Agregar transacción"
-                arrow
-                PopperProps={{
-                  sx: {
-                    "& .MuiTooltip-tooltip": {
-                      color: "white",
-                      backgroundColor: "#004A72",
-                      fontFamily: "Nunito",
-                      fontSize: "14px",
-                      fontWeight: "800",
-                      lineHeight: "19px",
-                      letterSpacing: "0em",
-                      width: "159px",
-
-                      textAlign: "center",
-                      paddingTop: "2%",
-                    },
-                    "& .MuiTooltip-arrow": {
-                      "&::before": {
+          {addVisible && (
+            <Grid item xs={6}>
+              <div style={{ width: "401px", marginTop: "15px" }}>
+                <Tooltip
+                  title="Agregar transacción"
+                  arrow
+                  PopperProps={{
+                    sx: {
+                      "& .MuiTooltip-tooltip": {
+                        color: "white",
                         backgroundColor: "#004A72",
+                        fontFamily: "Nunito",
+                        fontSize: "14px",
+                        fontWeight: "800",
+                        lineHeight: "19px",
+                        letterSpacing: "0em",
+                        width: "159px",
+
+                        textAlign: "center",
+                        paddingTop: "2%",
+                      },
+                      "& .MuiTooltip-arrow": {
+                        "&::before": {
+                          backgroundColor: "#004A72",
+                        },
                       },
                     },
-                  },
-                }}
-              >
-                <IconButton
-                  size="large"
-                  sx={{
-                    marginLeft: "350px",
-                    position: "unset",
-                    color: "white",
-                    backgroundColor: "#0067B1",
-                    ":hover": {
-                      color: "white",
-                      backgroundColor: "#004A72",
-                      opacity: 0.9,
-                    },
-                    border: "1px solid #FFFFFF",
-                    boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.1)",
-                    right: 50,
-                    bottom: 50,
                   }}
-                  onClick={() => handleAddFields()}
                 >
-                  <AddIcon></AddIcon>
-                </IconButton>
-              </Tooltip>
-            </div>
-          </Grid>
+                  <IconButton
+                    size="large"
+                    sx={{
+                      marginLeft: "350px",
+                      position: "unset",
+                      color: "white",
+                      backgroundColor: "#0067B1",
+                      ":hover": {
+                        color: "white",
+                        backgroundColor: "#004A72",
+                        opacity: 0.9,
+                      },
+                      border: "1px solid #FFFFFF",
+                      boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.1)",
+                      right: 50,
+                      bottom: 50,
+                    }}
+                    onClick={() => handleAddFields()}
+                  >
+                    <AddIcon></AddIcon>
+                  </IconButton>
+                </Tooltip>
+              </div>
+            </Grid>
+          )}
         </Grid>
       </div>
 
