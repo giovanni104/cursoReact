@@ -17,6 +17,8 @@ export const FormPay = ({
   inputField,
   index,
   addVisible,
+  setInputFields,
+  inputFields,
 }) => {
   return (
     <Fragment key={`${inputField}~${index}`}>
@@ -65,7 +67,9 @@ export const FormPay = ({
               right: 50,
               bottom: 50,
             }}
-            onClick={() => handleRemoveFields(index)}
+            onClick={() =>
+              handleRemoveFields(index, inputFields, setInputFields)
+            }
           >
             {/*<img src={icon_trash} height={23} width={23} />*/}
             <DeleteIcon />
@@ -91,7 +95,9 @@ export const FormPay = ({
                 id="cuenta"
                 className="selectText"
                 value={inputField.cuenta}
-                onChange={(event) => handleInputChange(index, event)}
+                onChange={(event) =>
+                  handleInputChange(index, event, inputFields, setInputFields)
+                }
               >
                 <option value="default">Cuenta a debitar</option>
                 <option value="0123***3245">
@@ -109,7 +115,9 @@ export const FormPay = ({
                 id="banco"
                 className="selectText"
                 value={inputField.banco}
-                onChange={(event) => handleInputChange(index, event)}
+                onChange={(event) =>
+                  handleInputChange(index, event, inputFields, setInputFields)
+                }
               >
                 <option value="default">Cuenta a acreditar</option>
                 <option value="0123***3245">
@@ -129,7 +137,9 @@ export const FormPay = ({
                 name="checkbox"
                 id="checkbox"
                 type="checkbox"
-                onChange={(event) => handleInputChange(index, event)}
+                onChange={(event) =>
+                  handleInputChange(index, event, inputFields, setInputFields)
+                }
               />{" "}
               <label>Beneficiario no registrado</label>
             </div>
@@ -144,7 +154,14 @@ export const FormPay = ({
                     name="tipodoc"
                     id="tipodoc"
                     value={inputField.tipodoc}
-                    onChange={(event) => handleInputChange(index, event)}
+                    onChange={(event) =>
+                      handleInputChange(
+                        index,
+                        event,
+                        inputFields,
+                        setInputFields
+                      )
+                    }
                   >
                     <option value="default">Tipo</option>
                     <option value="V">V</option>
@@ -167,7 +184,14 @@ export const FormPay = ({
                     id="numdoc"
                     name="numdoc"
                     placeholder="Documento"
-                    onChange={(event) => handleInputChange(index, event)}
+                    onChange={(event) =>
+                      handleInputChange(
+                        index,
+                        event,
+                        inputFields,
+                        setInputFields
+                      )
+                    }
                   />
                 </div>
               </Grid>
@@ -180,7 +204,14 @@ export const FormPay = ({
                     id="telefono"
                     name="telefono"
                     placeholder="Teléfono"
-                    onChange={(event) => handleInputChange(index, event)}
+                    onChange={(event) =>
+                      handleInputChange(
+                        index,
+                        event,
+                        inputFields,
+                        setInputFields
+                      )
+                    }
                   />
                 </div>
               </Grid>
@@ -192,9 +223,12 @@ export const FormPay = ({
                 type="text"
                 className="inputText"
                 id="monto"
+                value={inputField.monto}
                 name="monto"
                 placeholder="Monto(*)"
-                onChange={(event) => handleInputChange(index, event)}
+                onChange={(event) =>
+                  handleInputChange(index, event, inputFields, setInputFields)
+                }
               />
             </div>
           </Grid>
@@ -205,7 +239,9 @@ export const FormPay = ({
                 id="concepto"
                 className="selectText"
                 value={inputField.concepto}
-                onChange={(event) => handleInputChange(index, event)}
+                onChange={(event) =>
+                  handleInputChange(index, event, inputFields, setInputFields)
+                }
               >
                 <option value="default">Concepto(*)</option>
                 <option value="Pagos">Pagos</option>
@@ -218,7 +254,12 @@ export const FormPay = ({
 
           <Grid item xs={6}>
             <div style={{ marginTop: "15px" }}>
-              <Formdate handleInputChange={handlePeriodoChange} index={index} />
+              <Formdate
+                handleInputChange={handlePeriodoChange}
+                index={index}
+                inputFields={inputFields}
+                setInputFields={setInputFields}
+              />
             </div>
           </Grid>
           {addVisible && (
@@ -267,7 +308,7 @@ export const FormPay = ({
                       right: 50,
                       bottom: 50,
                     }}
-                    onClick={() => handleAddFields()}
+                    onClick={() => handleAddFields(inputFields, setInputFields)}
                   >
                     <AddIcon></AddIcon>
                   </IconButton>

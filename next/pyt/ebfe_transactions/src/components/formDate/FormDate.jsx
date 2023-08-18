@@ -12,7 +12,12 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 //import "../../styles/FormDate.module.css";
 
-export const Formdate = ({ handleInputChange, index }) => {
+export const Formdate = ({
+  handleInputChange,
+  index,
+  inputFields,
+  setInputFields,
+}) => {
   const [open, setOpen] = React.useState(false);
   const [day, setDay] = React.useState([]);
   const [year, setyear] = React.useState([]);
@@ -34,7 +39,7 @@ export const Formdate = ({ handleInputChange, index }) => {
       mes: "05",
       dia: "01",
     };
-    handleInputChange(index, data);
+    handleInputChange(index, data, inputFields, setInputFields);
   };
 
   const frecuencia = [

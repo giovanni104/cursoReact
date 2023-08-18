@@ -6,11 +6,41 @@ import Divider from "@mui/material/Divider";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
-import { formData, setChangeValues } from "../dynamicForm/dynamicForm_";
+import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
+import { formData, formDataReset } from "../dynamicForm/dynamicForm_";
+
+import {
+  removeTabActive,
+  handleAddFields,
+  handleRemoveFields,
+  handleInputChange,
+  handlePeriodoChange,
+  handleSubmit,
+} from "./trasaccionFunctions";
 
 //import '@/styles/Transaccion.module.css'
 
 export const Transaccion = () => {
+  const [inputFields, setInputFields] = useState([
+    JSON.parse(JSON.stringify(formData)),
+  ]);
+
+  const [inputFields2, setInputFields2] = useState([
+    JSON.parse(JSON.stringify(formData)),
+  ]);
+
+  const [inputFields3, setInputFields3] = useState([
+    JSON.parse(JSON.stringify(formData)),
+  ]);
+
+  const [inputFields4, setInputFields4] = useState([
+    JSON.parse(JSON.stringify(formData)),
+  ]);
+
+  const [inputFieldsData, setInputFieldsData] = useState([
+    JSON.parse(JSON.stringify(formData)),
+  ]);
+
   useEffect(() => {
     const tabs = document.querySelectorAll("[data-tab-value]");
     const tabInfos = document.querySelectorAll("[data-tab-info]");
@@ -30,79 +60,119 @@ export const Transaccion = () => {
     });
   });
 
-  const [inputFields, setInputFields] = useState([
-    JSON.parse(JSON.stringify(formData)),
-  ]);
-
-  const [inputResumen, setInputResumen] = useState(false);
-
-  const removeTabActive = async () => {
-    const tabs = document.querySelectorAll("[data-tab-value]");
-    tabs.forEach((tab) => {
-      const target = document.querySelector(tab.dataset.tabValue + "h");
-      target.classList.remove("act");
-    });
-  };
-
-  const handleAddFields = () => {
-    const values = [...inputFields];
-    if (values.length < 5) {
-      values.push(JSON.parse(JSON.stringify(formData)));
-
-      setInputFields(values);
-    }
-  };
-
-  const handleRemoveFields = (index) => {
-    const values = [...inputFields];
-    values.splice(index, 1);
-    setInputFields(values);
-  };
-
-  const handleInputChange = (index, event) => {
-    const values = setChangeValues([...inputFields], event.target.name, index);
-    setInputFields(values);
-  };
-
-  const handlePeriodoChange = (index, datos) => {
-    const values = [...inputFields];
-    values[index].programa = datos;
-    setInputFields(values);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // handle form submission here
-    alert(JSON.stringify(inputFields, null, 2));
-  };
-
   const siguiente = () => {
-    setInputResumen(!inputResumen);
+    var elementos = document.getElementsByClassName("active");
+    console.log(elementos[0].id);
 
-    // alert(JSON.stringify(inputFields));
+    switch (elementos[0].id) {
+      case "tab_1":
+        setInputFieldsData(JSON.parse(JSON.stringify(inputFields)));
+
+        break;
+      case "tab_2":
+        setInputFieldsData(JSON.parse(JSON.stringify(inputFields2)));
+
+        break;
+      case "tab_3":
+        setInputFieldsData(JSON.parse(JSON.stringify(inputFields3)));
+
+        break;
+      case "tab_4":
+        setInputFieldsData(JSON.parse(JSON.stringify(inputFields4)));
+
+        break;
+    }
+
+    console.log(inputFieldsData);
+
+    const targetinput = document.querySelector("#inputResumen");
+    targetinput.classList.add("ocultar");
+
+    const targetdatospago = document.querySelector("#datospago");
+    if (targetdatospago != null) {
+      targetdatospago.classList.remove("ocultar");
+    }
+    const targetdatospagogrilla = document.querySelector("#datospagogrilla");
+    if (targetdatospagogrilla != null) {
+      targetdatospagogrilla.classList.remove("ocultar");
+    }
+    const target = document.querySelector("#idsubtitulo");
+    target.classList.remove("ocultar");
   };
 
   const resetForm = () => {
-    setInputFields([formData]);
-    setInputResumen(false);
+    var elementos = document.getElementsByClassName("active");
+    console.log(elementos[0].id);
+
+    switch (elementos[0].id) {
+      case "tab_1":
+        setInputFields([JSON.parse(JSON.stringify(formDataReset))]);
+
+        break;
+      case "tab_2":
+        setInputFields2([JSON.parse(JSON.stringify(formDataReset))]);
+
+        break;
+      case "tab_3":
+        setInputFields3([JSON.parse(JSON.stringify(formDataReset))]);
+
+        break;
+      case "tab_4":
+        setInputFields4([JSON.parse(JSON.stringify(formDataReset))]);
+        break;
+    }
+    setInputFieldsData([JSON.parse(JSON.stringify(formDataReset))]);
+
+    const targetinput = document.querySelector("#inputResumen");
+    targetinput.classList.remove("ocultar");
+
+    const targetdatospago = document.querySelector("#datospago");
+    if (targetdatospago != null) {
+      targetdatospago.classList.add("ocultar");
+    }
+
+    const targetdatospagogrilla = document.querySelector("#datospagogrilla");
+    if (targetdatospagogrilla != null) {
+      targetdatospagogrilla.classList.add("ocultar");
+    }
+
+    const target = document.querySelector("#idsubtitulo");
+    target.classList.add("ocultar");
   };
+
+  //const [inputResumen, setInputResumen] = useState(false);
 
   return (
     <div className="contenedor2">
       <span className="titulo">Transferencias</span>
       <div className="contenedor">
-        {inputResumen && (
-          <div style={{ paddingTop: "40px" }}>
-            <div
-              style={{ paddingBottom: "40px", margin: "0 auto", width: "40%" }}
-            >
-              <span className="subtitulo">
-                ¿Confirmas los datos de la operación?
-              </span>
-            </div>
-            <Divider />
+        {/*inputResumen && (  )*/}
+        <div id="idsubtitulo" style={{ paddingTop: "40px" }}>
+          <div
+            style={{ paddingBottom: "40px", margin: "0 auto", width: "40%" }}
+          >
+            <span className="subtitulo">
+              ¿Confirmas los datos de la operación?
+            </span>
           </div>
-        )}
+          <Divider />
+        </div>
+        <div
+          style={{
+            zIndex: "100",
+            float: "right",
+            marginTop: "25px",
+            marginRight: "40px",
+            color: "red",
+          }}
+        >
+          {/*<ArrowCircleLeftIcon />*/}
+          <img
+            className="atrasTab"
+            style={{ height: "50px", width: "50px" }}
+            src={"/_transaction/tabs/volvertab.svg"}
+          />
+        </div>
 
         <Box
           container="main"
@@ -111,82 +181,85 @@ export const Transaccion = () => {
           alignItems="center"
           justifyContent="center"
         >
-          {!inputResumen && (
-            <>
-              <div className="tabs">
-                <div className="contenTabs">
-                  <span id="tab_1h" className="act" data-tab-value="#tab_1">
-                    Cuentas propias
-                  </span>
-                </div>
-                <div className="contenTabs2">
-                  <span id="tab_2h" data-tab-value="#tab_2">
-                    Cuentas terceros
-                  </span>
-                </div>
-                <div className="contenTabs2">
-                  <span id="tab_3h" data-tab-value="#tab_3">
-                    TCP/TDA
-                  </span>
-                </div>
-
-                <div className="contenTabs2">
-                  <span id="tab_4h" data-tab-value="#tab_4">
-                    Tarjetas de crédito
-                  </span>
-                </div>
+          <div id="inputResumen">
+            <div className="tabs">
+              <div className="contenTabs">
+                <span id="tab_1h" className="act" data-tab-value="#tab_1">
+                  Cuentas propias
+                </span>
+              </div>
+              <div className="contenTabs2">
+                <span id="tab_2h" data-tab-value="#tab_2">
+                  Cuentas terceros
+                </span>
+              </div>
+              <div className="contenTabs2">
+                <span id="tab_3h" data-tab-value="#tab_3">
+                  TCP/TDA
+                </span>
               </div>
 
-              <div className="tab-content">
-                <div className="tabs__tab active" id="tab_1" data-tab-info>
-                  <DynamicForm
-                    key={1}
-                    handleInputChange={handleInputChange}
-                    handleRemoveFields={handleRemoveFields}
-                    handlePeriodoChange={handlePeriodoChange}
-                    handleAddFields={handleAddFields}
-                    inputFields={inputFields}
-                    addVisible={false}
-                  ></DynamicForm>
-                </div>
-                <div className="tabs__tab" id="tab_2" data-tab-info>
-                  <DynamicForm
-                    key={2}
-                    handleInputChange={handleInputChange}
-                    handleRemoveFields={handleRemoveFields}
-                    handlePeriodoChange={handlePeriodoChange}
-                    handleAddFields={handleAddFields}
-                    inputFields={inputFields}
-                    addVisible={true}
-                  ></DynamicForm>
-                </div>
-                <div className="tabs__tab" id="tab_3" data-tab-info>
-                  <DynamicForm
-                    key={3}
-                    handleInputChange={handleInputChange}
-                    handleRemoveFields={handleRemoveFields}
-                    handlePeriodoChange={handlePeriodoChange}
-                    handleAddFields={handleAddFields}
-                    inputFields={inputFields}
-                    addVisible={false}
-                  ></DynamicForm>
-                </div>
-                <div className="tabs__tab" id="tab_4" data-tab-info>
-                  <DynamicForm
-                    key={4}
-                    handleInputChange={handleInputChange}
-                    handleRemoveFields={handleRemoveFields}
-                    handlePeriodoChange={handlePeriodoChange}
-                    handleAddFields={handleAddFields}
-                    inputFields={inputFields}
-                    addVisible={false}
-                  ></DynamicForm>
-                </div>
+              <div className="contenTabs2">
+                <span id="tab_4h" data-tab-value="#tab_4">
+                  Tarjetas de crédito
+                </span>
               </div>
-            </>
-          )}
-          {inputResumen && inputFields.length > 1 && (
-            <>
+            </div>
+
+            <div className="tab-content">
+              <div className="tabs__tab active" id="tab_1" data-tab-info>
+                <DynamicForm
+                  key={1}
+                  handleInputChange={handleInputChange}
+                  handleRemoveFields={handleRemoveFields}
+                  handlePeriodoChange={handlePeriodoChange}
+                  handleAddFields={handleAddFields}
+                  inputFields={inputFields}
+                  addVisible={false}
+                  setInputFields={setInputFields}
+                ></DynamicForm>
+              </div>
+              <div className="tabs__tab" id="tab_2" data-tab-info>
+                <DynamicForm
+                  key={2}
+                  handleInputChange={handleInputChange}
+                  handleRemoveFields={handleRemoveFields}
+                  handlePeriodoChange={handlePeriodoChange}
+                  handleAddFields={handleAddFields}
+                  inputFields={inputFields2}
+                  addVisible={true}
+                  setInputFields={setInputFields2}
+                ></DynamicForm>
+              </div>
+              <div className="tabs__tab" id="tab_3" data-tab-info>
+                <DynamicForm
+                  key={3}
+                  handleInputChange={handleInputChange}
+                  handleRemoveFields={handleRemoveFields}
+                  handlePeriodoChange={handlePeriodoChange}
+                  handleAddFields={handleAddFields}
+                  inputFields={inputFields3}
+                  addVisible={false}
+                  setInputFields={setInputFields3}
+                ></DynamicForm>
+              </div>
+              <div className="tabs__tab" id="tab_4" data-tab-info>
+                <DynamicForm
+                  key={4}
+                  handleInputChange={handleInputChange}
+                  handleRemoveFields={handleRemoveFields}
+                  handlePeriodoChange={handlePeriodoChange}
+                  handleAddFields={handleAddFields}
+                  inputFields={inputFields4}
+                  addVisible={false}
+                  setInputFields={setInputFields4}
+                ></DynamicForm>
+              </div>
+            </div>
+          </div>
+
+          <div id="datospagogrilla" className="ocultar">
+            {inputFieldsData.length > 1 && (
               <div className="tab-content">
                 <table style={{ margin: "0 auto" }} className="resumenTable">
                   <tbody>
@@ -268,47 +341,47 @@ export const Transaccion = () => {
                   </tbody>
                 </table>
               </div>
-            </>
-          )}
+            )}
+          </div>
 
-          {inputResumen && inputFields.length == 1 && (
-            <>
+          <div id="datospago" className="ocultar">
+            {inputFieldsData.length == 1 && (
               <div className="tab-content">
                 <table style={{ margin: "0 auto", width: "40%" }}>
                   <tbody>
                     <tr>
                       <td>Cuenta a debitar:</td>
-                      <td>{inputFields[0].cuenta}</td>
+                      <td>{inputFieldsData[0].cuenta}</td>
                     </tr>
                     <tr>
                       <td>Cuenta a acreditar:</td>
-                      <td>{inputFields[0].banco}</td>
+                      <td>{inputFieldsData[0].banco}</td>
                     </tr>
                     <tr>
                       <td>Monto:</td>
-                      <td>{inputFields[0].monto}</td>
+                      <td>{inputFieldsData[0].monto}</td>
                     </tr>
 
                     <tr>
                       <td>Concepto:</td>
-                      <td>{inputFields[0].concepto}</td>
+                      <td>{inputFieldsData[0].concepto}</td>
                     </tr>
 
                     <tr>
                       <td>Fecha valor:</td>
                       <td>
-                        {inputFields[0].programa.dia +
+                        {inputFieldsData[0].programa.dia +
                           "/" +
-                          inputFields[0].programa.mes +
+                          inputFieldsData[0].programa.mes +
                           "/" +
-                          inputFields[0].programa.anio}
+                          inputFieldsData[0].programa.anio}
                       </td>
                     </tr>
                   </tbody>
                 </table>
               </div>
-            </>
-          )}
+            )}
+          </div>
 
           <div style={{ textAlign: "center", marginTop: "80px" }}>
             <Button
@@ -362,6 +435,15 @@ export const Transaccion = () => {
       </div>
 
       <style jsx>{`
+        .ocultar {
+          display: none !important;
+        }
+
+        .atrasTab:hover {
+          content: url("/_transaction/tabs/volvertab2.svg") !important;
+          width: "40px" !important;
+          height: "40px" !important;
+        }
         .resumenTable {
           border-collapse: separate;
           border-spacing: 0 11px;

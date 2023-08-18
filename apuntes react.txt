@@ -123,3 +123,12 @@ https://smartdevpreneur.com/how-to-style-the-material-ui-tooltip/
 
 https://www.youtube.com/playlist?list=PLRM7PpbqqStKRJOMtdwSa6CT6nsRrYvcn
 npx create-next-app@13.2.4
+
+
+
+https://www.figma.com/proto/GSMkAoyjdDeJXcs79fUCQp/Prototipo-Escritorio-v2-(Vertical)?type=design&node-id=802-33663&t=sh8nwHrbJ1E29EWb-0&scaling=min-zoom&page-id=802%3A33392&starting-point-node-id=802%3A33583&show-proto-sidebar=1
+
+https://www.figma.com/file/GSMkAoyjdDeJXcs79fUCQp/Prototipo-Escritorio-v2-(Vertical)?type=design&node-id=802-33663&mode=design&t=sh8nwHrbJ1E29EWb-0
+
+
+https://aguidehub.com/blog/2023-03-03-how-to-add-button-on-mui-table-in-react-js/?expand_article=1

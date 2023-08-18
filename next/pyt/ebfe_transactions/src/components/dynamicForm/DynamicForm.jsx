@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Box from "@mui/material/Box";
-
+import Button from "@mui/material/Button";
 import { FormPay } from "../form/FormPay";
 import { FormAccordion } from "../formAccordion/FormAccordion";
 
@@ -11,6 +11,7 @@ export const DynamicForm = ({
   handleAddFields,
   inputFields,
   addVisible,
+  setInputFields,
 }) => {
   return (
     <div style={{ marginTop: "40px" }}>
@@ -35,6 +36,8 @@ export const DynamicForm = ({
                     inputField={inputField}
                     index={index}
                     addVisible={addVisible}
+                    setInputFields={setInputFields}
+                    inputFields={inputFields}
                   />
                 ) : (
                   <FormAccordion key={index} index={index}>
@@ -47,6 +50,8 @@ export const DynamicForm = ({
                       inputField={inputField}
                       index={index}
                       addVisible={addVisible}
+                      setInputFields={setInputFields}
+                      inputFields={inputFields}
                     />
                   </FormAccordion>
                 )
