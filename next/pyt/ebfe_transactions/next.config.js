@@ -18,6 +18,7 @@ module.exports = {
     removeConsole: {
       exclude: ["log"],
     },
+    styledComponents: true,
   },
   experimental: {
     serverActions: true,
@@ -31,14 +32,14 @@ module.exports = {
           filename: "static/chunks/remoteEntry.js",
           remotes: {},
           exposes: {
-            "./prueba": "./src/pages/prueba.tsx",
+            "./prueba": "./src/pages/prueba/index.tsx",
             "./redux": "./src/pages/index.tsx",
-            "./leer": "./src/pages/leer.tsx",
-            "./escribir": "./src/pages/escribir.tsx",
-            'useSelector':'react-redux',
+            "./leer": "./src/pages/leer/index.tsx",
+            "./escribir": "./src/pages/escribir/index.tsx",
+            useSelector: "react-redux",
           },
           shared: {
-            'react-redux': {},
+            "react-redux": {},
           },
           extraOptions: {
             exposePages: true,
