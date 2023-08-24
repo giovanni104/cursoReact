@@ -47,8 +47,8 @@ export const DataGrid = () => {
   return (
     <>
       <TableContainer component={Paper}>
-        <Table>
-          <TableHead className="MuiTableHead-root">
+        <Table className="resumenTable">
+          <TableHead style={{ background: "#D9D9D9" }}>
             <TableRow>
               <TableCell>ID</TableCell>
               <TableCell>Name</TableCell>
