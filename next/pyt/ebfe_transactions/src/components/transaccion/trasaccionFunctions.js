@@ -1,4 +1,8 @@
-import { formData, setChangeValues } from "../dynamicForm/dynamicForm_";
+import {
+  formData,
+  setChangeValues,
+  setChangeValuesLista,
+} from "../dynamicForm/dynamicForm_";
 
 export const removeTabActive = async () => {
   const tabs = document.querySelectorAll("[data-tab-value]");
@@ -27,9 +31,20 @@ export const handleInputChange = (
   index,
   event,
   inputFields,
-  setInputFields
+  setInputFields,
+  type,
+  value
 ) => {
-  const values = setChangeValues([...inputFields], event.target.name, index);
+  console.log(event);
+  let values;
+  if (type == "lista") {
+    console.log(1);
+    values = setChangeValuesLista([...inputFields], event, index, value);
+  } else {
+    console.log(2);
+    values = setChangeValues([...inputFields], event.target.name, index, event);
+  }
+
   setInputFields(values);
 };
 

@@ -185,7 +185,7 @@ export const Transaccion = () => {
             <div className="tabs">
               <div className="contenTabs">
                 <span id="tab_1h" className="act" data-tab-value="#tab_1">
-                  Cuentas propias
+                  Propias
                 </span>
               </div>
               <div className="contenTabs2">
@@ -217,6 +217,7 @@ export const Transaccion = () => {
                   inputFields={inputFields}
                   addVisible={false}
                   setInputFields={setInputFields}
+                  type={"propia"}
                 ></DynamicForm>
               </div>
               <div className="tabs__tab" id="tab_2" data-tab-info>
@@ -229,6 +230,7 @@ export const Transaccion = () => {
                   inputFields={inputFields2}
                   addVisible={true}
                   setInputFields={setInputFields2}
+                  type={"terceros"}
                 ></DynamicForm>
               </div>
               <div className="tabs__tab" id="tab_3" data-tab-info>

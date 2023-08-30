@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { FormPay } from "../form/FormPay";
+import { FormPropia } from "../formPropia/formPropia";
 import { FormAccordion } from "../formAccordion/FormAccordion";
 
 export const DynamicForm = ({
@@ -12,6 +13,7 @@ export const DynamicForm = ({
   inputFields,
   addVisible,
   setInputFields,
+  type,
 }) => {
   return (
     <div style={{ marginTop: "40px" }}>
@@ -25,22 +27,28 @@ export const DynamicForm = ({
         <>
           <form>
             <div>
-              {inputFields.map((inputField, index) =>
-                inputFields.length == 1 ? (
-                  <FormPay
-                    key={index}
-                    handleInputChange={handleInputChange}
-                    handleRemoveFields={handleRemoveFields}
-                    handlePeriodoChange={handlePeriodoChange}
-                    handleAddFields={handleAddFields}
-                    inputField={inputField}
-                    index={index}
-                    addVisible={addVisible}
-                    setInputFields={setInputFields}
-                    inputFields={inputFields}
-                  />
-                ) : (
-                  <FormAccordion key={index} index={index}>
+              {type == "propia" &&
+                inputFields.map(
+                  (inputField, index) =>
+                    inputFields.length == 1 && (
+                      <FormPropia
+                        key={index}
+                        handleInputChange={handleInputChange}
+                        handleRemoveFields={handleRemoveFields}
+                        handlePeriodoChange={handlePeriodoChange}
+                        handleAddFields={handleAddFields}
+                        inputField={inputField}
+                        index={index}
+                        addVisible={addVisible}
+                        setInputFields={setInputFields}
+                        inputFields={inputFields}
+                      />
+                    )
+                )}
+
+              {type == "terceros" &&
+                inputFields.map((inputField, index) =>
+                  inputFields.length == 1 ? (
                     <FormPay
                       key={index}
                       handleInputChange={handleInputChange}
@@ -53,9 +61,23 @@ export const DynamicForm = ({
                       setInputFields={setInputFields}
                       inputFields={inputFields}
                     />
-                  </FormAccordion>
-                )
-              )}
+                  ) : (
+                    <FormAccordion key={index} index={index}>
+                      <FormPay
+                        key={index}
+                        handleInputChange={handleInputChange}
+                        handleRemoveFields={handleRemoveFields}
+                        handlePeriodoChange={handlePeriodoChange}
+                        handleAddFields={handleAddFields}
+                        inputField={inputField}
+                        index={index}
+                        addVisible={addVisible}
+                        setInputFields={setInputFields}
+                        inputFields={inputFields}
+                      />
+                    </FormAccordion>
+                  )
+                )}
             </div>
           </form>
 

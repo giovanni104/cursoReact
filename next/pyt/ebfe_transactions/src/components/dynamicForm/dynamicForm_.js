@@ -35,9 +35,10 @@ export const formDataReset = {
   },
 };
 
-export const setChangeValues = (values, name, index) => {
+export const setChangeValues = (values, name, index, event) => {
   switch (name) {
     case "cuenta":
+      console.log("valor" + event.target.value);
       values[index].cuenta = event.target.value;
       break;
     case "banco":
@@ -66,6 +67,43 @@ export const setChangeValues = (values, name, index) => {
       break;
     case "checkbox":
       values[index].checkbox = event.target.checked;
+      break;
+  }
+
+  return values;
+};
+
+export const setChangeValuesLista = (values, name, index, value) => {
+  switch (name) {
+    case "cuenta":
+      values[index].cuenta = value;
+      break;
+    case "banco":
+      values[index].banco = value;
+      break;
+    case "tipodoc":
+      values[index].tipodoc = value;
+      break;
+    case "numdoc":
+      values[index].numdoc = value;
+      break;
+    case "telefono":
+      values[index].telefono = value;
+      break;
+    case "monto":
+      values[index].monto = value;
+      break;
+    case "concepto":
+      values[index].concepto = value;
+      break;
+    case "fecha":
+      values[index].fecha = value;
+      break;
+    case "alias":
+      values[index].firstName = value;
+      break;
+    case "checkbox":
+      values[index].checkbox = value;
       break;
   }
 
