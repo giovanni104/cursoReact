@@ -35,13 +35,10 @@ export const handleInputChange = (
   type,
   value
 ) => {
-  console.log(event);
   let values;
   if (type == "lista") {
-    console.log(1);
     values = setChangeValuesLista([...inputFields], event, index, value);
   } else {
-    console.log(2);
     values = setChangeValues([...inputFields], event.target.name, index, event);
   }
 

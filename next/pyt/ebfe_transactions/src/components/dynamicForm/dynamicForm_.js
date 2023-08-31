@@ -38,7 +38,6 @@ export const formDataReset = {
 export const setChangeValues = (values, name, index, event) => {
   switch (name) {
     case "cuenta":
-      console.log("valor" + event.target.value);
       values[index].cuenta = event.target.value;
       break;
     case "banco":

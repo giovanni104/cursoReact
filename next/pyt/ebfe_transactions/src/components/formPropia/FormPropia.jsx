@@ -1,4 +1,4 @@
-import Reac, { Fragment } from "react";
+import Reac, { Fragment, useState, useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import { Formdate } from "../formDate/FormDate";
 import IconButton from "@mui/material/IconButton";
@@ -10,6 +10,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
+import axios from "axios";
 const icon_trash = "/_transaction/trash_azul.svg";
 
 export const FormPropia = ({
@@ -23,11 +24,35 @@ export const FormPropia = ({
   setInputFields,
   inputFields,
 }) => {
+  const [cuentasPropias, setCuentasPropias] = useState([]);
+  const [cuentasAcreditar, setAuentasAcreditar] = useState([]);
   const options = [
     { value: "chocolate", label: "Chocolate" },
     { value: "strawberry", label: "Strawberry" },
     { value: "vanilla", label: "Vanilla" },
   ];
+
+  /*useEffect(() => {
+    axios
+      .get("/_transaction/api/propias")
+      .then(function (response) {
+        console.log("aqui:" + JSON.stringify(response.data));
+        const data = JSON.stringify(response.data);
+        setCuentasPropias(JSON.parse(data));
+        console.log(cuentasPropias);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, [cuentasPropias]);*/
+
+  useEffect(() => {
+    async function fetchData() {
+      const users = await axios.get("/_transaction/api/propias");
+      setCuentasPropias(users.data);
+    }
+    fetchData();
+  }, []); // Or [] if effect doesn't need props or state
 
   return (
     <Fragment key={`${inputField}~${index}`}>
@@ -151,27 +176,36 @@ export const FormPropia = ({
                   id="demo-simple-select"
                   value={inputField.cuenta}
                   label="cuenta"
-                  onChange={(event) =>
-                    handleInputChange(index, event, inputFields, setInputFields)
-                  }
+                  onChange={(event) => {
+                    handleInputChange(
+                      index,
+                      event,
+                      inputFields,
+                      setInputFields
+                    );
+
+                    console.log("aqui");
+                  }}
                   name="cuenta"
                 >
-                  <MenuItem value="">
+                  <MenuItem key={0} value="">
                     <em>Seleccionar</em>
                   </MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
-                  <MenuItem value={40}>perro</MenuItem>
-                  <MenuItem value={50}>gato</MenuItem>
-                  <MenuItem value={60}>hola</MenuItem>
+
+                  {cuentasPropias.map((cuenta, index) => {
+                    return (
+                      <MenuItem key={index} value={cuenta.value}>
+                        {cuenta.label}
+                      </MenuItem>
+                    );
+                  })}
                 </Select>
               </FormControl>
             </div>
           </Grid>
           <Grid item xs={6}>
             <div className="divInputs">
-              <select
+              {/* <select
                 name="banco"
                 id="banco"
                 className="selectText"
@@ -187,6 +221,38 @@ export const FormPropia = ({
                 <option value="0123***4087">Ahorros varios 0123***4087</option>
                 <option value="0123***3580">Cuenta familiar 0123***3580</option>
               </select>
+              */}
+
+              <FormControl fullWidth>
+                <InputLabel id="banco-label">Cuenta a acreditar</InputLabel>
+                <Select
+                  labelId="banco-label"
+                  id="banco"
+                  value={inputField.banco}
+                  label="Cuenta a acreditar"
+                  onChange={(event) => {
+                    handleInputChange(
+                      index,
+                      event,
+                      inputFields,
+                      setInputFields
+                    );
+                  }}
+                  name="banco"
+                >
+                  <MenuItem key={0} value="">
+                    <em>Seleccionar</em>
+                  </MenuItem>
+
+                  {cuentasAcreditar.map((cuenta, index) => {
+                    return (
+                      <MenuItem key={index} value={cuenta.value}>
+                        {cuenta.label}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </FormControl>
             </div>
           </Grid>
           <Grid item xs={6}>

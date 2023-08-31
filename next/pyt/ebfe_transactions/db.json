@@ -1,0 +1,12 @@
+{
+  "propias": [
+    { "value": "0123***3245", "label": "Gastos personales 0123***3245" },
+    { "value": "0123***4087", "label": "Ahorros varios 0123***4087" },
+    { "value": "0123***3580", "label": "Cuenta familiar 0123***3580" }
+  ],
+  "beneficiarios": [
+    { "value": "1", "label": "Juan" },
+    { "value": "2", "label": "Pedro" },
+    { "value": "3", "label": "Luis" }
+  ]
+}

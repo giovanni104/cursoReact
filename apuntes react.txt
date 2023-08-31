@@ -132,3 +132,6 @@ https://www.figma.com/file/GSMkAoyjdDeJXcs79fUCQp/Prototipo-Escritorio-v2-(Verti
 
 
 https://aguidehub.com/blog/2023-03-03-how-to-add-button-on-mui-table-in-react-js/?expand_article=1
+
+
+https://stackoverflow.com/questions/72301355/how-to-populate-select-options-from-an-api-call-in-react-js-on-page-load
