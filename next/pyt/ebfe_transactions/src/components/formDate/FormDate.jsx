@@ -10,6 +10,13 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
+import TextField from "@mui/material/TextField";
+import InputAdornment from "@mui/material/InputAdornment";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import DatePicker, { registerLocale } from "react-datepicker";
+import es from "date-fns/locale/es"; // the locale you want
+registerLocale("es", es); // register it with the name you want
+import "react-datepicker/dist/react-datepicker.css";
 //import "../../styles/FormDate.module.css";
 
 export const Formdate = ({
@@ -21,6 +28,8 @@ export const Formdate = ({
   const [open, setOpen] = React.useState(false);
   const [day, setDay] = React.useState([]);
   const [year, setyear] = React.useState([]);
+  const [startDate, setStartDate] = React.useState(new Date());
+  const [selectDate, setselectDate] = React.useState("");
 
   useEffect(function () {
     var today = new Date();
@@ -73,6 +82,22 @@ export const Formdate = ({
     setOpen(false);
   };
 
+  const handledata = () => {
+    setselectDate(formatDate(startDate));
+  };
+
+  const formatDate = (date) => {
+    var d = new Date(date),
+      month = "" + (d.getMonth() + 1),
+      day = "" + d.getDate(),
+      year = d.getFullYear();
+
+    if (month.length < 2) month = "0" + month;
+    if (day.length < 2) day = "0" + day;
+
+    return [day, month, year].join("/");
+  };
+
   const monthChange = (event) => {
     let numeroDias = calcularDiasMes(2023, event.target.value);
     let dayCal = [];
@@ -120,8 +145,8 @@ export const Formdate = ({
   return (
     <div>
       <Grid container spacing={-5}>
-        <Grid item xs={2}>
-          <IconButton
+        <Grid item xs={9}>
+          {/* <IconButton
             onClick={handleClickOpen}
             size="large"
             sx={{
@@ -140,10 +165,35 @@ export const Formdate = ({
             }}
           >
             <EventNoteOutlinedIcon />
-          </IconButton>
+          </IconButton>*/}
+
+          <TextField
+            sx={{ width: "100%" }}
+            id="monto"
+            name="monto"
+            value={selectDate}
+            label="Programación"
+            type="text"
+            variant="outlined"
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="start">
+                  <AccountCircle />
+                </InputAdornment>
+              ),
+              readOnly: true,
+            }}
+            onClick={handleClickOpen}
+            onChange={(e) => {
+              /*
+              let valores = [...inputFields];
+              valores[index].monto = "1234";
+              setInputFields(valores);*/
+            }}
+          />
         </Grid>
 
-        <Grid item xs={6}>
+        <Grid item xs={3}>
           <Typography
             fontFamily={"Nunito"}
             fontSize={"16px"}
@@ -176,76 +226,16 @@ export const Formdate = ({
             </select>
           </div>
 
-          <FormControl
-            sx={{ m: 1, minWidth: 120, maxWidth: 141, margin: "3px" }}
-          >
-            <InputLabel shrink htmlFor="select-multiple-native">
-              Año
-            </InputLabel>
-            <Select
-              native
-              label="Native"
-              inputProps={{
-                id: "select-multiple-native",
-              }}
-              className="selectTextDate"
-            >
-              {year.map((name) => (
-                <option key={name} value={name}>
-                  {name}
-                </option>
-              ))}
-            </Select>
-          </FormControl>
-
-          <FormControl
-            sx={{ m: 1, minWidth: 120, maxWidth: 141, margin: "3px" }}
-          >
-            <InputLabel shrink htmlFor="select-multiple-native">
-              Mes
-            </InputLabel>
-            <Select
-              onChange={(e) => monthChange(e)}
-              native
-              label="Native"
-              inputProps={{
-                id: "select-multiple-native",
-              }}
-              className="selectTextDate"
-            >
-              {month.map((name) => (
-                <option key={name} value={name}>
-                  {name.charAt(0).toUpperCase() + name.slice(1)}
-                </option>
-              ))}
-            </Select>
-          </FormControl>
-
-          <FormControl
-            sx={{ m: 1, minWidth: 120, maxWidth: 141, margin: "3px" }}
-          >
-            <InputLabel shrink htmlFor="select-multiple-native">
-              Dia
-            </InputLabel>
-            <Select
-              native
-              label="Native"
-              inputProps={{
-                id: "select-multiple-native",
-              }}
-              className="selectTextDate"
-            >
-              {day.map((name) => (
-                <option key={name} value={name}>
-                  {name}
-                </option>
-              ))}
-            </Select>
-          </FormControl>
+          <DatePicker
+            selected={startDate}
+            locale="es"
+            onChange={(date) => setStartDate(date)}
+            inline
+          />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose}>Subscribe</Button>
+          <Button onClick={handledata}>Subscribe</Button>
         </DialogActions>
       </Dialog>
 

@@ -99,7 +99,7 @@ export const FormPay = ({
                   handleInputChange(index, event, inputFields, setInputFields)
                 }
               >
-                <option value="default">Cuenta a debitar</option>
+                <option value="default">Cuenta a debitar1</option>
                 <option value="0123***3245">
                   Gastos personales 0123***3245
                 </option>

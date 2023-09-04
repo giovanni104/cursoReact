@@ -1,0 +1,77 @@
+@import url("https://fonts.googleapis.com/css?family=Nunito");
+
+.MuiAccordionSummary-root {
+  border-radius: 10px !important;
+  width: 1016px !important;
+}
+
+.css-3zb9r4-MuiPaper-root-MuiAccordion-root:before {
+  position: inherit !important;
+  left: 0;
+  top: -1px;
+  right: 0;
+  height: 1px;
+  content: "";
+  opacity: 1;
+  background-color: rgba(0, 0, 0, 0.12);
+  -webkit-transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+    background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+    background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
+
+.resumenTable {
+  border-collapse: separate;
+  border-spacing: 0 11px;
+  margin: "0 auto";
+  border-bottom: 0px !important;
+}
+
+.resumenTable td {
+  border: 1px solid #484848;
+  border-style: solid none;
+  height: 60px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+
+  /* */
+}
+
+.fontBody {
+  font-family: Nunito;
+  font-size: 12px !important;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+
+.fontTitle {
+  font-family: Nunito;
+  font-size: 14px !important;
+  font-weight: 600;
+  line-height: 19px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+.resumenTable td:first-child {
+  border-left-style: solid;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+
+.resumenTable td:last-child {
+  border-right-style: solid;
+  border-bottom-right-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.resumenTable th:first-child {
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+
+.resumenTable th:last-child {
+  border-bottom-right-radius: 8px;
+  border-top-right-radius: 8px;
+}

@@ -1,0 +1,14 @@
+networks:
+  frontend:
+    external: true
+services:
+  ebfe_transacions:
+    build:
+      context: ../../
+      dockerfile: docker/development/Dockerfile
+    image: ebfe_transacions
+    networks:
+      frontend:
+        ipv4_address: 172.22.0.3
+    ports:
+      - "3001:3001"

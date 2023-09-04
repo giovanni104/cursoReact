@@ -23,7 +23,7 @@ WORKDIR /app
 COPY --from=deps --link /app/node_modules ./node_modules
 COPY --link . .
 # This will do the trick, use the corresponding env file for each environment.
-COPY --link .env.development.sample .env.production
+COPY --link .env.development.sample .env.development
 RUN yarn build
 
 # 3. Production image, copy all the files and run next

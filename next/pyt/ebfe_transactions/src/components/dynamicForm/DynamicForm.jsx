@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { FormPay } from "../form/FormPay";
-import { FormPropia } from "../formPropia/formPropia";
+import { FormPropia } from "../formPropia/cpropia";
 import { FormAccordion } from "../formAccordion/FormAccordion";
 
 export const DynamicForm = ({

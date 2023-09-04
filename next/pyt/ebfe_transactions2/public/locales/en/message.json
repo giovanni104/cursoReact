@@ -1,0 +1,75 @@
+{
+    "form": {        
+        "tipodoc_Numdoc": {
+            "title": "Enter your identity document",
+            "required": "This field is required",
+            "tipopDoc_placeholder": "Document Type",
+            "name": "The entered format is not correct",
+            "mail": "You must enter a correct email",
+            "phone": "You must enter a correct number",
+            "selDataInfo": "You must select a type of document",
+            "numDoc_placeholder": "Id",
+            "numDoc": "You must enter a id number",
+            "numDoc_max_size": "The maximum size is {{val}} characters"
+        },
+        "token": {
+            "titleSMS": "Enter your code sent to your SMS",
+            "titleEmail": "Enter your code sent to your email",
+            "required": "This field is required",
+            "min": "Token length must be 8 characters",
+            "soloNumeros": "This field only accepts numbers"
+        },
+        "userAndEmail": {
+            "title": "",
+            "user_unique": "Single user",
+            "user_unique_placeholder": "Single user",
+            "user_min_size": "User, minimum size 6 characters",
+            "user_max_size": "User,maximum size 20 characters",
+            "required": "This field is required",
+            "email_placeholder": "Email",
+            "email_con_placeholder": "Email confirmation",
+            "email_invalid": "You must enter a valid email",
+            "confirmEmail": "Email and confirmation not match"
+        },
+        "newPassw": {
+            "title1": "You Password must contain alphanumeric characters ",
+            "title2": "You Password cannot contai",
+            "new_passw_placeholder": "New Password",
+            "new_passw_min_size": "Password, minimum size 6 characters",
+            "new_passw_max_size": "Password,maximum size 20 characters",
+            "required": "This field is required",
+            "new_passw_con_placeholder": "Repeat the new Password",
+            "passw_invalid": "You must enter a valid Password",
+            "confirmPassw": "Password and confirmation no match",
+            "new_passw_exp_placeholder": "Expiry time"
+        },
+        "newQuestions": {
+            "title1": "You Password must contain alphanumeric characters ",
+            "title2": "To create Yous security questions you must meet the following conditions",
+            "required": "This field is required",
+            "new_question_placeholder": "Custom question",
+            "new_response_placeholder": "Personalized response",
+            "new_question_min_size": "Questions must have a minimum size of 10 characters",
+            "new_question_max_size": "Questions must have a maximum size of 150 characters",
+            "new_response_min_size": "Responses must have a minimum size of 10 characters",
+            "new_response_max_size": "Responses must have a maximum size of 50 characters",
+            "caracteres_ivalidos": "Invalid characters have been entered"
+            
+        },
+        "completed": {
+            "title": "!Successful registration!",
+            "message1": "You are already affiliated with our online banking",
+            "message2": "Download the app ",
+            "amiVen": "AMI Ven",
+            "message3": "Through the virtual store on your mobile device to carry out transactions quickly and safely"
+        },
+        "steps":{
+            "step1":"Start your registration in our online banking",
+            "step2":"",
+            "step3":"Create your unique user",
+            "step4":"",
+            "step5":"Create your password",
+            "step6":"Create your security questions"
+        }
+    }
+}
