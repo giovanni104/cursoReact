@@ -14,9 +14,12 @@ import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import DatePicker, { registerLocale } from "react-datepicker";
+import MenuItem from "@mui/material/MenuItem";
 import es from "date-fns/locale/es"; // the locale you want
 registerLocale("es", es); // register it with the name you want
 import "react-datepicker/dist/react-datepicker.css";
+import Container from "@mui/material/Container";
+import Box from "@mui/material/Box";
 //import "../../styles/FormDate.module.css";
 
 export const Formdate = ({
@@ -30,6 +33,8 @@ export const Formdate = ({
   const [year, setyear] = React.useState([]);
   const [startDate, setStartDate] = React.useState(new Date());
   const [selectDate, setselectDate] = React.useState("");
+
+  const [fecha, setFecha] = React.useState("");
 
   useEffect(function () {
     var today = new Date();
@@ -58,20 +63,6 @@ export const Formdate = ({
     "Quincenal",
     "Mensual",
   ];
-  const month = [
-    "enero",
-    "febrero",
-    "marzo",
-    "abril",
-    "mayo",
-    "junio",
-    "julio",
-    "agosto",
-    "septiembre",
-    "octubre",
-    "noviembre",
-    "diciembre",
-  ];
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -83,7 +74,8 @@ export const Formdate = ({
   };
 
   const handledata = () => {
-    setselectDate(formatDate(startDate));
+    setselectDate(fecha + ": " + formatDate(startDate));
+    setOpen(false);
   };
 
   const formatDate = (date) => {
@@ -98,54 +90,10 @@ export const Formdate = ({
     return [day, month, year].join("/");
   };
 
-  const monthChange = (event) => {
-    let numeroDias = calcularDiasMes(2023, event.target.value);
-    let dayCal = [];
-    for (let i = 0; i < numeroDias; i++) {
-      dayCal[i] = i + 1;
-    }
-    setDay(dayCal);
-  };
-
-  const calcularDiasMes = (anio, mes) => {
-    let numeroDias = -1;
-
-    switch (mes) {
-      case "enero":
-      case "marzo":
-      case "mayo":
-      case "julio":
-      case "agosto":
-      case "octubre":
-      case "diciembre":
-        numeroDias = 31;
-        break;
-      case "abril":
-      case "junio":
-      case "septiembre":
-      case "noviembre":
-        numeroDias = 30;
-        break;
-      case "febrero":
-        if (
-          (anio % 4 == 0 && anio % 100 != 0) ||
-          (anio % 100 == 0 && anio % 400 == 0)
-        ) {
-          //Con esto sé si es bisiesto o no
-          numeroDias = 29;
-        } else {
-          numeroDias = 28;
-        }
-        break;
-    }
-
-    return numeroDias;
-  };
-
   return (
     <div>
-      <Grid container spacing={-5}>
-        <Grid item xs={9}>
+      <Grid container spacing={1}>
+        <Grid item xs={8}>
           {/* <IconButton
             onClick={handleClickOpen}
             size="large"
@@ -168,6 +116,7 @@ export const Formdate = ({
           </IconButton>*/}
 
           <TextField
+            size="small"
             sx={{ width: "100%" }}
             id="monto"
             name="monto"
@@ -193,24 +142,21 @@ export const Formdate = ({
           />
         </Grid>
 
-        <Grid item xs={3}>
-          <Typography
-            fontFamily={"Nunito"}
-            fontSize={"16px"}
-            color={"#7B7B7B"}
-            fontWeight={"400"}
-            fontStyle={"normal"}
-            marginTop={"12px"}
-          >
-            Fecha valor: 24/01/2023
-          </Typography>
+        <Grid item xs={3} justify="flex-end">
+          <TextField
+            size="small"
+            type="number"
+            id="repetir"
+            label="Repetir(*)"
+            variant="outlined"
+          />
         </Grid>
       </Grid>
 
       <Dialog maxWidth={"sm"} open={open} onClose={handleClose}>
         <DialogContent>
           <div className="divInputsFormDate">
-            <select name="concepto" id="concepto" className="selectTexForm">
+            {/*<select name="concepto" id="concepto" className="selectTexForm">
               {frecuencia.map((name, index) =>
                 index == 0 ? (
                   <option key={name} value="none" disabled selected>
@@ -224,6 +170,36 @@ export const Formdate = ({
                 )
               )}
             </select>
+
+
+                */}
+
+            <FormControl fullWidth size="small">
+              <InputLabel id="frecuencia-label">Frecuencia</InputLabel>
+              <Select
+                labelId="frecuencia-label"
+                id="frecuencia"
+                value={fecha}
+                label="Frecuencia"
+                onChange={(event) => {
+                  console.log(event);
+                  setFecha(event.target.value);
+                }}
+                name="frecuencia"
+              >
+                <MenuItem key={0} value="">
+                  <em>Seleccionar</em>
+                </MenuItem>
+
+                {frecuencia.map((concepto, index) => {
+                  return (
+                    <MenuItem key={index} value={concepto}>
+                      {concepto}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
           </div>
 
           <DatePicker
@@ -233,9 +209,14 @@ export const Formdate = ({
             inline
           />
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handledata}>Subscribe</Button>
+        <DialogActions style={{ justifyContent: "center" }}>
+          <Button
+            sx={{ textTransform: "capitalize" }}
+            variant="contained"
+            onClick={handledata}
+          >
+            Aceptar
+          </Button>
         </DialogActions>
       </Dialog>
 
@@ -267,8 +248,7 @@ export const Formdate = ({
         }
 
         .divInputsFormDate {
-          text-align: right;
-          width: 401px;
+          width: 242px;
           font-family: "Nunito";
           font-style: normal;
           font-weight: 400;

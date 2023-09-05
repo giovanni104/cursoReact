@@ -34,12 +34,9 @@ export const DynamicForm = ({
                       <FormPropia
                         key={index}
                         handleInputChange={handleInputChange}
-                        handleRemoveFields={handleRemoveFields}
                         handlePeriodoChange={handlePeriodoChange}
-                        handleAddFields={handleAddFields}
                         inputField={inputField}
                         index={index}
-                        addVisible={addVisible}
                         setInputFields={setInputFields}
                         inputFields={inputFields}
                       />

@@ -75,3 +75,20 @@
   border-bottom-right-radius: 8px;
   border-top-right-radius: 8px;
 }
+
+/*css icons info */
+.infoIcon:hover {
+  content: url("/_transaction/infoSelected.svg") !important;
+  width: "24px" !important;
+  height: "24px" !important;
+}
+
+.MuiFormControlLabel-label {
+  font-family: Nunito !important;
+  font-size: 14px !important;
+
+  line-height: 19px !important;
+  letter-spacing: 0em !important;
+  text-align: left !important;
+  color: #484848;
+}
