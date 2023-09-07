@@ -12,6 +12,7 @@ export const MyNumberComponent = ({
   const handleChange = (ev) => {
     let valores = [...inputFields];
     valores[index].monto = ev.floatValue;
+    valores[index].montoFormat = ev.formattedValue;
     setInputFields(valores);
   };
 

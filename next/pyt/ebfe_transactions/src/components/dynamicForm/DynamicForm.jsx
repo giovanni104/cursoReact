@@ -33,8 +33,6 @@ export const DynamicForm = ({
                     inputFields.length == 1 && (
                       <FormPropia
                         key={index}
-                        handleInputChange={handleInputChange}
-                        handlePeriodoChange={handlePeriodoChange}
                         inputField={inputField}
                         index={index}
                         setInputFields={setInputFields}

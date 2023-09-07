@@ -7,7 +7,17 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
-import { formData, formDataReset } from "../dynamicForm/dynamicForm_";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import Stack from "@mui/material/Stack";
+import Container from "@mui/material/Container";
+import {
+  formData,
+  formDataReset,
+  formDataPropia,
+  formDataPropiaReset,
+} from "../dynamicForm/dynamicForm_";
 
 import {
   removeTabActive,
@@ -17,12 +27,13 @@ import {
   handlePeriodoChange,
   handleSubmit,
 } from "./trasaccionFunctions";
+import { DialogTitle, ListItem } from "@mui/material";
 
 //import '@/styles/Transaccion.module.css'
 
 export const Transaccion = () => {
-  const [inputFields, setInputFields] = useState([
-    JSON.parse(JSON.stringify(formData)),
+  const [inputFieldsPropia, setInputFieldsPropia] = useState([
+    JSON.parse(JSON.stringify(formDataPropia)),
   ]);
 
   const [inputFields2, setInputFields2] = useState([
@@ -40,6 +51,21 @@ export const Transaccion = () => {
   const [inputFieldsData, setInputFieldsData] = useState([
     JSON.parse(JSON.stringify(formData)),
   ]);
+
+  const [openModal, setOpenModal] = React.useState(false);
+
+  const handleClose = () => {
+    setOpenModal(false);
+  };
+  const format = (inputDate) => {
+    let date, month, year;
+    date = inputDate.getDate();
+    month = inputDate.getMonth() + 1;
+    year = inputDate.getFullYear();
+    date = date.toString().padStart(2, "0");
+    month = month.toString().padStart(2, "0");
+    return `${date}/${month}/${year}`;
+  };
 
   useEffect(() => {
     const tabs = document.querySelectorAll("[data-tab-value]");
@@ -66,7 +92,7 @@ export const Transaccion = () => {
 
     switch (elementos[0].id) {
       case "tab_1":
-        setInputFieldsData(JSON.parse(JSON.stringify(inputFields)));
+        setInputFieldsData(JSON.parse(JSON.stringify(inputFieldsPropia)));
 
         break;
       case "tab_2":
@@ -84,6 +110,9 @@ export const Transaccion = () => {
     }
 
     console.log(inputFieldsData);
+
+    const btnTranferir = document.querySelector("#btnTranferir");
+    btnTranferir.classList.add("ocultar");
 
     const targetinput = document.querySelector("#inputResumen");
     targetinput.classList.add("ocultar");
@@ -106,7 +135,7 @@ export const Transaccion = () => {
 
     switch (elementos[0].id) {
       case "tab_1":
-        setInputFields([JSON.parse(JSON.stringify(formDataReset))]);
+        setInputFieldsPropia([JSON.parse(JSON.stringify(formDataPropiaReset))]);
 
         break;
       case "tab_2":
@@ -122,6 +151,9 @@ export const Transaccion = () => {
         break;
     }
     setInputFieldsData([JSON.parse(JSON.stringify(formDataReset))]);
+
+    const btnTranferir = document.querySelector("#btnTranferir");
+    btnTranferir.classList.remove("ocultar");
 
     const targetinput = document.querySelector("#inputResumen");
     targetinput.classList.remove("ocultar");
@@ -212,11 +244,10 @@ export const Transaccion = () => {
                   key={1}
                   handleInputChange={handleInputChange}
                   handleRemoveFields={handleRemoveFields}
-                  handlePeriodoChange={handlePeriodoChange}
                   handleAddFields={handleAddFields}
-                  inputFields={inputFields}
+                  inputFields={inputFieldsPropia}
                   addVisible={false}
-                  setInputFields={setInputFields}
+                  setInputFields={setInputFieldsPropia}
                   type={"propia"}
                 ></DynamicForm>
               </div>
@@ -353,15 +384,15 @@ export const Transaccion = () => {
                   <tbody>
                     <tr>
                       <td>Cuenta a debitar:</td>
-                      <td>{inputFieldsData[0].cuenta}</td>
+                      <td>{inputFieldsData[0].cuentaDebitar}</td>
                     </tr>
                     <tr>
-                      <td>Cuenta a acreditar:</td>
-                      <td>{inputFieldsData[0].banco}</td>
+                      <td>Cuenta a abonar:</td>
+                      <td>{inputFieldsData[0].cuentaAcreditar}</td>
                     </tr>
                     <tr>
                       <td>Monto:</td>
-                      <td>{inputFieldsData[0].monto}</td>
+                      <td>{inputFieldsData[0].montoFormat}</td>
                     </tr>
 
                     <tr>
@@ -369,23 +400,227 @@ export const Transaccion = () => {
                       <td>{inputFieldsData[0].concepto}</td>
                     </tr>
 
-                    <tr>
-                      <td>Fecha valor:</td>
-                      <td>
-                        {inputFieldsData[0].programa.dia +
-                          "/" +
-                          inputFieldsData[0].programa.mes +
-                          "/" +
-                          inputFieldsData[0].programa.anio}
-                      </td>
-                    </tr>
+                    {inputFieldsData[0].programar == true ? (
+                      <>
+                        <tr>
+                          <td>Programación:</td>
+                          <td>{inputFieldsData[0].programa.frecuencia}</td>
+                        </tr>
+                        <tr>
+                          <td>Fecha valor:</td>
+                          <td>{`${inputFieldsData[0].programa.dia}/${inputFieldsData[0].programa.mes}/${inputFieldsData[0].programa.anio}`}</td>
+                        </tr>
+
+                        <tr>
+                          <td>Repetir:</td>
+                          <td>
+                            {inputFieldsData[0].programa.repetir + " veces"}
+                          </td>
+                        </tr>
+                      </>
+                    ) : (
+                      <tr>
+                        <td>Fecha valor:</td>
+                        <td>{format(new Date())}</td>
+                      </tr>
+                    )}
                   </tbody>
                 </table>
+
+                <div style={{ textAlign: "center", marginTop: "80px" }}>
+                  <Button
+                    onClick={() => setOpenModal(true)}
+                    variant="contained"
+                    size="medium"
+                    sx={{
+                      borderRadius: "5px",
+                      textTransform: "none",
+                      width: "148px",
+                      height: "38px",
+                      padding: "8px, 32px, 8px, 32px",
+                      fontSize: "16px",
+                      fontWeight: "700",
+                      fontFamily: "Nunito",
+                      backgroundColor: "##4A96D2",
+                      "&:hover": {
+                        backgroundColor: "#004A72",
+                      },
+                    }}
+                  >
+                    Confirmar
+                  </Button>
+                  <Button
+                    variant="contained"
+                    size="medium"
+                    onClick={() => resetForm()}
+                    sx={{
+                      borderRadius: "5px",
+                      textTransform: "none",
+                      width: "148px",
+                      height: "38px",
+                      marginLeft: "10px",
+                      fontSize: "16px",
+                      border: "2px solid #0067B1",
+                      fontWeight: "700",
+                      fontFamily: "Nunito",
+                      color: "#4A96D2",
+                      backgroundColor: "#FFFFFF",
+                      "&:hover": {
+                        backgroundColor: "#004A72",
+                        color: "#FFFFFF",
+                        border: "2px solid #004A72",
+                      },
+                    }}
+                  >
+                    Cancelar
+                  </Button>
+                </div>
               </div>
             )}
           </div>
 
-          <div style={{ textAlign: "center", marginTop: "80px" }}>
+          <Dialog
+            style={{ padding: "0px 0px 0px 0px" }}
+            maxWidth={"630px"}
+            open={openModal}
+            onClose={handleClose}
+            PaperProps={{ sx: { borderRadius: "8px" } }}
+          >
+            <DialogTitle style={{ padding: "0px 0px 0px 0px" }}>
+              <div
+                style={{
+                  width: "630px",
+                  height: "65.12px",
+                  backgroundColor: "#E9E9E9",
+                }}
+              >
+                <Stack
+                  paddingTop={"16px"}
+                  paddingLeft={"24px"}
+                  paddingRight={"24px"}
+                  height={"33.12"}
+                  direction="row"
+                  spacing={15}
+                >
+                  <img
+                    style={{ height: "33.12px", width: "200px" }}
+                    src={"/_transaction/LOGO BDV.svg"}
+                  />
+
+                  <div style={{ width: "366px", textAlign: "end" }}>
+                    <label className={"lblNombre"}>
+                      Graciela Carolina David Bracamonte
+                    </label>
+                  </div>
+                </Stack>
+              </div>
+            </DialogTitle>
+            <DialogContent>
+              <Stack paddingTop={"16px"} direction="column" spacing={3}>
+                <div style={{ textAlign: "center" }}>
+                  <label className={"lblNombre"}>Transferencias propias</label>
+                </div>
+
+                <div style={{ textAlign: "center" }}>
+                  <label className={"lblNombre"}>
+                    Operación N° 42049097012
+                  </label>
+                </div>
+              </Stack>
+              <div className="containerIcons">
+                <Stack direction="row" spacing={2}>
+                  <img
+                    className="copiar"
+                    style={{
+                      height: "30px",
+                      width: "30px",
+                      content: "url('/_transaction/copiarDefault.svg')",
+                    }}
+                  />
+                  <img
+                    className="favorito"
+                    style={{
+                      height: "30px",
+                      width: "30px",
+                      content: "url('/_transaction/favoritosDefault.svg')",
+                    }}
+                  />
+                  <img
+                    className="compartir"
+                    style={{
+                      height: "30px",
+                      width: "30px",
+                      content: "url('/_transaction/compartirDefault.svg')",
+                    }}
+                  />
+                  <img
+                    className="descargar"
+                    style={{
+                      height: "30px",
+                      width: "30px",
+                      content: "url('/_transaction/descargarDefault.svg')",
+                    }}
+                  />
+                </Stack>
+              </div>
+              <table style={{ margin: "0 auto", width: "500px" }}>
+                <tbody>
+                  <tr>
+                    <td>Cuenta a debitar:</td>
+                    <td>{inputFieldsData[0].cuentaDebitar}</td>
+                  </tr>
+                  <tr>
+                    <td>Cuenta a abonar:</td>
+                    <td>{inputFieldsData[0].cuentaAcreditar}</td>
+                  </tr>
+                  <tr>
+                    <td>Monto:</td>
+                    <td>{inputFieldsData[0].montoFormat}</td>
+                  </tr>
+
+                  <tr>
+                    <td>Concepto:</td>
+                    <td>{inputFieldsData[0].concepto}</td>
+                  </tr>
+
+                  {inputFieldsData[0].programar == true ? (
+                    <>
+                      <tr>
+                        <td>Programación:</td>
+                        <td>{inputFieldsData[0].programa.frecuencia}</td>
+                      </tr>
+                      <tr>
+                        <td>Fecha valor:</td>
+                        <td>{`${inputFieldsData[0].programa.dia}/${inputFieldsData[0].programa.mes}/${inputFieldsData[0].programa.anio}`}</td>
+                      </tr>
+
+                      <tr>
+                        <td>Repetir:</td>
+                        <td>
+                          {inputFieldsData[0].programa.repetir + " veces"}
+                        </td>
+                      </tr>
+                    </>
+                  ) : (
+                    <tr>
+                      <td>Fecha valor:</td>
+                      <td>{format(new Date())}</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </DialogContent>
+            <DialogActions style={{ justifyContent: "center" }}>
+              <Button sx={{ textTransform: "capitalize" }} variant="contained">
+                Aceptar
+              </Button>
+            </DialogActions>
+          </Dialog>
+
+          <div
+            id="btnTranferir"
+            style={{ textAlign: "center", marginTop: "80px" }}
+          >
             <Button
               onClick={() => siguiente()}
               variant="contained"
@@ -399,13 +634,13 @@ export const Transaccion = () => {
                 fontSize: "16px",
                 fontWeight: "700",
                 fontFamily: "Nunito",
-                backgroundColor: "#0067B1",
+                backgroundColor: "##4A96D2",
                 "&:hover": {
                   backgroundColor: "#004A72",
                 },
               }}
             >
-              Continuar
+              Transferir
             </Button>
             <Button
               variant="contained"
@@ -424,9 +659,9 @@ export const Transaccion = () => {
                 color: "#4A96D2",
                 backgroundColor: "#FFFFFF",
                 "&:hover": {
-                  backgroundColor: "#4A96D2",
+                  backgroundColor: "#004A72",
                   color: "#FFFFFF",
-                  border: "2px solid #4A96D2",
+                  border: "2px solid #004A72",
                 },
               }}
             >
@@ -439,6 +674,20 @@ export const Transaccion = () => {
       <style jsx>{`
         .ocultar {
           display: none !important;
+        }
+
+        .descargar:hover {
+          content: url("/_transaction/descargarHover.svg") !important;
+        }
+        .copiar:hover {
+          content: url("/_transaction/copiarHover.svg") !important;
+        }
+        .favorito:hover {
+          content: url("/_transaction/favoritosHover.svg") !important;
+        }
+
+        .compartir:hover {
+          content: url("/_transaction/compartirHover.svg") !important;
         }
 
         .atrasTab:hover {
@@ -577,6 +826,19 @@ export const Transaccion = () => {
         }
         tr {
           height: 50px;
+        }
+
+        .lblNombre {
+          font-family: Nunito !important;
+          font-size: 14px !important;
+          font-weight: 600 !important;
+        }
+
+        .containerIcons {
+          margin-top: 20px !important;
+          display: flex;
+          justify-content: center;
+          align-items: center;
         }
       `}</style>
     </div>

@@ -12,10 +12,7 @@ import Switch from "@mui/material/Switch";
 import { MyNumberComponent } from "../numberComponent/myNumberComponent";
 import { Icon, Stack } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
-import TextField from "@mui/material/TextField";
 export const FormPropia = ({
-  handleInputChange,
-  handlePeriodoChange,
   inputField,
   index,
   setInputFields,
@@ -23,7 +20,7 @@ export const FormPropia = ({
 }) => {
   const [cuentasPropias, setCuentasPropias] = useState([]);
   const [cuentasAcreditar, setCuentasAcreditar] = useState([]);
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(inputField.programar);
   const [checkedUsd, setCheckedUsd] = React.useState(false);
 
   const conceptos = [
@@ -35,12 +32,16 @@ export const FormPropia = ({
 
   const switchHandler = (event) => {
     setChecked(event.target.checked);
+    let valores = [...inputFields];
+    valores[index].programar = event.target.checked;
+    setInputFields(valores);
   };
 
   const handleChangeUsd = (event) => {
     let valores = [...inputFields];
     valores[index].monto = "";
-    console.log(valores);
+    valores[index].monedaUsd = event.target.checked;
+
     setInputFields(valores);
     setCheckedUsd(event.target.checked);
   };
@@ -51,8 +52,30 @@ export const FormPropia = ({
     });
     setCuentasAcreditar(cuentas);
     let valores = [...inputFields];
-    valores[index].banco = "";
-    console.log(valores);
+    valores[index].cuentaAcreditar = "";
+    setInputFields(valores);
+  };
+
+  const valoresCuenta = (valor, id) => {
+    let valores = [...inputFields];
+
+    switch (id) {
+      case "cuentaDebitar":
+        valores[index].cuentaDebitar = valor;
+        break;
+
+      case "cuentaAcreditar":
+        valores[index].cuentaAcreditar = valor;
+        break;
+
+      case "concepto":
+        valores[index].concepto = valor;
+        break;
+
+      default:
+        break;
+    }
+
     setInputFields(valores);
   };
 
@@ -60,6 +83,8 @@ export const FormPropia = ({
     async function fetchData() {
       try {
         const users = await axios.get("/_transaction/api/propias");
+        console.log(users);
+
         setCuentasPropias(users.data);
       } catch (err) {
         if (err.response) {
@@ -75,6 +100,7 @@ export const FormPropia = ({
         }
       }
     }
+
     fetchData();
   }, []);
 
@@ -101,24 +127,18 @@ export const FormPropia = ({
                 <InputLabel id="cuenta-label">Cuenta a debitar</InputLabel>
                 <Select
                   labelId="cuenta-label"
-                  id="cuenta"
-                  value={inputField.cuenta}
+                  id="cuentaDebitar"
+                  value={inputField.cuentaDebitar}
                   label="Cuenta a debitar"
                   onChange={(event) => {
-                    handleInputChange(
-                      index,
-                      event,
-                      inputFields,
-                      setInputFields
-                    );
-
+                    valoresCuenta(event.target.value, "cuentaDebitar");
                     filtroCuentasAcreditar(
                       event.target.value,
                       event.target.name,
                       index
                     );
                   }}
-                  name="cuenta"
+                  name="cuentaDebitar"
                 >
                   <MenuItem key={0} value="">
                     <em>Seleccionar</em>
@@ -138,21 +158,16 @@ export const FormPropia = ({
           <Grid item xs={6}>
             <div className="divInputs">
               <FormControl fullWidth size="small">
-                <InputLabel id="banco-label">Cuenta a acreditar</InputLabel>
+                <InputLabel id="acreditar-label">Cuenta a acreditar</InputLabel>
                 <Select
-                  labelId="banco-label"
-                  id="banco"
-                  value={inputField.banco}
+                  labelId="acreditar-label"
+                  id="cuentaAcreditar"
+                  value={inputField.cuentaAcreditar}
                   label="Cuenta a acreditar"
                   onChange={(event) => {
-                    handleInputChange(
-                      index,
-                      event,
-                      inputFields,
-                      setInputFields
-                    );
+                    valoresCuenta(event.target.value, "cuentaAcreditar");
                   }}
-                  name="banco"
+                  name="cuentaAcreditar"
                 >
                   <MenuItem key={0} value="">
                     <em>Seleccionar</em>
@@ -194,12 +209,7 @@ export const FormPropia = ({
                   value={inputField.concepto}
                   label="Concepto"
                   onChange={(event) => {
-                    handleInputChange(
-                      index,
-                      event,
-                      inputFields,
-                      setInputFields
-                    );
+                    valoresCuenta(event.target.value, "concepto");
                   }}
                   name="concepto"
                 >
@@ -271,7 +281,6 @@ export const FormPropia = ({
               {checked && (
                 <div style={{ marginTop: "15px" }}>
                   <Formdate
-                    handleInputChange={handlePeriodoChange}
                     index={index}
                     inputFields={inputFields}
                     setInputFields={setInputFields}

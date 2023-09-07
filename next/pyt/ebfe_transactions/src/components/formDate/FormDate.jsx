@@ -3,12 +3,9 @@ import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import IconButton from "@mui/material/IconButton";
-import EventNoteOutlinedIcon from "@mui/icons-material/EventNoteOutlined";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -18,51 +15,25 @@ import MenuItem from "@mui/material/MenuItem";
 import es from "date-fns/locale/es"; // the locale you want
 registerLocale("es", es); // register it with the name you want
 import "react-datepicker/dist/react-datepicker.css";
-import Container from "@mui/material/Container";
-import Box from "@mui/material/Box";
-//import "../../styles/FormDate.module.css";
 
-export const Formdate = ({
-  handleInputChange,
-  index,
-  inputFields,
-  setInputFields,
-}) => {
+export const Formdate = ({ index, inputFields, setInputFields }) => {
   const [open, setOpen] = React.useState(false);
-  const [day, setDay] = React.useState([]);
-  const [year, setyear] = React.useState([]);
   const [startDate, setStartDate] = React.useState(new Date());
-  const [selectDate, setselectDate] = React.useState("");
+  const [programaDate, setprogramaDate] = React.useState("");
+  const [frecienciaData, setFrecienciaData] = React.useState("");
 
-  const [fecha, setFecha] = React.useState("");
-
-  useEffect(function () {
-    var today = new Date();
-    setyear([today.getFullYear(), today.getFullYear() + 1]);
-    let dayCal = [];
-    for (let i = 0; i < 31; i++) {
-      dayCal[i] = i + 1;
-    }
-    setDay(dayCal);
-  }, []);
+  useEffect(function () {}, []);
 
   const handleRefreshData = () => {
-    let data = {
-      frecuencia: "Semanal",
-      anio: "2023",
-      mes: "05",
-      dia: "01",
-    };
-    handleInputChange(index, data, inputFields, setInputFields);
+    let valores = [...inputFields];
+    valores[index].programa.dia = "";
+    valores[index].programa.mes = "";
+    valores[index].programa.anio = "";
+    valores[index].programa.frecuencia = "";
+    setInputFields(valores);
   };
 
-  const frecuencia = [
-    "Frecuencia",
-    "Una vez",
-    "Semanal",
-    "Quincenal",
-    "Mensual",
-  ];
+  const frecuencia = ["Una vez", "Semanal", "Quincenal", "Mensual"];
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -74,7 +45,12 @@ export const Formdate = ({
   };
 
   const handledata = () => {
-    setselectDate(fecha + ": " + formatDate(startDate));
+    setprogramaDate(frecienciaData + ": " + formatDate(startDate));
+
+    let valores = [...inputFields];
+    valores[index].programa.frecuencia = frecienciaData;
+    setInputFields(valores);
+
     setOpen(false);
   };
 
@@ -87,6 +63,13 @@ export const Formdate = ({
     if (month.length < 2) month = "0" + month;
     if (day.length < 2) day = "0" + day;
 
+    let valores = [...inputFields];
+    valores[index].programa.dia = day;
+    valores[index].programa.mes = month;
+    valores[index].programa.anio = year;
+
+    setInputFields(valores);
+
     return [day, month, year].join("/");
   };
 
@@ -94,33 +77,12 @@ export const Formdate = ({
     <div>
       <Grid container spacing={1}>
         <Grid item xs={8}>
-          {/* <IconButton
-            onClick={handleClickOpen}
-            size="large"
-            sx={{
-              position: "unset",
-              color: "white",
-              backgroundColor: "#0067B1",
-              ":hover": {
-                color: "white",
-                backgroundColor: "#004A72",
-                opacity: 0.9,
-              },
-              border: "1px solid #FFFFFF",
-              boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.1)",
-              right: 50,
-              bottom: 50,
-            }}
-          >
-            <EventNoteOutlinedIcon />
-          </IconButton>*/}
-
           <TextField
             size="small"
             sx={{ width: "100%" }}
-            id="monto"
-            name="monto"
-            value={selectDate}
+            id="programacion"
+            name="programacion"
+            value={programaDate}
             label="Programación"
             type="text"
             variant="outlined"
@@ -133,12 +95,6 @@ export const Formdate = ({
               readOnly: true,
             }}
             onClick={handleClickOpen}
-            onChange={(e) => {
-              /*
-              let valores = [...inputFields];
-              valores[index].monto = "1234";
-              setInputFields(valores);*/
-            }}
           />
         </Grid>
 
@@ -149,6 +105,11 @@ export const Formdate = ({
             id="repetir"
             label="Repetir(*)"
             variant="outlined"
+            onChange={(e) => {
+              let valores = [...inputFields];
+              valores[index].programa.repetir = e.target.value;
+              setInputFields(valores);
+            }}
           />
         </Grid>
       </Grid>
@@ -156,34 +117,16 @@ export const Formdate = ({
       <Dialog maxWidth={"sm"} open={open} onClose={handleClose}>
         <DialogContent>
           <div className="divInputsFormDate">
-            {/*<select name="concepto" id="concepto" className="selectTexForm">
-              {frecuencia.map((name, index) =>
-                index == 0 ? (
-                  <option key={name} value="none" disabled selected>
-                    {name}
-                  </option>
-                ) : (
-                  <option key={name} value={name}>
-                    {" "}
-                    {name}{" "}
-                  </option>
-                )
-              )}
-            </select>
-
-
-                */}
-
             <FormControl fullWidth size="small">
               <InputLabel id="frecuencia-label">Frecuencia</InputLabel>
               <Select
                 labelId="frecuencia-label"
                 id="frecuencia"
-                value={fecha}
+                value={frecienciaData}
                 label="Frecuencia"
                 onChange={(event) => {
                   console.log(event);
-                  setFecha(event.target.value);
+                  setFrecienciaData(event.target.value);
                 }}
                 name="frecuencia"
               >

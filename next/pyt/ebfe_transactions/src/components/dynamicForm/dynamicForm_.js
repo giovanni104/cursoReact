@@ -1,3 +1,37 @@
+export const formDataPropia = {
+  cuentaDebitar: "",
+  cuentaAcreditar: "",
+  monto: "",
+  montoFormat: "",
+  concepto: "",
+  programar: false,
+  programa: {
+    frecuencia: "",
+    anio: "",
+    mes: "",
+    dia: "",
+    repetir: "",
+  },
+  monedaUsd: false,
+};
+
+export const formDataPropiaReset = {
+  cuentaDebitar: "",
+  cuentaAcreditar: "",
+  monto: "",
+  montoFormat: "",
+  concepto: "",
+  programar: false,
+  programa: {
+    frecuencia: "",
+    anio: "",
+    mes: "",
+    dia: "",
+    repetir: "",
+  },
+  monedaUsd: false,
+};
+
 export const formData = {
   cuenta: "",
   banco: "",
