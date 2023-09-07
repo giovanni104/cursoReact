@@ -153,6 +153,10 @@ export const FormPropia = ({
                   })}
                 </Select>
               </FormControl>
+              <label className="lblInfoSaldo">
+                {" "}
+                Saldo disponible: Bs 45.454.545
+              </label>
             </div>
           </Grid>
           <Grid item xs={6}>
@@ -182,6 +186,10 @@ export const FormPropia = ({
                   })}
                 </Select>
               </FormControl>
+              <label className="lblInfoSaldo">
+                {" "}
+                Saldo disponible: Bs 45.454.545
+              </label>
             </div>
           </Grid>
 

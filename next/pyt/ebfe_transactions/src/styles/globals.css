@@ -20,23 +20,6 @@
     background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.resumenTable {
-  border-collapse: separate;
-  border-spacing: 0 11px;
-  margin: "0 auto";
-  border-bottom: 0px !important;
-}
-
-.resumenTable td {
-  border: 1px solid #484848;
-  border-style: solid none;
-  height: 60px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-
-  /* */
-}
-
 .fontBody {
   font-family: Nunito;
   font-size: 12px !important;
@@ -91,4 +74,12 @@
   letter-spacing: 0em !important;
   text-align: left !important;
   color: #484848;
+}
+.lblInfoSaldo {
+  margin-left: 16px;
+  font-family: Nunito;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  line-height: 18px !important;
+  letter-spacing: 0em !important;
 }

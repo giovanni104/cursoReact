@@ -12,6 +12,12 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import Stack from "@mui/material/Stack";
 import Container from "@mui/material/Container";
+import { Portal } from "@mui/base/Portal";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+import LinearProgress from "@mui/material/LinearProgress";
+import { LinearDeterminate } from "../linearDeterminate/linearDeterminate";
+import html2canvas from "html2canvas";
 import {
   formData,
   formDataReset,
@@ -53,6 +59,7 @@ export const Transaccion = () => {
   ]);
 
   const [openModal, setOpenModal] = React.useState(false);
+  const [tituloOperacion, setTituloOperacion] = React.useState("");
 
   const handleClose = () => {
     setOpenModal(false);
@@ -92,6 +99,7 @@ export const Transaccion = () => {
 
     switch (elementos[0].id) {
       case "tab_1":
+        setTituloOperacion(" - Propias");
         setInputFieldsData(JSON.parse(JSON.stringify(inputFieldsPropia)));
 
         break;
@@ -129,7 +137,12 @@ export const Transaccion = () => {
     target.classList.remove("ocultar");
   };
 
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+
   const resetForm = () => {
+    setTituloOperacion("");
     var elementos = document.getElementsByClassName("active");
     console.log(elementos[0].id);
 
@@ -172,38 +185,29 @@ export const Transaccion = () => {
     target.classList.add("ocultar");
   };
 
+  const downloadImage = () => {
+    const table = document.getElementById("reciboTransaccion");
+
+    html2canvas(table).then(function (canvas) {
+      const link = document.createElement("a");
+      link.download = "table.png";
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+    });
+  };
+
   //const [inputResumen, setInputResumen] = useState(false);
 
   return (
     <div className="contenedor2">
-      <span className="titulo">Transferencias</span>
+      <span className="titulo">Transferencias {tituloOperacion}</span>
       <div className="contenedor">
-        {/*inputResumen && (  )*/}
-        <div id="idsubtitulo" style={{ paddingTop: "40px" }}>
-          <div
-            style={{ paddingBottom: "40px", margin: "0 auto", width: "40%" }}
-          >
+        <div id="idsubtitulo" style={{ paddingTop: "5px" }}>
+          <div style={{ paddingBottom: "5px" }}>
             <span className="subtitulo">
               ¿Confirmas los datos de la operación?
             </span>
           </div>
-          <Divider />
-        </div>
-        <div
-          style={{
-            zIndex: "100",
-            float: "right",
-            marginTop: "25px",
-            marginRight: "40px",
-            color: "red",
-          }}
-        >
-          {/*<ArrowCircleLeftIcon />*/}
-          <img
-            className="atrasTab"
-            style={{ height: "50px", width: "50px" }}
-            src={"/_transaction/tabs/volvertab.svg"}
-          />
         </div>
 
         <Box
@@ -216,23 +220,40 @@ export const Transaccion = () => {
           <div id="inputResumen">
             <div className="tabs">
               <div className="contenTabs">
-                <span id="tab_1h" className="act" data-tab-value="#tab_1">
+                <span
+                  style={{ height: "10px" }}
+                  id="tab_1h"
+                  className="act"
+                  data-tab-value="#tab_1"
+                >
                   Propias
                 </span>
               </div>
               <div className="contenTabs2">
-                <span id="tab_2h" data-tab-value="#tab_2">
-                  Cuentas terceros
+                <span
+                  id="tab_2h"
+                  style={{ height: "10px" }}
+                  data-tab-value="#tab_2"
+                >
+                  Terceros
                 </span>
               </div>
               <div className="contenTabs2">
-                <span id="tab_3h" data-tab-value="#tab_3">
+                <span
+                  id="tab_3h"
+                  style={{ height: "10px" }}
+                  data-tab-value="#tab_3"
+                >
                   TCP/TDA
                 </span>
               </div>
 
               <div className="contenTabs2">
-                <span id="tab_4h" data-tab-value="#tab_4">
+                <span
+                  id="tab_4h"
+                  style={{ height: "10px" }}
+                  data-tab-value="#tab_4"
+                >
                   Tarjetas de crédito
                 </span>
               </div>
@@ -380,40 +401,52 @@ export const Transaccion = () => {
           <div id="datospago" className="ocultar">
             {inputFieldsData.length == 1 && (
               <div className="tab-content">
-                <table style={{ margin: "0 auto", width: "40%" }}>
-                  <tbody>
+                <table style={{ margin: "0 auto", width: "500px" }}>
+                  <tbody style={{ margin: "0 auto", width: "100%" }}>
                     <tr>
                       <td>Cuenta a debitar:</td>
-                      <td>{inputFieldsData[0].cuentaDebitar}</td>
+                      <td style={{ textAlign: "end" }}>
+                        {inputFieldsData[0].cuentaDebitar}
+                      </td>
                     </tr>
                     <tr>
                       <td>Cuenta a abonar:</td>
-                      <td>{inputFieldsData[0].cuentaAcreditar}</td>
+                      <td style={{ textAlign: "end" }}>
+                        {inputFieldsData[0].cuentaAcreditar}
+                      </td>
                     </tr>
                     <tr>
                       <td>Monto:</td>
-                      <td>{inputFieldsData[0].montoFormat}</td>
+                      <td style={{ textAlign: "end" }}>
+                        {inputFieldsData[0].montoFormat}
+                      </td>
                     </tr>
 
                     <tr>
                       <td>Concepto:</td>
-                      <td>{inputFieldsData[0].concepto}</td>
+                      <td style={{ textAlign: "end" }}>
+                        {inputFieldsData[0].concepto}
+                      </td>
                     </tr>
 
                     {inputFieldsData[0].programar == true ? (
                       <>
                         <tr>
                           <td>Programación:</td>
-                          <td>{inputFieldsData[0].programa.frecuencia}</td>
+                          <td style={{ textAlign: "end" }}>
+                            {inputFieldsData[0].programa.frecuencia}
+                          </td>
                         </tr>
                         <tr>
                           <td>Fecha valor:</td>
-                          <td>{`${inputFieldsData[0].programa.dia}/${inputFieldsData[0].programa.mes}/${inputFieldsData[0].programa.anio}`}</td>
+                          <td
+                            style={{ textAlign: "end" }}
+                          >{`${inputFieldsData[0].programa.dia}/${inputFieldsData[0].programa.mes}/${inputFieldsData[0].programa.anio}`}</td>
                         </tr>
 
                         <tr>
                           <td>Repetir:</td>
-                          <td>
+                          <td style={{ textAlign: "end" }}>
                             {inputFieldsData[0].programa.repetir + " veces"}
                           </td>
                         </tr>
@@ -421,7 +454,9 @@ export const Transaccion = () => {
                     ) : (
                       <tr>
                         <td>Fecha valor:</td>
-                        <td>{format(new Date())}</td>
+                        <td style={{ textAlign: "end" }}>
+                          {format(new Date())}
+                        </td>
                       </tr>
                     )}
                   </tbody>
@@ -429,7 +464,9 @@ export const Transaccion = () => {
 
                 <div style={{ textAlign: "center", marginTop: "80px" }}>
                   <Button
-                    onClick={() => setOpenModal(true)}
+                    onClick={() => {
+                      setOpenModal(true);
+                    }}
                     variant="contained"
                     size="medium"
                     sx={{
@@ -518,11 +555,13 @@ export const Transaccion = () => {
             <DialogContent>
               <Stack paddingTop={"16px"} direction="column" spacing={3}>
                 <div style={{ textAlign: "center" }}>
-                  <label className={"lblNombre"}>Transferencias propias</label>
+                  <label className={"lbltituloModal"}>
+                    Transferencias propias
+                  </label>
                 </div>
 
                 <div style={{ textAlign: "center" }}>
-                  <label className={"lblNombre"}>
+                  <label className={"lbltitulo2Modal"}>
                     Operación N° 42049097012
                   </label>
                 </div>
@@ -554,6 +593,7 @@ export const Transaccion = () => {
                     }}
                   />
                   <img
+                    onClick={downloadImage}
                     className="descargar"
                     style={{
                       height: "30px",
@@ -563,7 +603,10 @@ export const Transaccion = () => {
                   />
                 </Stack>
               </div>
-              <table style={{ margin: "0 auto", width: "500px" }}>
+              <table
+                id="reciboTransaccion"
+                style={{ margin: "0 auto", width: "500px" }}
+              >
                 <tbody>
                   <tr>
                     <td>Cuenta a debitar:</td>
@@ -611,10 +654,67 @@ export const Transaccion = () => {
               </table>
             </DialogContent>
             <DialogActions style={{ justifyContent: "center" }}>
-              <Button sx={{ textTransform: "capitalize" }} variant="contained">
-                Aceptar
+              {/* <Button
+                size="large"
+                sx={{
+                  textTransform: "capitalize",
+                  borderRadius: "5px",
+                  textTransform: "none",
+                  width: "148px",
+                  height: "38px",
+                  padding: "8px, 32px, 8px, 32px",
+                  fontSize: "16px",
+                  fontWeight: "700",
+                  fontFamily: "Nunito",
+                  backgroundColor: "##4A96D2",
+                }}
+                variant="contained"
+              >
+                Salir
               </Button>
+              */}
             </DialogActions>
+            <div className="containerInfoSucess">
+              <Stack direction="row" spacing={15}>
+                <img
+                  style={{
+                    height: "40px",
+                    width: "40px",
+                    content: "url('/_transaction/CheckSucess.svg')",
+                  }}
+                />
+                <div className="divlblInfoSucess">
+                  <label className={"lblInfoSucess"}>Transacción exitosa</label>
+                </div>
+                <Button
+                  sx={{
+                    textTransform: "capitalize",
+                    borderRadius: "4px",
+                    borderWidth: "2px",
+                    borderColor: "#209041",
+                    textTransform: "none",
+                    width: "148px",
+                    height: "38px",
+                    fontSize: "16px",
+                    fontWeight: "400",
+                    fontFamily: "Nunito",
+                    backgroundColor: "white",
+                    color: "#209041",
+                    "&:hover": {
+                      borderColor: "#209041",
+                      backgroundColor: "white",
+                      color: "#209041",
+                      borderRadius: "4px",
+                      borderWidth: "2px",
+                    },
+                  }}
+                  variant="outlined"
+                >
+                  Cerrar
+                </Button>
+              </Stack>
+            </div>
+            <LinearDeterminate />
           </Dialog>
 
           <div
@@ -705,7 +805,7 @@ export const Transaccion = () => {
           border: 1px solid #d9d9d9;
           border-style: solid none;
           padding: 11px;
-          font-size: 16px;
+          font-size: 14px;
           font-weight: 800;
         }
 
@@ -721,6 +821,16 @@ export const Transaccion = () => {
           border-top-right-radius: 8px;
         }
 
+        td {
+          font-family: "Nunito";
+          font-weight: 800;
+          font-size: 14px;
+          color: #3f3c37;
+        }
+        tr {
+          height: 50px;
+        }
+
         [data-tab-info] {
           display: none;
         }
@@ -733,7 +843,7 @@ export const Transaccion = () => {
           font-family: "Nunito";
           font-style: normal;
 
-          font-size: 16px;
+          font-size: 14px;
           line-height: 22px;
           color: #2c2c2c;
           display: flex;
@@ -752,25 +862,26 @@ export const Transaccion = () => {
 
         .act {
           cursor: pointer;
-          color: black;
+          color: #484848;
           border-bottom: 2px solid #e21050 !important;
-          font-weight: 700;
+          font-weight: 600;
         }
 
         .contenTabs {
           border-left: 2px solid white !important;
-          height: 35px;
-          width: 160px;
+          height: 25px;
+          padding-left: 16px;
+          padding-right: 16px;
           display: flex;
           justify-content: center;
           align-items: center;
         }
+
         .contenTabs2 {
-          border-left: 2px solid #6f6d69 !important;
-
-          height: 35px;
-          width: 160px;
-
+          border-left: 2px solid #d9d9d9 !important;
+          height: 25px;
+          padding-left: 16px;
+          padding-right: 16px;
           display: flex;
           justify-content: center;
           align-items: center;
@@ -783,10 +894,6 @@ export const Transaccion = () => {
           top: 50px;
           /* Grises/Blanco */
           background: #ffffff;
-          /* Grises/Claro */
-          border: 1px solid #f5f5f5;
-          box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.25);
-          border-radius: 20px;
 
           padding-top: 20px;
           margin-bottom: 30px !important;
@@ -810,22 +917,11 @@ export const Transaccion = () => {
 
         .subtitulo {
           font-family: Nunito;
-          font-size: 22px;
-          font-weight: 900;
-          line-height: 27px;
-          letter-spacing: 0em;
-
-          color: #e21050;
-        }
-
-        td {
-          font-family: "Nunito";
-          font-weight: 800;
           font-size: 16px;
-          color: #3f3c37;
-        }
-        tr {
-          height: 50px;
+          font-weight: 600;
+          display: table;
+          margin: 0 auto;
+          color: #e21050;
         }
 
         .lblNombre {
@@ -834,11 +930,48 @@ export const Transaccion = () => {
           font-weight: 600 !important;
         }
 
+        .lbltituloModal {
+          font-family: Nunito !important;
+          font-size: 20px !important;
+          font-weight: 600 !important;
+        }
+
+        .lbltitulo2Modal {
+          font-family: Nunito !important;
+          font-size: 16px !important;
+          font-weight: 600 !important;
+        }
+
         .containerIcons {
           margin-top: 20px !important;
           display: flex;
           justify-content: center;
           align-items: center;
+        }
+
+        .containerInfoSucess {
+          margin-top: 20px !important;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          width: 100%;
+          height: 72px;
+
+          /* Notificación/Success result/#78BA49 */
+          background: #78ba49;
+          border-radius: 8px 8px 0px 0px;
+        }
+
+        .divlblInfoSucess {
+          padding-top: 5px;
+        }
+
+        .lblInfoSucess {
+          font-family: Nunito !important;
+          font-size: 16px !important;
+          font-weight: 400 !important;
+          color: white;
         }
       `}</style>
     </div>
