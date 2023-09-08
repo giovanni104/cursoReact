@@ -105,6 +105,13 @@ export const Formdate = ({ index, inputFields, setInputFields }) => {
             id="repetir"
             label="Repetir(*)"
             variant="outlined"
+            onInput={(e) => {
+              if (e.target.value != "") {
+                e.target.value = Math.max(0, parseInt(e.target.value))
+                  .toString()
+                  .slice(0, 2);
+              }
+            }}
             onChange={(e) => {
               let valores = [...inputFields];
               valores[index].programa.repetir = e.target.value;
