@@ -14,6 +14,7 @@ export const DynamicForm = ({
   addVisible,
   setInputFields,
   type,
+  setBtnTranferir,
 }) => {
   return (
     <div style={{ marginTop: "40px" }}>
@@ -37,6 +38,7 @@ export const DynamicForm = ({
                         index={index}
                         setInputFields={setInputFields}
                         inputFields={inputFields}
+                        setBtnTranferir={setBtnTranferir}
                       />
                     )
                 )}

@@ -1,10 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-
-const propias = [
-  { value: "0123***3245", label: "Gastos personales 0123***3245" },
-  { value: "0123***4087", label: "Ahorros varios 0123***4087" },
-  { value: "0123***3580", label: "Cuenta familiar 0123***3580" },
-];
+import { propias, propias2 } from "../../../utils/data";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method == "POST") {
@@ -15,7 +10,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       method: "POST",
       body: req.body,
     });*/
-    return res.status(201).json(propias);
+    return res.status(201).json(propias2.responseBody);
   }
 
   if (req.method == "GET") {
@@ -27,7 +22,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     const data = await response.json();*/
 
-    return res.status(201).json(propias);
+    return res.status(201).json(propias2.responseBody);
   }
 
   return res.status(400).json({ error: "El metodo no existe" });

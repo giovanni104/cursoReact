@@ -10,8 +10,9 @@ export const MyNumberComponent = ({
   currency,
 }) => {
   const handleChange = (ev) => {
+    console.log(ev);
     let valores = [...inputFields];
-    valores[index].monto = ev.floatValue;
+    valores[index].monto = ev.floatValue == undefined ? "" : ev.floatValue;
     valores[index].montoFormat = ev.formattedValue;
     setInputFields(valores);
   };

@@ -21,16 +21,19 @@ export const Formdate = ({ index, inputFields, setInputFields }) => {
   const [startDate, setStartDate] = React.useState(new Date());
   const [programaDate, setprogramaDate] = React.useState("");
   const [frecienciaData, setFrecienciaData] = React.useState("");
-
+  const [displayRepetir, setDisplayRepetir] = React.useState("none");
+  const [dataRepetir, setDataRepetir] = React.useState("none");
   useEffect(function () {}, []);
 
   const handleRefreshData = () => {
     let valores = [...inputFields];
+    valores[index].programa.frecuencia = "";
     valores[index].programa.dia = "";
     valores[index].programa.mes = "";
     valores[index].programa.anio = "";
-    valores[index].programa.frecuencia = "";
+    valores[index].programa.repetir = "";
     setInputFields(valores);
+    setprogramaDate("");
   };
 
   const frecuencia = ["Una vez", "Semanal", "Quincenal", "Mensual"];
@@ -41,15 +44,20 @@ export const Formdate = ({ index, inputFields, setInputFields }) => {
 
   const handleClose = () => {
     handleRefreshData();
+    setDataRepetir("");
+    setDisplayRepetir("none");
     setOpen(false);
   };
 
   const handledata = () => {
-    setprogramaDate(frecienciaData + ": " + formatDate(startDate));
-
-    let valores = [...inputFields];
-    valores[index].programa.frecuencia = frecienciaData;
-    setInputFields(valores);
+    if (frecienciaData != "") {
+      setprogramaDate(frecienciaData + ": " + formatDate(startDate));
+      let valores = [...inputFields];
+      valores[index].programa.frecuencia = frecienciaData;
+      setInputFields(valores);
+    } else {
+      handleRefreshData();
+    }
 
     setOpen(false);
   };
@@ -98,13 +106,14 @@ export const Formdate = ({ index, inputFields, setInputFields }) => {
           />
         </Grid>
 
-        <Grid item xs={3} justify="flex-end">
+        <Grid display={displayRepetir} item xs={3} justify="flex-end">
           <TextField
             size="small"
             type="number"
             id="repetir"
             label="Repetir(*)"
             variant="outlined"
+            value={dataRepetir}
             onInput={(e) => {
               if (e.target.value != "") {
                 e.target.value = Math.max(0, parseInt(e.target.value))
@@ -113,6 +122,7 @@ export const Formdate = ({ index, inputFields, setInputFields }) => {
               }
             }}
             onChange={(e) => {
+              setDataRepetir(e.target.value);
               let valores = [...inputFields];
               valores[index].programa.repetir = e.target.value;
               setInputFields(valores);
@@ -134,6 +144,19 @@ export const Formdate = ({ index, inputFields, setInputFields }) => {
                 onChange={(event) => {
                   console.log(event);
                   setFrecienciaData(event.target.value);
+
+                  if (
+                    event.target.value == "Una vez" ||
+                    event.target.value == ""
+                  ) {
+                    setDisplayRepetir("none");
+                    setDataRepetir("");
+                    let valores = [...inputFields];
+                    valores[index].programa.repetir = "";
+                    setInputFields(valores);
+                  } else {
+                    setDisplayRepetir("unset");
+                  }
                 }}
                 name="frecuencia"
               >

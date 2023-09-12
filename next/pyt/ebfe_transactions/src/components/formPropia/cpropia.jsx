@@ -12,110 +12,75 @@ import Switch from "@mui/material/Switch";
 import { MyNumberComponent } from "../numberComponent/myNumberComponent";
 import { Icon, Stack } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
+
+import {
+  conceptos,
+  switchHandler,
+  handleChangeUsd,
+  filtroCuentasAcreditar,
+  valoresCuenta,
+  infoIcon,
+  infoTasa,
+  cargaCuentasDebitar,
+} from "./cuentaPropias";
+
 export const FormPropia = ({
   inputField,
   index,
   setInputFields,
   inputFields,
+  setBtnTranferir,
 }) => {
   const [cuentasPropias, setCuentasPropias] = useState([]);
   const [cuentasAcreditar, setCuentasAcreditar] = useState([]);
+  const [cuentasUser, setCuentasUser] = useState([]);
   const [checked, setChecked] = useState(inputField.programar);
   const [checkedUsd, setCheckedUsd] = React.useState(false);
-
-  const conceptos = [
-    { value: "Pagos", label: "Pagos" },
-    { value: "Alquiler condominio", label: "Alquiler condominio" },
-    { value: "Varios", label: "Varios" },
-    { value: "Otros", label: "Otros" },
-  ];
-
-  const switchHandler = (event) => {
-    setChecked(event.target.checked);
-    let valores = [...inputFields];
-    valores[index].programar = event.target.checked;
-    setInputFields(valores);
-  };
-
-  const handleChangeUsd = (event) => {
-    let valores = [...inputFields];
-    valores[index].monto = "";
-    valores[index].monedaUsd = event.target.checked;
-
-    setInputFields(valores);
-    setCheckedUsd(event.target.checked);
-  };
-
-  const filtroCuentasAcreditar = (valor, name, index) => {
-    const cuentas = cuentasPropias.filter(function (el) {
-      return el.value != valor;
-    });
-    setCuentasAcreditar(cuentas);
-    let valores = [...inputFields];
-    valores[index].cuentaAcreditar = "";
-    setInputFields(valores);
-  };
-
-  const valoresCuenta = (valor, id) => {
-    let valores = [...inputFields];
-
-    switch (id) {
-      case "cuentaDebitar":
-        valores[index].cuentaDebitar = valor;
-        break;
-
-      case "cuentaAcreditar":
-        valores[index].cuentaAcreditar = valor;
-        break;
-
-      case "concepto":
-        valores[index].concepto = valor;
-        break;
-
-      default:
-        break;
-    }
-
-    setInputFields(valores);
-  };
 
   useEffect(() => {
     async function fetchData() {
       try {
         const users = await axios.get("/_transaction/api/propias");
-        console.log(users);
-
-        setCuentasPropias(users.data);
+        cargaCuentasDebitar(setCuentasPropias, users.data, setCuentasUser);
       } catch (err) {
-        if (err.response) {
-          // The client was given an error response (5xx, 4xx)
-          console.log(err.response.data);
-          console.log(err.response.status);
-          console.log(err.response.headers);
-        } else if (err.request) {
-          // The client never received a response, and the request was never left
-          console.log(err.request);
-        } else {
-          console.log("Error", err.message);
-        }
+        console.log(err);
       }
     }
 
     fetchData();
   }, []);
 
-  const infoIcon = `
-  Programa operaciones con una fecha de
-  ejecución futura. Además, podrás
-  asignar una frecuencia y cantidad de 
-  repeticiones.
-  `;
+  useEffect(() => {
+    setBtnTranferir(true);
 
-  const infoTasa = `
-  La operación será procesada en
-  Bolívares según la tasa BCV de
-  la fecha valor.
-  `;
+    let valores = [...inputFields];
+
+    if (
+      valores[index].cuentaDebitar != "" &&
+      valores[index].cuentaAcreditar != "" &&
+      valores[index].monto != "" &&
+      valores[index].concepto != ""
+    ) {
+      if (valores[index].programar == true) {
+        if (
+          valores[index].programa.frecuencia != "" &&
+          valores[index].programa.anio != "" &&
+          valores[index].programa.mes != "" &&
+          valores[index].programa.dia != ""
+        ) {
+          if (valores[index].programa.frecuencia == "Una vez") {
+            setBtnTranferir(false);
+          } else {
+            if (valores[index].programa.repetir != "") {
+              setBtnTranferir(false);
+            }
+          }
+        }
+      } else {
+        setBtnTranferir(false);
+      }
+    }
+  }, [inputFields]);
 
   return (
     <Fragment key={`${inputField}~${index}`}>
@@ -131,11 +96,21 @@ export const FormPropia = ({
                   value={inputField.cuentaDebitar}
                   label="Cuenta a debitar"
                   onChange={(event) => {
-                    valoresCuenta(event.target.value, "cuentaDebitar");
+                    valoresCuenta(
+                      event.target.value,
+                      "cuentaDebitar",
+                      inputFields,
+                      setInputFields,
+                      index,
+                      cuentasUser
+                    );
                     filtroCuentasAcreditar(
                       event.target.value,
-                      event.target.name,
-                      index
+                      index,
+                      setCuentasAcreditar,
+                      setInputFields,
+                      inputFields,
+                      cuentasUser
                     );
                   }}
                   name="cuentaDebitar"
@@ -146,8 +121,8 @@ export const FormPropia = ({
 
                   {cuentasPropias.map((cuenta, index) => {
                     return (
-                      <MenuItem key={index} value={cuenta.value}>
-                        {cuenta.label}
+                      <MenuItem key={index} value={cuenta.numberAccount}>
+                        {cuenta.descriptionAccount + " " + cuenta.numberMask}
                       </MenuItem>
                     );
                   })}
@@ -169,7 +144,14 @@ export const FormPropia = ({
                   value={inputField.cuentaAcreditar}
                   label="Cuenta a acreditar"
                   onChange={(event) => {
-                    valoresCuenta(event.target.value, "cuentaAcreditar");
+                    valoresCuenta(
+                      event.target.value,
+                      "cuentaAcreditar",
+                      inputFields,
+                      setInputFields,
+                      index,
+                      cuentasUser
+                    );
                   }}
                   name="cuentaAcreditar"
                 >
@@ -179,8 +161,8 @@ export const FormPropia = ({
 
                   {cuentasAcreditar.map((cuenta, index) => {
                     return (
-                      <MenuItem key={index} value={cuenta.value}>
-                        {cuenta.label}
+                      <MenuItem key={index} value={cuenta.numberAccount}>
+                        {cuenta.descriptionAccount + " " + cuenta.numberMask}
                       </MenuItem>
                     );
                   })}
@@ -217,7 +199,14 @@ export const FormPropia = ({
                   value={inputField.concepto}
                   label="Concepto"
                   onChange={(event) => {
-                    valoresCuenta(event.target.value, "concepto");
+                    valoresCuenta(
+                      event.target.value,
+                      "concepto",
+                      inputFields,
+                      setInputFields,
+                      index,
+                      cuentasUser
+                    );
                   }}
                   name="concepto"
                 >
@@ -248,7 +237,15 @@ export const FormPropia = ({
                       <Switch
                         size="medium"
                         checked={checked}
-                        onChange={switchHandler}
+                        onChange={(event) => {
+                          switchHandler(
+                            event,
+                            setChecked,
+                            inputFields,
+                            setInputFields,
+                            index
+                          );
+                        }}
                         inputProps={{ "aria-label": "controlled" }}
                       />
                     }
@@ -308,7 +305,15 @@ export const FormPropia = ({
                       control={
                         <Checkbox
                           checked={checkedUsd}
-                          onChange={handleChangeUsd}
+                          onChange={(event) => {
+                            handleChangeUsd(
+                              event,
+                              index,
+                              inputFields,
+                              setInputFields,
+                              setCheckedUsd
+                            );
+                          }}
                           sx={{ borderBlockColor: "red" }}
                           checkedIcon={
                             <Icon>

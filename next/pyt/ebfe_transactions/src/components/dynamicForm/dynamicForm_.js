@@ -1,6 +1,8 @@
 export const formDataPropia = {
   cuentaDebitar: "",
   cuentaAcreditar: "",
+  descuentaDebitar: "",
+  descuentaAcreditar: "",
   monto: "",
   montoFormat: "",
   concepto: "",
@@ -18,6 +20,8 @@ export const formDataPropia = {
 export const formDataPropiaReset = {
   cuentaDebitar: "",
   cuentaAcreditar: "",
+  descuentaDebitar: "",
+  descuentaAcreditar: "",
   monto: "",
   montoFormat: "",
   concepto: "",
