@@ -263,7 +263,7 @@ export const Transaccion = () => {
               </div>
             </div>
 
-            <div className="tab-content">
+            <div>
               <div className="tabs__tab active" id="tab_1" data-tab-info>
                 <DynamicForm
                   key={1}
@@ -319,7 +319,7 @@ export const Transaccion = () => {
 
           <div id="datospagogrilla" className="ocultar">
             {inputFieldsData.length > 1 && (
-              <div className="tab-content">
+              <div>
                 <table style={{ margin: "0 auto" }} className="resumenTable">
                   <tbody>
                     <tr style={{ background: "#D9D9D9", color: "black" }}>
@@ -405,7 +405,7 @@ export const Transaccion = () => {
 
           <div id="datospago" className="ocultar">
             {inputFieldsData.length == 1 && (
-              <div className="tab-content">
+              <div>
                 <table style={{ margin: "0 auto", width: "500px" }}>
                   <tbody style={{ margin: "0 auto", width: "100%" }}>
                     <tr>
