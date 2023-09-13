@@ -39,6 +39,11 @@ export const InfoMessage = ({ typeMessage, message }) => {
     const timer = setInterval(() => {
       setProgress((oldProgress) => {
         if (oldProgress === 100) {
+          const mensaje = document.querySelector("#infoMessage");
+          if (mensaje != null) {
+            mensaje.classList.add("ocultar");
+          }
+
           return 0;
         }
         const diff = Math.random() * 10;
@@ -51,8 +56,17 @@ export const InfoMessage = ({ typeMessage, message }) => {
     };
   }, []);
 
+  const cerrarMensaje = () => {
+    const mensaje = document.querySelector("#infoMessage");
+    if (mensaje != null) {
+      mensaje.classList.add("ocultar");
+    }
+  };
+
+  const mensaje = document.querySelector("#infoMessage");
+
   return (
-    <>
+    <div id="infoMessage">
       <div
         style={{ background: color.primario }}
         className="containerInfoMessage"
@@ -70,6 +84,7 @@ export const InfoMessage = ({ typeMessage, message }) => {
             <label className={"lblInfoSucess"}>{message}</label>
           </div>
           <Button
+            onClick={cerrarMensaje}
             sx={{
               textTransform: "capitalize",
               borderRadius: "4px",
@@ -110,6 +125,6 @@ export const InfoMessage = ({ typeMessage, message }) => {
           value={progress}
         />
       </Box>
-    </>
+    </div>
   );
 };

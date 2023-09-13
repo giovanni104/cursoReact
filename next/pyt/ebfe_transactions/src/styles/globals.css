@@ -104,3 +104,7 @@
   font-weight: 400 !important;
   color: white;
 }
+
+.ocultar {
+  display: none !important;
+}
