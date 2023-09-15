@@ -5,7 +5,7 @@ import Button from "@mui/material/Button";
 import { ResumenTransaccion } from "../resumenTransaccion/resumenTransaccion";
 import { DialogTransaccion } from "../dialogTrasaccion/dialogTransaccion";
 import { ResumenMultiTransaccion } from "../resumenMultiTransaccion/resumenMultiTransaccion";
-
+import { labelsTransaccion } from "../../utils/labelsTransaccion";
 import {
   formData,
   formDataReset,
@@ -78,40 +78,51 @@ export const Transaccion = () => {
 
     switch (elementos[0].id) {
       case "tab_1":
-        setTituloOperacion(" - Propias");
+        setTituloOperacion(
+          " - " + labelsTransaccion.transaccion.tituloOperacion1
+        );
         setInputFieldsData(JSON.parse(JSON.stringify(inputFieldsPropia)));
 
         break;
       case "tab_2":
+        setTituloOperacion(
+          " - " + labelsTransaccion.transaccion.tituloOperacion2
+        );
         setInputFieldsData(JSON.parse(JSON.stringify(inputFields2)));
 
         break;
       case "tab_3":
+        setTituloOperacion(
+          " - " + labelsTransaccion.transaccion.tituloOperacion3
+        );
         setInputFieldsData(JSON.parse(JSON.stringify(inputFields3)));
 
         break;
       case "tab_4":
+        setTituloOperacion(
+          " - " + labelsTransaccion.transaccion.tituloOperacion4
+        );
         setInputFieldsData(JSON.parse(JSON.stringify(inputFields4)));
 
         break;
     }
 
     const btnTranferir = document.querySelector("#btnTranferir");
-    btnTranferir.classList.add("ocultar");
+    btnTranferir.classList.add("ocultarT");
 
     const targetinput = document.querySelector("#inputResumen");
-    targetinput.classList.add("ocultar");
+    targetinput.classList.add("ocultarT");
 
     const targetdatospago = document.querySelector("#datospago");
     if (targetdatospago != null) {
-      targetdatospago.classList.remove("ocultar");
+      targetdatospago.classList.remove("ocultarT");
     }
     const targetdatospagogrilla = document.querySelector("#datospagogrilla");
     if (targetdatospagogrilla != null) {
-      targetdatospagogrilla.classList.remove("ocultar");
+      targetdatospagogrilla.classList.remove("ocultarT");
     }
     const target = document.querySelector("#idsubtitulo");
-    target.classList.remove("ocultar");
+    target.classList.remove("ocultarT");
   };
 
   const resetForm = () => {
@@ -140,33 +151,35 @@ export const Transaccion = () => {
     setInputFieldsData([JSON.parse(JSON.stringify(formDataReset))]);
 
     const btnTranferir = document.querySelector("#btnTranferir");
-    btnTranferir.classList.remove("ocultar");
+    btnTranferir.classList.remove("ocultarT");
 
     const targetinput = document.querySelector("#inputResumen");
-    targetinput.classList.remove("ocultar");
+    targetinput.classList.remove("ocultarT");
 
     const targetdatospago = document.querySelector("#datospago");
     if (targetdatospago != null) {
-      targetdatospago.classList.add("ocultar");
+      targetdatospago.classList.add("ocultarT");
     }
 
     const targetdatospagogrilla = document.querySelector("#datospagogrilla");
     if (targetdatospagogrilla != null) {
-      targetdatospagogrilla.classList.add("ocultar");
+      targetdatospagogrilla.classList.add("ocultarT");
     }
 
     const target = document.querySelector("#idsubtitulo");
-    target.classList.add("ocultar");
+    target.classList.add("ocultarT");
   };
 
   return (
     <div className="contenedor2">
-      <span className="titulo">Transferencias {tituloOperacion}</span>
+      <span className="titulo">
+        {labelsTransaccion.transaccion.titulo} {tituloOperacion}
+      </span>
       <div className="contenedor">
         <div id="idsubtitulo" style={{ paddingTop: "5px" }}>
           <div style={{ paddingBottom: "5px" }}>
             <span className="subtitulo">
-              ¿Confirmas los datos de la operación?
+              {labelsTransaccion.transaccion.subtitulo}
             </span>
           </div>
         </div>
@@ -181,41 +194,24 @@ export const Transaccion = () => {
           <div id="inputResumen">
             <div className="tabs">
               <div className="contenTabs">
-                <span
-                  style={{ height: "10px" }}
-                  id="tab_1h"
-                  className="act"
-                  data-tab-value="#tab_1"
-                >
-                  Propias
+                <span id="tab_1h" className="act" data-tab-value="#tab_1">
+                  {labelsTransaccion.transaccion.tab1}
                 </span>
               </div>
               <div className="contenTabs2">
-                <span
-                  id="tab_2h"
-                  style={{ height: "10px" }}
-                  data-tab-value="#tab_2"
-                >
-                  Terceros
+                <span id="tab_2h" data-tab-value="#tab_2">
+                  {labelsTransaccion.transaccion.tab2}
                 </span>
               </div>
               <div className="contenTabs2">
-                <span
-                  id="tab_3h"
-                  style={{ height: "10px" }}
-                  data-tab-value="#tab_3"
-                >
-                  TCP/TDA
+                <span id="tab_3h" data-tab-value="#tab_3">
+                  {labelsTransaccion.transaccion.tab3}
                 </span>
               </div>
 
               <div className="contenTabs2">
-                <span
-                  id="tab_4h"
-                  style={{ height: "10px" }}
-                  data-tab-value="#tab_4"
-                >
-                  Tarjetas de crédito
+                <span id="tab_4h" data-tab-value="#tab_4">
+                  {labelsTransaccion.transaccion.tab4}
                 </span>
               </div>
             </div>
@@ -274,12 +270,12 @@ export const Transaccion = () => {
             </div>
           </div>
           {/* ventana de pagos multiples*/}
-          <div id="datospagogrilla" className="ocultar">
+          <div id="datospagogrilla" className="ocultarT">
             {inputFieldsData.length > 1 && <ResumenMultiTransaccion />}
           </div>
 
           {/* pagos con un solo registro*/}
-          <div id="datospago" className="ocultar">
+          <div id="datospago" className="ocultarT">
             {inputFieldsData.length == 1 && (
               <ResumenTransaccion
                 inputFieldsData={inputFieldsData}
@@ -302,6 +298,7 @@ export const Transaccion = () => {
             style={{ textAlign: "center", marginTop: "80px" }}
           >
             <Button
+              id="transferir"
               disabled={btnTranferir}
               onClick={() => siguiente()}
               variant="contained"
@@ -321,9 +318,10 @@ export const Transaccion = () => {
                 },
               }}
             >
-              Transferir
+              {labelsTransaccion.transaccion.btnTranferir}
             </Button>
             <Button
+              id="limpiar"
               variant="contained"
               size="medium"
               onClick={() => resetForm()}
@@ -346,7 +344,7 @@ export const Transaccion = () => {
                 },
               }}
             >
-              Limpiar
+              {labelsTransaccion.transaccion.btnLimpiar}
             </Button>
           </div>
         </Box>

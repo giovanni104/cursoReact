@@ -3,7 +3,7 @@ import Button from "@mui/material/Button";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import { formatDate } from "../../utils/genericas";
-
+import { labelsTransaccion } from "../../utils/labelsTransaccion";
 export const ResumenTransaccion = ({
   inputFieldsData,
   setOpenModal,
@@ -34,42 +34,42 @@ export const ResumenTransaccion = ({
       <table style={{ margin: "0 auto", width: "500px" }}>
         <tbody style={{ margin: "0 auto", width: "100%" }}>
           <tr>
-            <td>Cuenta a debitar:</td>
+            <td>{labelsTransaccion.resumenTransaccion.cdebitar}:</td>
             <td>{inputFieldsData[0].descuentaDebitar}</td>
           </tr>
           <tr>
-            <td>Cuenta a abonar:</td>
+            <td>{labelsTransaccion.resumenTransaccion.cabonar}:</td>
             <td>{inputFieldsData[0].descuentaAcreditar}</td>
           </tr>
           <tr>
-            <td>Monto:</td>
+            <td>{labelsTransaccion.resumenTransaccion.monto}:</td>
             <td>{inputFieldsData[0].montoFormat}</td>
           </tr>
 
           <tr>
-            <td>Concepto:</td>
+            <td>{labelsTransaccion.resumenTransaccion.concepto}:</td>
             <td>{inputFieldsData[0].concepto}</td>
           </tr>
 
           {inputFieldsData[0].programar == true ? (
             <>
               <tr>
-                <td>Programación:</td>
+                <td>{labelsTransaccion.resumenTransaccion.programacion}:</td>
                 <td>{inputFieldsData[0].programa.frecuencia}</td>
               </tr>
               <tr>
-                <td>Fecha valor:</td>
+                <td>{labelsTransaccion.resumenTransaccion.fecha}:</td>
                 <td>{`${inputFieldsData[0].programa.dia}/${inputFieldsData[0].programa.mes}/${inputFieldsData[0].programa.anio}`}</td>
               </tr>
 
               <tr>
-                <td>Repetir:</td>
+                <td>{labelsTransaccion.resumenTransaccion.repetir}:</td>
                 <td>{inputFieldsData[0].programa.repetir + " veces"}</td>
               </tr>
             </>
           ) : (
             <tr>
-              <td>Fecha valor:</td>
+              <td>{labelsTransaccion.resumenTransaccion.fecha}:</td>
               <td>{formatDate(new Date())}</td>
             </tr>
           )}
@@ -78,6 +78,7 @@ export const ResumenTransaccion = ({
 
       <div style={{ textAlign: "center", marginTop: "80px" }}>
         <Button
+          id="confirmar"
           onClick={() => {
             tranferencia();
           }}
@@ -98,9 +99,10 @@ export const ResumenTransaccion = ({
             },
           }}
         >
-          Confirmar
+          {labelsTransaccion.resumenTransaccion.btnconfirmar}
         </Button>
         <Button
+          id="cancelar"
           variant="contained"
           size="medium"
           onClick={() => resetForm()}
@@ -123,7 +125,7 @@ export const ResumenTransaccion = ({
             },
           }}
         >
-          Cancelar
+          {labelsTransaccion.resumenTransaccion.btncancelar}
         </Button>
       </div>
 

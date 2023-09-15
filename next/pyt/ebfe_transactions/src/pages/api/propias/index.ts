@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { propias, propias2 } from "../../../utils/data";
+import { makeCookie } from "@/utils/cookieMaker";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method == "POST") {
@@ -21,6 +22,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     });
 
     const data = await response.json();*/
+
+    const message = "respuesta.data.messageID";
+
+    const messageCookie = makeCookie(message);
+
+    res.setHeader("set-cookie", messageCookie);
 
     return res.status(201).json(propias2.responseBody);
   }

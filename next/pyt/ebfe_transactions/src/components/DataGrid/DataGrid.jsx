@@ -16,7 +16,8 @@ import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import LastPageIcon from "@mui/icons-material/LastPage";
 import { Button } from "@mui/material";
-const urlBaseImg = process.env.NEXT_PUBLIC_BASIC_URL;
+import DataGridStyle from "./DataGridStyle";
+
 function TablePaginationActions(props) {
   const theme = useTheme();
   const { count, page, rowsPerPage, onPageChange } = props;
@@ -294,7 +295,7 @@ export const DataGrid = () => {
                   <img
                     className="deleteRow"
                     style={{ height: "36px", width: "36px" }}
-                    src={urlBaseImg + "/delete.svg"}
+                    src={process.env.NEXT_PUBLIC_BASIC_URL + "/delete.svg"}
                   />
                 </Button>
               </TableCell>
@@ -333,13 +334,7 @@ export const DataGrid = () => {
         </TableFooter>
       </Table>
 
-      <style jsx>{`
-        .deleteRow:hover {
-          content: url("${urlBaseImg}/deleteHover.svg") !important;
-          width: "36px" !important;
-          height: "36px" !important;
-        }
-      `}</style>
+      <style jsx>{DataGridStyle}</style>
     </TableContainer>
   );
 };

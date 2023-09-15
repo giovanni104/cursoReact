@@ -8,6 +8,7 @@ export const MyNumberComponent = ({
   index,
   inputField,
   currency,
+  id,
 }) => {
   const handleChange = (ev) => {
     console.log(ev);
@@ -25,6 +26,7 @@ export const MyNumberComponent = ({
   return (
     <>
       <NumericFormat
+        id={id}
         value={inputField.monto}
         customInput={TextField}
         onValueChange={handleChange}

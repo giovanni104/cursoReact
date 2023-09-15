@@ -7,7 +7,7 @@ import Tooltip from "@mui/material/Tooltip";
 import DeleteIcon from "@mui/icons-material/Delete";
 //import "../../styles/formPay.module.css";
 
-const icon_trash = "/_transaction/trash_azul.svg";
+const icon_trash = process.env.NEXT_PUBLIC_BASIC_URL + "trash_azul.svg";
 
 export const FormPay = ({
   handleInputChange,
@@ -416,7 +416,8 @@ export const FormPay = ({
 
           /* Arrow */
           appearance: none;
-          background-image: url("/forms/rowSelect.svg");
+          background-image: url("${process.env
+            .NEXT_PUBLIC_BASIC_URL}forms/rowSelect.svg");
           background-repeat: no-repeat;
           background-position: right 30px top 50%;
           background-size: 0.65rem auto;
@@ -451,7 +452,8 @@ export const FormPay = ({
 
           /* Arrow */
           appearance: none;
-          background-image: url("/forms/rowSelect.svg");
+          background-image: url("${process.env
+            .NEXT_PUBLIC_BASIC_URL}forms/rowSelect.svg");
           background-repeat: no-repeat;
           background-position: right 12px top 50%;
           background-size: 0.65rem auto;
@@ -485,7 +487,8 @@ export const FormPay = ({
         }
 
         .trash img:hover {
-          content: url("/_transaction/trash_blanco.svg") !important;
+          content: url("${process.env
+            .NEXT_PUBLIC_BASIC_URL}trash_blanco.svg") !important;
         }
       `}</style>
     </Fragment>

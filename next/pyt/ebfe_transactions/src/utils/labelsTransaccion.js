@@ -1,0 +1,27 @@
+export const labelsTransaccion = {
+  transaccion: {
+    tituloOperacion1: "Propias",
+    tituloOperacion2: "Terceros",
+    tituloOperacion3: "TCP/TDA",
+    tituloOperacion4: "Tarjetas de crédito",
+    titulo: "Transferencias",
+    subtitulo: "¿Confirmas los datos de la operación?",
+    tab1: "Propias",
+    tab2: "Terceros",
+    tab3: "TCP/TDA",
+    tab4: "Tarjetas de crédito",
+    btnTranferir: "Transferir",
+    btnLimpiar: "Limpiar",
+  },
+  resumenTransaccion: {
+    cdebitar: "Cuenta a debitar",
+    cabonar: "Cuenta a abonar",
+    monto: "Monto",
+    concepto: "Concepto",
+    programacion: "Programación",
+    fecha: "Fecha valor",
+    repetir: "Repetir",
+    btnconfirmar: "Confirmar",
+    btncancelar: "Cancelar",
+  },
+};

@@ -1,11 +1,61 @@
 import css from "styled-jsx/css";
 
 export default css.global`
+  .ocultar {
+    display: none !important;
+  }
+
   .atrasTab:hover {
     content: url("${process.env
       .NEXT_PUBLIC_BASIC_URL}tabs/volvertab2.svg") !important;
     width: "40px" !important;
     height: "40px" !important;
+  }
+  .resumenTable {
+    border-collapse: separate;
+    border-spacing: 0 11px;
+    margin: "0 auto";
+  }
+
+  .resumenTable td {
+    border: 1px solid #d9d9d9;
+    border-style: solid none;
+    padding: 11px;
+    font-size: 14px;
+    font-weight: 800;
+  }
+
+  .resumenTable td:first-child {
+    border-left-style: solid;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+  }
+
+  .resumenTable td:last-child {
+    border-right-style: solid;
+    border-bottom-right-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+
+  .resumenTable th:first-child {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+  }
+
+  .resumenTable th:last-child {
+    border-bottom-right-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+
+  td {
+    font-family: "Nunito";
+    font-weight: 600;
+    font-size: 14px;
+    color: #484848;
+    width: 250px;
+  }
+  tr {
+    height: 50px;
   }
 
   [data-tab-info] {
@@ -30,7 +80,7 @@ export default css.global`
   .tabs span {
     padding: 5px;
     border: 1px solid rgb(255, 255, 255);
-    height: 20px;
+    height: 40px;
 
     display: flex;
     justify-content: center;
@@ -99,9 +149,5 @@ export default css.global`
     display: table;
     margin: 0 auto;
     color: #e21050;
-  }
-
-  .ocultarT {
-    display: none !important;
   }
 `;

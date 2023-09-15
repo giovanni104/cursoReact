@@ -52,7 +52,7 @@ export const DialogTransaccion = ({
           >
             <img
               style={{ height: "33.12px", width: "200px" }}
-              src={"/_transaction/LOGO BDV.svg"}
+              src={process.env.NEXT_PUBLIC_BASIC_URL + "LOGO BDV.svg"}
             />
 
             <div style={{ width: "366px", textAlign: "end" }}>
@@ -78,36 +78,36 @@ export const DialogTransaccion = ({
         <div className="containerIcons">
           <Stack direction="row" spacing={2}>
             <img
+              src={process.env.NEXT_PUBLIC_BASIC_URL + "copiarDefault.svg"}
               className="copiar"
               style={{
                 height: "30px",
                 width: "30px",
-                content: "url('/_transaction/copiarDefault.svg')",
               }}
             />
             <img
               className="favorito"
+              src={process.env.NEXT_PUBLIC_BASIC_URL + "favoritosDefault.svg"}
               style={{
                 height: "30px",
                 width: "30px",
-                content: "url('/_transaction/favoritosDefault.svg')",
               }}
             />
             <img
               className="compartir"
+              src={process.env.NEXT_PUBLIC_BASIC_URL + "compartirDefault.svg"}
               style={{
                 height: "30px",
                 width: "30px",
-                content: "url('/_transaction/compartirDefault.svg')",
               }}
             />
             <img
               onClick={downloadImage}
+              src={process.env.NEXT_PUBLIC_BASIC_URL + "descargarDefault.svg"}
               className="descargar"
               style={{
                 height: "30px",
                 width: "30px",
-                content: "url('/_transaction/descargarDefault.svg')",
               }}
             />
           </Stack>
@@ -166,6 +166,7 @@ export const DialogTransaccion = ({
 
       <div id="btnSalir" style={{ textAlign: "center", marginBottom: "30px" }}>
         <Button
+          id="salir"
           variant="contained"
           size="medium"
           sx={{
@@ -192,17 +193,21 @@ export const DialogTransaccion = ({
 
       <style jsx>{`
         .descargar:hover {
-          content: url("/_transaction/descargarHover.svg") !important;
+          content: url("${process.env
+            .NEXT_PUBLIC_BASIC_URL}descargarHover.svg") !important;
         }
         .copiar:hover {
-          content: url("/_transaction/copiarHover.svg") !important;
+          content: url("${process.env
+            .NEXT_PUBLIC_BASIC_URL}copiarHover.svg") !important;
         }
         .favorito:hover {
-          content: url("/_transaction/favoritosHover.svg") !important;
+          content: url("${process.env
+            .NEXT_PUBLIC_BASIC_URL}favoritosHover.svg") !important;
         }
 
         .compartir:hover {
-          content: url("/_transaction/compartirHover.svg") !important;
+          content: url("${process.env
+            .NEXT_PUBLIC_BASIC_URL}compartirHover.svg") !important;
         }
 
         td {

@@ -12,7 +12,8 @@ import Switch from "@mui/material/Switch";
 import { MyNumberComponent } from "../numberComponent/myNumberComponent";
 import { Icon, Stack } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
-
+import { publicFetch } from "@/utils/fetch";
+import cpropiaStyle from "./cpropiaStyle";
 import {
   conceptos,
   switchHandler,
@@ -40,7 +41,8 @@ export const FormPropia = ({
   useEffect(() => {
     async function fetchData() {
       try {
-        const users = await axios.get("/_transaction/api/propias");
+        const users = await publicFetch.get(`/propias`);
+        // const users = await axios.get("/_transaction/api/propias");
         cargaCuentasDebitar(setCuentasPropias, users.data, setCuentasUser);
       } catch (err) {
         console.log(err);
@@ -184,6 +186,7 @@ export const FormPropia = ({
                   index={index}
                   inputField={inputField}
                   currency={"Bs"}
+                  id={"montobs"}
                 />
               </div>
             </Grid>
@@ -278,7 +281,9 @@ export const FormPropia = ({
                     <img
                       className="infoIcon"
                       style={{ height: "24px", width: "24px" }}
-                      src={"/_transaction/infoDefault.svg"}
+                      src={
+                        process.env.NEXT_PUBLIC_BASIC_URL + "infoDefault.svg"
+                      }
                     />
                   </Tooltip>
                 </Stack>
@@ -317,11 +322,23 @@ export const FormPropia = ({
                           sx={{ borderBlockColor: "red" }}
                           checkedIcon={
                             <Icon>
-                              {<img src="/_transaction/checkSelect.svg" />}
+                              <img
+                                src={
+                                  process.env.NEXT_PUBLIC_BASIC_URL +
+                                  "checkSelect.svg"
+                                }
+                              />
                             </Icon>
                           }
                           icon={
-                            <Icon>{<img src="/_transaction/check.svg" />}</Icon>
+                            <Icon>
+                              <img
+                                src={
+                                  process.env.NEXT_PUBLIC_BASIC_URL +
+                                  "check.svg"
+                                }
+                              />
+                            </Icon>
                           }
                         />
                       }
@@ -354,7 +371,9 @@ export const FormPropia = ({
                       <img
                         className="infoIcon"
                         style={{ height: "24px", width: "24px" }}
-                        src={"/_transaction/infoDefault.svg"}
+                        src={
+                          process.env.NEXT_PUBLIC_BASIC_URL + "infoDefault.svg"
+                        }
                       />
                     </Tooltip>
                   </Stack>
@@ -369,6 +388,7 @@ export const FormPropia = ({
                         index={index}
                         inputField={inputField}
                         currency={"USD"}
+                        id={"montousd"}
                       />
                     </div>
                   </div>
@@ -379,25 +399,7 @@ export const FormPropia = ({
         </Grid>
       </div>
 
-      <style jsx>{`
-        .divInputs {
-          width: 401px;
-          font-family: "Nunito";
-          font-style: normal;
-          font-weight: 400;
-          font-size: 14px;
-          line-height: 19px;
-        }
-
-        .divBloque {
-          width: 862px;
-          /* Grises/Blanco */
-          background: #ffffff;
-
-          margin: 0 auto;
-          margin-top: 10px;
-        }
-      `}</style>
+      <style jsx>{cpropiaStyle}</style>
     </Fragment>
   );
 };

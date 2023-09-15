@@ -3,6 +3,9 @@ import Box from "@mui/material/Box";
 import LinearProgress from "@mui/material/LinearProgress";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
+
+import InfoMessageStyle from "./InfoMessageStyle";
+
 export const InfoMessage = ({ typeMessage, message }) => {
   const [progress, setProgress] = React.useState(0);
   const [color, setColor] = React.useState({
@@ -17,21 +20,21 @@ export const InfoMessage = ({ typeMessage, message }) => {
         setColor({
           primario: "#ED6D8F",
           secundario: "#E21050",
-          icon: "url('/_transaction/error.svg')",
+          icon: `url('${process.env.NEXT_PUBLIC_BASIC_URL}error.svg')`,
         });
         break;
       case "info":
         setColor({
           primario: "#4A96D2",
           secundario: "#004A72",
-          icon: "url('/_transaction/info.svg')",
+          icon: `url('${process.env.NEXT_PUBLIC_BASIC_URL}info.svg')`,
         });
         break;
       default:
         setColor({
           primario: "#78BA49",
           secundario: "#209041",
-          icon: "url('/_transaction/CheckSucess.svg')",
+          icon: `url('${process.env.NEXT_PUBLIC_BASIC_URL}CheckSucess.svg')`,
         });
         break;
     }
@@ -125,6 +128,7 @@ export const InfoMessage = ({ typeMessage, message }) => {
           value={progress}
         />
       </Box>
+      <style jsx>{InfoMessageStyle}</style>
     </div>
   );
 };
