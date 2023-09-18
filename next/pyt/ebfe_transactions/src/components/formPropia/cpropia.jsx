@@ -239,7 +239,7 @@ export const FormPropia = ({
                     control={
                       <Switch
                         size="medium"
-                        checked={checked}
+                        checked={inputFields[index].programar}
                         onChange={(event) => {
                           switchHandler(
                             event,
@@ -288,7 +288,7 @@ export const FormPropia = ({
                   </Tooltip>
                 </Stack>
               </div>
-              {checked && (
+              {inputFields[index].programar && (
                 <div style={{ marginTop: "15px" }}>
                   <Formdate
                     index={index}
@@ -302,14 +302,14 @@ export const FormPropia = ({
           <Grid item xs={6}></Grid>
 
           <Grid item xs={6}>
-            {checked && (
+            {inputFields[index].programar && (
               <div style={{ marginTop: "15px" }}>
                 <div>
                   <Stack direction="row" spacing={7}>
                     <FormControlLabel
                       control={
                         <Checkbox
-                          checked={checkedUsd}
+                          checked={inputFields[index].monedaUsd}
                           onChange={(event) => {
                             handleChangeUsd(
                               event,
