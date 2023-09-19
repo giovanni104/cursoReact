@@ -3,6 +3,8 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { FormPay } from "../form/FormPay";
 import { FormPropia } from "../formPropia/cpropia";
+import { FormTerceros } from "../formTerceros/FormTerceros";
+
 import { FormAccordion } from "../formAccordion/FormAccordion";
 
 export const DynamicForm = ({
@@ -46,7 +48,7 @@ export const DynamicForm = ({
               {type == "terceros" &&
                 inputFields.map((inputField, index) =>
                   inputFields.length == 1 ? (
-                    <FormPay
+                    <FormTerceros
                       key={index}
                       handleInputChange={handleInputChange}
                       handleRemoveFields={handleRemoveFields}
@@ -60,7 +62,7 @@ export const DynamicForm = ({
                     />
                   ) : (
                     <FormAccordion key={index} index={index}>
-                      <FormPay
+                      <FormTerceros
                         key={index}
                         handleInputChange={handleInputChange}
                         handleRemoveFields={handleRemoveFields}

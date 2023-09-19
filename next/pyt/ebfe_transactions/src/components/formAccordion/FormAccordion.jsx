@@ -9,13 +9,10 @@ import "../../styles/FormAccordion.module.css";
 export const FormAccordion = ({ children, index }) => {
   return (
     <>
-
-<style jsx>{`
-  
-      `}</style>
+      <style jsx>{``}</style>
 
       <Accordion
-        defaultExpanded={true}
+        defaultExpanded={false}
         key={index}
         sx={{
           paddingBottom: "10px",
@@ -40,7 +37,6 @@ export const FormAccordion = ({ children, index }) => {
         </AccordionSummary>
         <AccordionDetails>{children}</AccordionDetails>
       </Accordion>
-  
     </>
   );
 };
