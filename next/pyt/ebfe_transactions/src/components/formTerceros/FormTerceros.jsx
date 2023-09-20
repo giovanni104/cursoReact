@@ -13,7 +13,7 @@ import { Icon, Stack } from "@mui/material";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import TextField from "@mui/material/TextField";
-
+import Checkbox from "@mui/material/Checkbox";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -23,7 +23,12 @@ import { MyNumberComponent } from "../numberComponent/myNumberComponent";
 //import "../../styles/formPay.module.css";
 
 const icon_trash = process.env.NEXT_PUBLIC_BASIC_URL + "trash_azul.svg";
-
+export const conceptos = [
+  { value: "Pagos", label: "Pagos" },
+  { value: "Alquiler condominio", label: "Alquiler condominio" },
+  { value: "Varios", label: "Varios" },
+  { value: "Otros", label: "Otros" },
+];
 export const FormTerceros = ({
   handleInputChange,
   handleRemoveFields,
@@ -38,6 +43,9 @@ export const FormTerceros = ({
   const [checked, setChecked] = useState(inputField.programar);
   const [checkedUsd, setCheckedUsd] = React.useState(false);
   const [instrumento, setInstrumento] = React.useState("");
+  const [openModal, setOpenModal] = React.useState(false);
+  const [registrar, setRegistrar] = React.useState(false);
+  const [tipoRegistro, setTipoRegistro] = React.useState("");
 
   const switchHandler = (
     event,
@@ -49,6 +57,9 @@ export const FormTerceros = ({
     setChecked(event.target.checked);
   };
 
+  const handleClose = () => {
+    setOpenModal(false);
+  };
   const infoIcon = `
   Programa operaciones con una fecha de
   ejecución futura. Además, podrás
@@ -118,6 +129,16 @@ export const FormTerceros = ({
           </IconButton>
         </Tooltip>
       )}
+
+      <Stack direction="row" spacing={2}>
+        <div className="divCurrency">
+          <img
+            className="imgCurrency"
+            src={process.env.NEXT_PUBLIC_BASIC_URL + "moneda/bolivarAzul.svg"}
+          />
+        </div>
+      </Stack>
+
       <div className="divBloque">
         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
           <Grid item xs={6}>
@@ -126,14 +147,20 @@ export const FormTerceros = ({
                 <InputLabel id="cuenta-label">Cuenta a debitar</InputLabel>
                 <Select
                   labelId="cuenta-label"
-                  id="cuentaDebitar"
-                  value={inputField.cuentaDebitar}
                   label="Cuenta a debitar"
-                  name="cuentaDebitar"
+                  defaultValue=""
                 >
                   <MenuItem key={0} value="">
                     <em>Seleccionar</em>
                   </MenuItem>
+
+                  {conceptos.map((concepto, index) => {
+                    return (
+                      <MenuItem key={index} value={concepto.value}>
+                        {concepto.label}
+                      </MenuItem>
+                    );
+                  })}
                 </Select>
               </FormControl>
               <label className="lblInfoSaldo">
@@ -142,34 +169,43 @@ export const FormTerceros = ({
               </label>
             </div>
           </Grid>
-          <Grid item xs={6}>
-            <div className="divInputs">
-              <FormControl fullWidth size="small">
-                <InputLabel id="cuenta-label">Beneficiarios</InputLabel>
-                <Select
-                  labelId="cuenta-label"
-                  id="cuentaDebitar"
-                  value={inputField.cuentaDebitar}
-                  label="Cuenta a debitar"
-                  name="cuentaDebitar"
-                >
-                  <MenuItem key={0} value="">
-                    <em>Seleccionar</em>
-                  </MenuItem>
-                </Select>
-              </FormControl>
-              <label className="lblInfoSaldo">
-                {" "}
-                Saldo disponible: Bs 45.454.545
-              </label>
-            </div>
-          </Grid>
-          <Grid item xs={6}>
-            <div className="divInputs"></div>
-          </Grid>
+
+          {!inputField.checkbox && (
+            <>
+              <Grid item xs={6}>
+                <div className="divInputs">
+                  <FormControl fullWidth size="small">
+                    <InputLabel id="cuenta-label1">Beneficiarios</InputLabel>
+                    <Select
+                      labelId="cuenta-label1"
+                      label="Cuenta a debitar"
+                      onChange={(event) => {
+                        setOpenModal(true);
+                      }}
+                    >
+                      <MenuItem key={0} value="">
+                        <em>Seleccionar</em>
+                      </MenuItem>
+                      <MenuItem value="cuenta">Cuenta</MenuItem>
+                      <MenuItem value="telefono">Telefono</MenuItem>
+                    </Select>
+                  </FormControl>
+                  <label className="lblInfoSaldo">
+                    {" "}
+                    Saldo disponible: Bs 45.454.545
+                  </label>
+                </div>
+              </Grid>
+              <Grid item xs={6}>
+                <div className="divInputs"></div>
+              </Grid>
+            </>
+          )}
+
           <Grid item xs={6}>
             <div className="divCheckbox">
               <input
+                style={{ marginTop: inputField.checkbox ? "20px" : "0px" }}
                 name="checkbox"
                 id="checkbox"
                 type="checkbox"
@@ -203,7 +239,7 @@ export const FormTerceros = ({
                         <em>Seleccionar</em>
                       </MenuItem>
                       <MenuItem value={"cuenta"}>Cuenta</MenuItem>
-                      <MenuItem value={"telefono"}>Teléfono</MenuItem>
+                      <MenuItem value={"telefono"}>Telefono</MenuItem>
                     </Select>
                   </FormControl>
                 </div>
@@ -229,19 +265,18 @@ export const FormTerceros = ({
                         <Grid item xs={6}>
                           <div className="divInputs">
                             <FormControl fullWidth size="small">
-                              <InputLabel id="cuenta-label">
+                              <InputLabel id="cuenta-label2">
                                 Banco destino
                               </InputLabel>
                               <Select
-                                labelId="cuenta-label"
-                                id="cuentaDebitar"
-                                value={inputField.cuentaDebitar}
+                                labelId="cuenta-label2"
                                 label="Cuenta a debitar"
-                                name="cuentaDebitar"
                               >
-                                <MenuItem key={0} value="">
+                                <MenuItem value="">
                                   <em>Seleccionar</em>
                                 </MenuItem>
+                                <MenuItem value={"cuenta"}>Cuenta</MenuItem>
+                                <MenuItem value={"telefono"}>Telefono</MenuItem>
                               </Select>
                             </FormControl>
                           </div>
@@ -249,18 +284,17 @@ export const FormTerceros = ({
                         <Grid item xs={6}>
                           <div style={{ width: "86px", float: "left" }}>
                             <FormControl fullWidth size="small">
-                              <InputLabel id="cuenta-label">Tipo</InputLabel>
+                              <InputLabel id="cuenta-label2">Tipo</InputLabel>
                               <Select
                                 className="selectTextBeneficiario"
-                                labelId="cuenta-label"
-                                id="cuentaDebitar"
-                                value={inputField.cuentaDebitar}
+                                labelId="cuenta-label2"
                                 label="Cuenta a debitar"
-                                name="cuentaDebitar"
                               >
                                 <MenuItem key={0} value="">
                                   <em>Seleccionar</em>
                                 </MenuItem>
+                                <MenuItem value={"cuenta"}>Cuenta</MenuItem>
+                                <MenuItem value={"telefono"}>Telefono</MenuItem>
                               </Select>
                             </FormControl>
                           </div>
@@ -312,7 +346,7 @@ export const FormTerceros = ({
                     );
 
                   default:
-                    return <></>;
+                    return <Grid item xs={6}></Grid>;
                 }
               })()}
             </>
@@ -332,22 +366,143 @@ export const FormTerceros = ({
           <Grid item xs={6}>
             <div className="divInputs">
               <FormControl fullWidth size="small">
-                <InputLabel id="cuenta-label">Concepto</InputLabel>
-                <Select
-                  labelId="cuenta-label"
-                  id="cuentaDebitar"
-                  value={inputField.cuentaDebitar}
-                  label="Cuenta a debitar"
-                  name="cuentaDebitar"
-                >
+                <InputLabel id="cuenta-label3">Concepto</InputLabel>
+                <Select labelId="cuenta-label3" label="Cuenta a debitar">
                   <MenuItem key={0} value="">
                     <em>Seleccionar</em>
                   </MenuItem>
+                  <MenuItem value={"cuenta"}>Cuenta</MenuItem>
+                  <MenuItem value={"telefono"}>Telefono</MenuItem>
                 </Select>
               </FormControl>
             </div>
           </Grid>
+        </Grid>
 
+        {inputField.checkbox && (
+          <>
+            <Grid
+              sx={{ marginTop: "10px" }}
+              container
+              rowSpacing={1}
+              columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+            >
+              <Grid item xs={6}>
+                <div className="divInputs"></div>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={registrar}
+                      onChange={(event) => {
+                        setRegistrar(event.target.checked);
+                      }}
+                      checkedIcon={
+                        <Icon>
+                          <img
+                            style={{ width: "24px", height: "24px" }}
+                            src={
+                              process.env.NEXT_PUBLIC_BASIC_URL +
+                              "checkSelect.svg"
+                            }
+                          />
+                        </Icon>
+                      }
+                      icon={
+                        <Icon>
+                          <img
+                            style={{ width: "24px", height: "24px" }}
+                            src={
+                              process.env.NEXT_PUBLIC_BASIC_URL + "check.svg"
+                            }
+                          />
+                        </Icon>
+                      }
+                    />
+                  }
+                  label="Registrar"
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <div className="divInputs"></div>
+              </Grid>
+
+              {registrar && (
+                <>
+                  <Grid item xs={6}>
+                    <div className="divInputs">
+                      <FormControl fullWidth size="small">
+                        <InputLabel id="tregistro">Tipo de registro</InputLabel>
+                        <Select
+                          labelId="tregistro"
+                          label="Tipo de registro"
+                          value={tipoRegistro}
+                          onChange={(event) => {
+                            setTipoRegistro(event.target.value);
+                          }}
+                        >
+                          <MenuItem key={0} value="">
+                            <em>Seleccionar</em>
+                          </MenuItem>
+                          <MenuItem value="cuenta">Cuenta</MenuItem>
+                          <MenuItem value="telefono">Telefono</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </div>
+                  </Grid>
+                  {(() => {
+                    switch (tipoRegistro) {
+                      case "telefono":
+                        return (
+                          <Grid item xs={6}>
+                            <div className="divInputs">
+                              <TextField
+                                id="outlined-basic"
+                                label="Alias"
+                                variant="outlined"
+                                fullWidth="true"
+                                size="small"
+                              />
+                            </div>
+                          </Grid>
+                        );
+                      case "cuenta":
+                        return (
+                          <Grid item xs={6}>
+                            <div className="divInputs">
+                              <FormControl fullWidth size="small">
+                                <InputLabel id="tregistrobenefi">
+                                  Beneficiarios
+                                </InputLabel>
+                                <Select
+                                  labelId="tregistrobenefi"
+                                  label="Beneficiarios"
+                                >
+                                  <MenuItem key={0} value="">
+                                    <em>Seleccionar</em>
+                                  </MenuItem>
+                                  <MenuItem value="cuenta">Cuenta</MenuItem>
+                                  <MenuItem value="telefono">Telefono</MenuItem>
+                                </Select>
+                              </FormControl>
+                            </div>
+                          </Grid>
+                        );
+
+                      default:
+                        return <></>;
+                    }
+                  })()}
+                </>
+              )}
+            </Grid>
+          </>
+        )}
+        <Grid
+          sx={{ marginTop: "10px" }}
+          container
+          rowSpacing={1}
+          columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+        >
           <Grid item xs={6}>
             <div style={{ marginTop: "15px" }}>
               <div>
@@ -476,7 +631,8 @@ export const FormTerceros = ({
       <Dialog
         style={{ padding: "0px 0px 0px 0px" }}
         maxWidth={"350px"}
-        open={true}
+        open={openModal}
+        onClose={handleClose}
         PaperProps={{ sx: { borderRadius: "8px" } }}
       >
         <DialogTitle style={{ padding: "0px 0px 0px 0px" }}>
@@ -495,7 +651,12 @@ export const FormTerceros = ({
               <div style={{ width: "300px", textAlign: "start" }}>
                 <label className={"lblNombre"}>Registros</label>
               </div>
-              <div style={{ paddingTop: "5px" }}>
+              <div
+                style={{ paddingTop: "5px" }}
+                onClick={(event) => {
+                  setOpenModal(false);
+                }}
+              >
                 <img
                   style={{ height: "24px", width: "24px" }}
                   src={process.env.NEXT_PUBLIC_BASIC_URL + "Cerrar.svg"}
@@ -520,7 +681,6 @@ export const FormTerceros = ({
                 <Select
                   labelId="labelrbene"
                   id="registrobeneficiario"
-                  value={instrumento}
                   label="Registro del beneficiario"
                   name="registrobeneficiario"
                 >
@@ -528,7 +688,7 @@ export const FormTerceros = ({
                     <em>Seleccionar</em>
                   </MenuItem>
                   <MenuItem value={"cuenta"}>Cuenta</MenuItem>
-                  <MenuItem value={"telefono"}>Teléfono</MenuItem>
+                  <MenuItem value={"telefono"}>Telefono</MenuItem>
                 </Select>
               </FormControl>
             </div>
@@ -538,6 +698,17 @@ export const FormTerceros = ({
       </Dialog>
 
       <style jsx>{`
+        .divCurrency {
+          border: 2px solid #0067b1;
+          width: 40px;
+          height: 40px;
+          border-radius: 4px;
+        }
+
+        .imgCurrency {
+          margin-top: 20px;
+        }
+
         .lblNombre {
           font-family: Nunito !important;
           font-size: 20px !important;
