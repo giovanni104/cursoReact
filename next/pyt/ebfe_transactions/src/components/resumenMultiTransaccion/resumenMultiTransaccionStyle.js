@@ -18,7 +18,7 @@ export default css.global`
   }
 
   .resumenTable td {
-    border: 1px solid #d9d9d9;
+    border: 1px solid black;
     border-style: solid none;
     padding: 11px;
     font-size: 14px;

@@ -18,7 +18,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import { DialogTitle } from "@mui/material";
-
+import Button from "@mui/material/Button";
 import { MyNumberComponent } from "../numberComponent/myNumberComponent";
 //import "../../styles/formPay.module.css";
 
@@ -46,6 +46,7 @@ export const FormTerceros = ({
   const [openModal, setOpenModal] = React.useState(false);
   const [registrar, setRegistrar] = React.useState(false);
   const [tipoRegistro, setTipoRegistro] = React.useState("");
+  const [currency, setCurrency] = React.useState("bs");
 
   const switchHandler = (
     event,
@@ -130,16 +131,75 @@ export const FormTerceros = ({
         </Tooltip>
       )}
 
-      <Stack direction="row" spacing={2}>
-        <div className="divCurrency">
-          <img
-            className="imgCurrency"
-            src={process.env.NEXT_PUBLIC_BASIC_URL + "moneda/bolivarAzul.svg"}
-          />
-        </div>
-      </Stack>
-
       <div className="divBloque">
+        <Stack direction="row" spacing={1} sx={{ paddingBottom: "10px" }}>
+          <Button
+            sx={{
+              backgroundImage:
+                currency != "bs"
+                  ? `url('${process.env.NEXT_PUBLIC_BASIC_URL}moneda/defaultBs.svg')`
+                  : `url('${process.env.NEXT_PUBLIC_BASIC_URL}moneda/pressedBs.svg')`,
+              backgroundRepeat: "no-repeat",
+              ":hover": {
+                backgroundImage: `url('${process.env.NEXT_PUBLIC_BASIC_URL}moneda/hoverBs.svg')`,
+              },
+            }}
+            style={{
+              maxWidth: "40px",
+              maxHeight: "40px",
+              minWidth: "40px",
+              minHeight: "40px",
+            }}
+            onClick={(event) => {
+              setCurrency("bs");
+            }}
+          />
+
+          <Button
+            sx={{
+              backgroundImage:
+                currency != "usd"
+                  ? `url('${process.env.NEXT_PUBLIC_BASIC_URL}moneda/defaultUSD.svg')`
+                  : `url('${process.env.NEXT_PUBLIC_BASIC_URL}moneda/pressedUSD.svg')`,
+              backgroundRepeat: "no-repeat",
+              ":hover": {
+                backgroundImage: `url('${process.env.NEXT_PUBLIC_BASIC_URL}moneda/hoverUSD.svg')`,
+              },
+            }}
+            style={{
+              maxWidth: "40px",
+              maxHeight: "40px",
+              minWidth: "40px",
+              minHeight: "40px",
+            }}
+            onClick={(event) => {
+              setCurrency("usd");
+            }}
+          />
+
+          <Button
+            sx={{
+              backgroundImage:
+                currency != "eur"
+                  ? `url('${process.env.NEXT_PUBLIC_BASIC_URL}moneda/defaultEUR.svg')`
+                  : `url('${process.env.NEXT_PUBLIC_BASIC_URL}moneda/pressedEUR.svg')`,
+              backgroundRepeat: "no-repeat",
+              ":hover": {
+                backgroundImage: `url('${process.env.NEXT_PUBLIC_BASIC_URL}moneda/hoverEUR.svg')`,
+              },
+            }}
+            style={{
+              maxWidth: "40px",
+              maxHeight: "40px",
+              minWidth: "40px",
+              minHeight: "40px",
+            }}
+            onClick={(event) => {
+              setCurrency("eur");
+            }}
+          />
+        </Stack>
+
         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
           <Grid item xs={6}>
             <div className="divInputs">
@@ -497,6 +557,24 @@ export const FormTerceros = ({
             </Grid>
           </>
         )}
+
+        {currency != "bs" && (
+          <Grid
+            sx={{ marginTop: "5px" }}
+            container
+            rowSpacing={1}
+            columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+          >
+            <Grid item xs={6}>
+              <Stack direction="column" spacing={0} sx={{ paddingTop: "10px" }}>
+                <label className={"lbltasa"}>Tasa BCV: Bs. 26,00</label>
+                <label className={"lbltasa"}>Monto a recibir: Bs. 0,00</label>
+              </Stack>
+            </Grid>
+
+            <Grid item xs={6}></Grid>
+          </Grid>
+        )}
         <Grid
           sx={{ marginTop: "10px" }}
           container
@@ -698,15 +776,18 @@ export const FormTerceros = ({
       </Dialog>
 
       <style jsx>{`
-        .divCurrency {
-          border: 2px solid #0067b1;
-          width: 40px;
-          height: 40px;
-          border-radius: 4px;
+        .imgCurrencyBS:hover {
+          content: url("${process.env
+            .NEXT_PUBLIC_BASIC_URL}moneda/hoverBs.svg") !important;
+        }
+        .imgCurrencyEUR:hover {
+          content: url("${process.env
+            .NEXT_PUBLIC_BASIC_URL}moneda/hoverEUR.svg") !important;
         }
 
-        .imgCurrency {
-          margin-top: 20px;
+        .imgCurrencyUSD:hover {
+          content: url("${process.env
+            .NEXT_PUBLIC_BASIC_URL}moneda/hoverUSD.svg") !important;
         }
 
         .lblNombre {
@@ -714,6 +795,14 @@ export const FormTerceros = ({
           font-size: 20px !important;
           font-weight: 700 !important;
         }
+
+        .lbltasa {
+          font-family: Nunito;
+          font-size: 12px;
+
+          color: #7b7b7b;
+        }
+
         .inputText {
           box-sizing: border-box;
           /* Auto layout */

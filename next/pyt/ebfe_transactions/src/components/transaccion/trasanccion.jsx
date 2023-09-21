@@ -347,6 +347,7 @@ export const Transaccion = () => {
               {labelsTransaccion.transaccion.btnLimpiar}
             </Button>
           </div>
+          <ResumenMultiTransaccion />
         </Box>
       </div>
 
