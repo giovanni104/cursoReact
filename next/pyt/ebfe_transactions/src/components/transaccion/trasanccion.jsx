@@ -6,11 +6,14 @@ import { ResumenTransaccion } from "../resumenTransaccion/resumenTransaccion";
 import { DialogTransaccion } from "../dialogTrasaccion/dialogTransaccion";
 import { ResumenMultiTransaccion } from "../resumenMultiTransaccion/resumenMultiTransaccion";
 import { labelsTransaccion } from "../../utils/labelsTransaccion";
+import { AuthTKForm } from "../tkForm/AuthTKForm";
 import {
   formData,
   formDataReset,
   formDataPropia,
   formDataPropiaReset,
+  formDataTercerosReset,
+  formDataTerceros,
 } from "../dynamicForm/dynamicForm_";
 
 import {
@@ -32,7 +35,7 @@ export const Transaccion = () => {
   ]);
 
   const [inputFields2, setInputFields2] = useState([
-    JSON.parse(JSON.stringify(formData)),
+    JSON.parse(JSON.stringify(formDataTerceros)),
   ]);
 
   const [inputFields3, setInputFields3] = useState([
@@ -136,7 +139,7 @@ export const Transaccion = () => {
 
         break;
       case "tab_2":
-        setInputFields2([JSON.parse(JSON.stringify(formDataReset))]);
+        setInputFields2([JSON.parse(JSON.stringify(formDataTercerosReset))]);
 
         break;
       case "tab_3":
@@ -348,6 +351,8 @@ export const Transaccion = () => {
             </Button>
           </div>
           <ResumenMultiTransaccion />
+
+          <AuthTKForm />
         </Box>
       </div>
 

@@ -6,7 +6,6 @@ export const MyNumberComponent = ({
   setInputFields,
   inputFields,
   index,
-  inputField,
   currency,
   id,
 }) => {
@@ -27,7 +26,7 @@ export const MyNumberComponent = ({
     <>
       <NumericFormat
         id={id}
-        value={inputField.monto}
+        value={inputFields[index].monto}
         customInput={TextField}
         onValueChange={handleChange}
         thousandSeparator="."

@@ -108,3 +108,23 @@
 .ocultar {
   display: none !important;
 }
+
+.css-1s6cys1-MuiFormLabel-root-MuiInputLabel-root {
+  font-family: Nunito;
+  font-weight: 400;
+  font-size: 1.3rem;
+}
+.css-ywhzvx-MuiInputBase-root-MuiOutlinedInput-root {
+  font-family: Nunito;
+  font-size: 1.3rem;
+}
+.css-1r4ifom-MuiSvgIcon-root-MuiSelect-icon {
+  font-family: Nunito;
+  font-size: 1.3rem;
+}
+.css-18y475t-MuiButtonBase-root-MuiMenuItem-root {
+  font-size: 1.3rem;
+}
+.css-ycfc23-MuiFormLabel-root-MuiInputLabel-root {
+  font-size: 1rem;
+}

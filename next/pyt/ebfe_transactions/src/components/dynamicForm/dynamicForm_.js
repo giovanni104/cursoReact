@@ -73,6 +73,76 @@ export const formDataReset = {
   },
 };
 
+export const formDataTerceros = {
+  index: "",
+  cuentaDebitar: "",
+  cuentaDebitarSaldoDisponible: "",
+  beneficiario: "",
+  beneficiarioCuenta: "",
+  beneficiarioBanco: "",
+  noregistrado: false,
+  instrumento: {
+    tipo: "",
+    telefono: "",
+    bancodestino: "",
+    tipodoc: "",
+    numdoc: "",
+    nombre: "",
+    numcuenta: "",
+  },
+  monto: "",
+  concepto: "",
+  currency: "bs",
+  registrar: "",
+  registro: {
+    tipo: "",
+    alias: "",
+    beneficiario: "",
+  },
+  programar: false,
+  programa: {
+    frecuencia: "",
+    anio: "",
+    mes: "",
+    dia: "",
+  },
+};
+
+export const formDataTercerosReset = {
+  index: "",
+  cuentaDebitar: "",
+  cuentaDebitarSaldoDisponible: "",
+  beneficiario: "",
+  beneficiarioCuenta: "",
+  beneficiarioBanco: "",
+  noregistrado: false,
+  instrumento: {
+    tipo: "",
+    telefono: "",
+    bancodestino: "",
+    tipodoc: "",
+    numdoc: "",
+    nombre: "",
+    numcuenta: "",
+  },
+  monto: "",
+  concepto: "",
+  currency: "bs",
+  registrar: "",
+  registro: {
+    tipo: "",
+    alias: "",
+    beneficiario: "",
+  },
+  programar: false,
+  programa: {
+    frecuencia: "",
+    anio: "",
+    mes: "",
+    dia: "",
+  },
+};
+
 export const setChangeValues = (values, name, index, event) => {
   switch (name) {
     case "cuenta":

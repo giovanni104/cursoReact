@@ -34,28 +34,26 @@ export const FormTerceros = ({
   handleRemoveFields,
   handlePeriodoChange,
   handleAddFields,
-  inputField,
   index,
   addVisible,
   setInputFields,
   inputFields,
 }) => {
-  const [checked, setChecked] = useState(inputField.programar);
-  const [checkedUsd, setCheckedUsd] = React.useState(false);
-  const [instrumento, setInstrumento] = React.useState("");
+  inputFields[index].index = index;
+
   const [openModal, setOpenModal] = React.useState(false);
   const [registrar, setRegistrar] = React.useState(false);
   const [tipoRegistro, setTipoRegistro] = React.useState("");
-  const [currency, setCurrency] = React.useState("bs");
 
-  const switchHandler = (
-    event,
-    setChecked,
-    inputFields,
-    setInputFields,
-    index
-  ) => {
-    setChecked(event.target.checked);
+  const setterDataFields = (atributo, valor, atributo2) => {
+    let valores = [...inputFields];
+    if (atributo2 == null || atributo2 == "" || atributo2 == undefined) {
+      valores[index][atributo] = valor;
+    } else {
+      valores[index][atributo][atributo2] = valor;
+    }
+
+    setInputFields(valores);
   };
 
   const handleClose = () => {
@@ -75,7 +73,7 @@ export const FormTerceros = ({
   `;
 
   return (
-    <Fragment key={`${inputField}~${index}`}>
+    <Fragment key={`${"terceros"}~${index}`}>
       {index > 0 && (
         <Tooltip
           title="Eliminar"
@@ -136,7 +134,7 @@ export const FormTerceros = ({
           <Button
             sx={{
               backgroundImage:
-                currency != "bs"
+                inputFields[index].currency != "bs"
                   ? `url('${process.env.NEXT_PUBLIC_BASIC_URL}moneda/defaultBs.svg')`
                   : `url('${process.env.NEXT_PUBLIC_BASIC_URL}moneda/pressedBs.svg')`,
               backgroundRepeat: "no-repeat",
@@ -151,14 +149,14 @@ export const FormTerceros = ({
               minHeight: "40px",
             }}
             onClick={(event) => {
-              setCurrency("bs");
+              setterDataFields("currency", "bs");
             }}
           />
 
           <Button
             sx={{
               backgroundImage:
-                currency != "usd"
+                inputFields[index].currency != "usd"
                   ? `url('${process.env.NEXT_PUBLIC_BASIC_URL}moneda/defaultUSD.svg')`
                   : `url('${process.env.NEXT_PUBLIC_BASIC_URL}moneda/pressedUSD.svg')`,
               backgroundRepeat: "no-repeat",
@@ -173,14 +171,14 @@ export const FormTerceros = ({
               minHeight: "40px",
             }}
             onClick={(event) => {
-              setCurrency("usd");
+              setterDataFields("currency", "usd");
             }}
           />
 
           <Button
             sx={{
               backgroundImage:
-                currency != "eur"
+                inputFields[index].currency != "eur"
                   ? `url('${process.env.NEXT_PUBLIC_BASIC_URL}moneda/defaultEUR.svg')`
                   : `url('${process.env.NEXT_PUBLIC_BASIC_URL}moneda/pressedEUR.svg')`,
               backgroundRepeat: "no-repeat",
@@ -195,7 +193,7 @@ export const FormTerceros = ({
               minHeight: "40px",
             }}
             onClick={(event) => {
-              setCurrency("eur");
+              setterDataFields("currency", "eur");
             }}
           />
         </Stack>
@@ -230,7 +228,7 @@ export const FormTerceros = ({
             </div>
           </Grid>
 
-          {!inputField.checkbox && (
+          {!inputFields[index].noregistrado && (
             <>
               <Grid item xs={6}>
                 <div className="divInputs">
@@ -263,21 +261,43 @@ export const FormTerceros = ({
           )}
 
           <Grid item xs={6}>
-            <div className="divCheckbox">
-              <input
-                style={{ marginTop: inputField.checkbox ? "20px" : "0px" }}
-                name="checkbox"
-                id="checkbox"
-                type="checkbox"
-                onChange={(event) =>
-                  handleInputChange(index, event, inputFields, setInputFields)
+            <div
+              className="divCheckbox"
+              style={{
+                marginTop: inputFields[index].noregistrado ? "18px" : "0px",
+              }}
+            >
+              <Checkbox
+                style={{ padding: 0 }}
+                checked={inputFields[index].noregistrado}
+                onChange={(event) => {
+                  setterDataFields("noregistrado", event.target.checked);
+                }}
+                checkedIcon={
+                  <Icon>
+                    <img
+                      height={"20px"}
+                      src={
+                        process.env.NEXT_PUBLIC_BASIC_URL + "checkSelect.svg"
+                      }
+                    />
+                  </Icon>
                 }
-              />{" "}
+                icon={
+                  <Icon>
+                    <img
+                      height={"20px"}
+                      src={process.env.NEXT_PUBLIC_BASIC_URL + "check.svg"}
+                    />
+                  </Icon>
+                }
+              />
+
               <label>Beneficiario no registrado</label>
             </div>
           </Grid>
 
-          {inputField.checkbox && (
+          {inputFields[index].noregistrado && (
             <>
               <Grid item xs={6}>
                 <div className="divInputs">
@@ -288,11 +308,15 @@ export const FormTerceros = ({
                     <Select
                       labelId="labeltipoInstrumento"
                       id="tipoInstrumento"
-                      value={instrumento}
+                      value={inputFields[index].instrumento.tipo}
                       label="Tipo de instrumento"
                       name="tipoInstrumento"
                       onChange={(event) => {
-                        setInstrumento(event.target.value);
+                        setterDataFields(
+                          "instrumento",
+                          event.target.value,
+                          "tipo"
+                        );
                       }}
                     >
                       <MenuItem key={0} value="">
@@ -306,7 +330,7 @@ export const FormTerceros = ({
               </Grid>
 
               {(() => {
-                switch (instrumento) {
+                switch (inputFields[index].instrumento.tipo) {
                   case "telefono":
                     return (
                       <>
@@ -417,7 +441,6 @@ export const FormTerceros = ({
                 setInputFields={setInputFields}
                 inputFields={inputFields}
                 index={index}
-                inputField={inputField}
                 currency={"Bs"}
                 id={"montobs"}
               />
@@ -439,7 +462,7 @@ export const FormTerceros = ({
           </Grid>
         </Grid>
 
-        {inputField.checkbox && (
+        {inputFields[index].noregistrado && (
           <>
             <Grid
               sx={{ marginTop: "10px" }}
@@ -558,7 +581,7 @@ export const FormTerceros = ({
           </>
         )}
 
-        {currency != "bs" && (
+        {inputFields[index].currency != "bs" && (
           <Grid
             sx={{ marginTop: "5px" }}
             container
@@ -591,13 +614,7 @@ export const FormTerceros = ({
                         size="medium"
                         checked={inputFields[index].programar}
                         onChange={(event) => {
-                          switchHandler(
-                            event,
-                            setChecked,
-                            inputFields,
-                            setInputFields,
-                            index
-                          );
+                          setterDataFields("programar", event.target.checked);
                         }}
                         inputProps={{ "aria-label": "controlled" }}
                       />
