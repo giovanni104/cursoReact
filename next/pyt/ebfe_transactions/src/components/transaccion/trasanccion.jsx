@@ -7,6 +7,9 @@ import { DialogTransaccion } from "../dialogTrasaccion/dialogTransaccion";
 import { ResumenMultiTransaccion } from "../resumenMultiTransaccion/resumenMultiTransaccion";
 import { labelsTransaccion } from "../../utils/labelsTransaccion";
 import { AuthTKForm } from "../tkForm/AuthTKForm";
+import { titleData, rowsData } from "../../utils/data";
+import { Datatable } from "../dataTable";
+
 import {
   formData,
   formDataReset,
@@ -76,6 +79,10 @@ export const Transaccion = () => {
       });
     });
   });
+
+  const prueba = () => {
+    alert("ejecuto");
+  };
 
   const siguiente = () => {
     var elementos = document.getElementsByClassName("active");
@@ -390,6 +397,12 @@ export const Transaccion = () => {
           {/*<ResumenMultiTransaccion />*/}
 
           <AuthTKForm />
+
+          {/*<Datatable
+            rowsData={rowsData}
+            titleData={titleData}
+            action={prueba}
+            />*/}
         </Box>
       </div>
 

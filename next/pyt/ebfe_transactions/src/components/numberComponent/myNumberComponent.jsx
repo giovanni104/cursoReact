@@ -1,6 +1,7 @@
 import { InputAdornment, TextField } from "@mui/material";
 import { useState } from "react";
 import { NumericFormat } from "react-number-format";
+import { patterns } from "../../utils/genericas";
 
 export const MyNumberComponent = ({
   setInputFields,
@@ -9,8 +10,17 @@ export const MyNumberComponent = ({
   currency,
   id,
 }) => {
+  const [errorMonto, setErrorMonto] = useState("");
+
   const handleChange = (ev) => {
-    console.log(ev);
+    const newValue = ev.floatValue;
+
+    if (newValue == "0") {
+      setErrorMonto("El monto no debe ser igual a cero");
+    } else {
+      setErrorMonto("");
+    }
+
     let valores = [...inputFields];
     valores[index].monto = ev.floatValue == undefined ? "" : ev.floatValue;
     valores[index].montoFormat = ev.formattedValue;
@@ -33,6 +43,8 @@ export const MyNumberComponent = ({
         decimalSeparator=","
         prefix={currency + ". "}
         {...materialUiTextFieldProps}
+        error={!!errorMonto}
+        helperText={errorMonto}
       />
       {/*binded value: {totalAmount}*/}
     </>

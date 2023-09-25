@@ -34,12 +34,12 @@ export const getThemeBDV = (mode = "light") => {
         dark: "#548233",
       },
       text: {
-        primary: mode == "light" ? "#363636" : "#ffffff",
+        // primary: mode == "light" ? "#363636" : "#ffffff",
         secondary: mode == "light" ? "#7b7b7b" : "#d9d9d9",
       },
       background: {
         default: mode == "light" ? "#ffffff" : "#494949",
-        paper: mode == "light" ? "#efefef" : "#363636",
+        // paper: mode == "light" ? "#efefef" : "#363636",
       },
     };
   };

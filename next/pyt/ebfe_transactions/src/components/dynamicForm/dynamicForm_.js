@@ -92,7 +92,7 @@ export const formDataTerceros = {
   },
   monto: "",
   concepto: "",
-  currency: "bs",
+  currency: "Bs",
   registrar: "",
   registro: {
     tipo: "",

@@ -20,6 +20,7 @@ import DialogContent from "@mui/material/DialogContent";
 import { DialogTitle } from "@mui/material";
 import Button from "@mui/material/Button";
 import { MyNumberComponent } from "../numberComponent/myNumberComponent";
+import { patterns } from "../../utils/genericas";
 //import "../../styles/formPay.module.css";
 
 const icon_trash = process.env.NEXT_PUBLIC_BASIC_URL + "trash_azul.svg";
@@ -42,6 +43,11 @@ export const FormTerceros = ({
 
   const [openModal, setOpenModal] = React.useState(false);
   const [registrar, setRegistrar] = React.useState(false);
+  const [errorNumcuenta, setErrorNumcuenta] = useState("");
+  const [errorNombre, setErrorNombre] = useState("");
+  const [errorTelefono, setErrorTelefono] = useState("");
+  const [errorNumdoc, setErrorNumdoc] = useState("");
+  const [errorAlias, setErrorAlias] = useState("");
 
   const setterDataFields = (atributo, valor, atributo2) => {
     let valores = [...inputFields];
@@ -50,6 +56,29 @@ export const FormTerceros = ({
     } else {
       valores[index][atributo][atributo2] = valor;
     }
+
+    setInputFields(valores);
+  };
+
+  const clearDataNoRegistrado = () => {
+    let valores = [...inputFields];
+    let atributos = [
+      "tipo",
+      "telefono",
+      "bancodestino",
+      "tipodoc",
+      "numdoc",
+      "nombre",
+      "numcuenta",
+    ];
+
+    atributos.forEach(function (atributo) {
+      valores[index]["instrumento"][atributo] = "";
+    });
+    setErrorNumcuenta("");
+    setErrorNombre("");
+    setErrorNumdoc("");
+    setErrorTelefono("");
 
     setInputFields(valores);
   };
@@ -164,7 +193,7 @@ export const FormTerceros = ({
           <Button
             sx={{
               backgroundImage:
-                inputFields[index].currency != "bs"
+                inputFields[index].currency != "Bs"
                   ? `url('${process.env.NEXT_PUBLIC_BASIC_URL}moneda/defaultBs.svg')`
                   : `url('${process.env.NEXT_PUBLIC_BASIC_URL}moneda/pressedBs.svg')`,
               backgroundRepeat: "no-repeat",
@@ -179,14 +208,14 @@ export const FormTerceros = ({
               minHeight: "40px",
             }}
             onClick={(event) => {
-              setterDataFields("currency", "bs");
+              setterDataFields("currency", "Bs");
             }}
           />
 
           <Button
             sx={{
               backgroundImage:
-                inputFields[index].currency != "usd"
+                inputFields[index].currency != "USD"
                   ? `url('${process.env.NEXT_PUBLIC_BASIC_URL}moneda/defaultUSD.svg')`
                   : `url('${process.env.NEXT_PUBLIC_BASIC_URL}moneda/pressedUSD.svg')`,
               backgroundRepeat: "no-repeat",
@@ -201,14 +230,14 @@ export const FormTerceros = ({
               minHeight: "40px",
             }}
             onClick={(event) => {
-              setterDataFields("currency", "usd");
+              setterDataFields("currency", "USD");
             }}
           />
 
           <Button
             sx={{
               backgroundImage:
-                inputFields[index].currency != "eur"
+                inputFields[index].currency != "EUR"
                   ? `url('${process.env.NEXT_PUBLIC_BASIC_URL}moneda/defaultEUR.svg')`
                   : `url('${process.env.NEXT_PUBLIC_BASIC_URL}moneda/pressedEUR.svg')`,
               backgroundRepeat: "no-repeat",
@@ -223,7 +252,7 @@ export const FormTerceros = ({
               minHeight: "40px",
             }}
             onClick={(event) => {
-              setterDataFields("currency", "eur");
+              setterDataFields("currency", "EUR");
             }}
           />
         </Stack>
@@ -312,6 +341,7 @@ export const FormTerceros = ({
                 checked={inputFields[index].noregistrado}
                 onChange={(event) => {
                   setterDataFields("noregistrado", event.target.checked);
+                  clearDataNoRegistrado();
                 }}
                 checkedIcon={
                   <Icon>
@@ -383,7 +413,23 @@ export const FormTerceros = ({
                               fullWidth="true"
                               size="small"
                               value={inputFields[index].instrumento.telefono}
+                              helperText={errorTelefono} // error message
+                              error={!!errorTelefono} // set to true to change the border/helperText color to red
                               onChange={(event) => {
+                                const newValue = event.target.value;
+
+                                if (
+                                  newValue == "" ||
+                                  (newValue.match(patterns.phone) &&
+                                    newValue.length == 11)
+                                ) {
+                                  setErrorTelefono("");
+                                } else {
+                                  setErrorTelefono(
+                                    "Debes introduccir 11 digitos"
+                                  );
+                                }
+
                                 setterDataFields(
                                   "instrumento",
                                   event.target.value,
@@ -469,7 +515,22 @@ export const FormTerceros = ({
                               size="small"
                               name="numdoc"
                               value={inputFields[index].instrumento.numdoc}
+                              error={!!errorNumdoc} // set to true to change the border/helperText color to red
+                              helperText={errorNumdoc} // error message
                               onChange={(event) => {
+                                const newValue = event.target.value;
+
+                                if (
+                                  newValue == "" ||
+                                  newValue.match(patterns.numDoc)
+                                ) {
+                                  setErrorNumdoc("");
+                                } else {
+                                  setErrorNumdoc(
+                                    "Debes introduccir solo digitos"
+                                  );
+                                }
+
                                 setterDataFields(
                                   "instrumento",
                                   event.target.value,
@@ -490,7 +551,22 @@ export const FormTerceros = ({
                               size="small"
                               name="nombre"
                               value={inputFields[index].instrumento.nombre}
+                              helperText={errorNombre} // error message
+                              error={!!errorNombre} // set to true to change the border/helperText color to red
                               onChange={(event) => {
+                                const newValue = event.target.value;
+
+                                if (
+                                  newValue == "" ||
+                                  newValue.match(patterns.name)
+                                ) {
+                                  setErrorNombre("");
+                                } else {
+                                  setErrorNombre(
+                                    "No colocar caracteres especiales"
+                                  );
+                                }
+
                                 setterDataFields(
                                   "instrumento",
                                   event.target.value,
@@ -508,12 +584,28 @@ export const FormTerceros = ({
                         <div className="divInputs">
                           <TextField
                             id="numcuenta"
-                            label="Numero de cuenta"
+                            label="Numero de cuenta(*)"
                             variant="outlined"
-                            fullWidth="true"
+                            fullWidth={true}
                             size="small"
                             value={inputFields[index].instrumento.numcuenta}
+                            helperText={errorNumcuenta} // error message
+                            error={!!errorNumcuenta} // set to true to change the border/helperText color to red
                             onChange={(event) => {
+                              const newValue = event.target.value;
+
+                              if (
+                                newValue == "" ||
+                                (newValue.match(patterns.phone) &&
+                                  newValue.length == 11)
+                              ) {
+                                setErrorNumcuenta("");
+                              } else {
+                                setErrorNumcuenta(
+                                  "Debes introduccir 11 digitos"
+                                );
+                              }
+
                               setterDataFields(
                                 "instrumento",
                                 event.target.value,
@@ -537,7 +629,7 @@ export const FormTerceros = ({
                 setInputFields={setInputFields}
                 inputFields={inputFields}
                 index={index}
-                currency={"Bs"}
+                currency={inputFields[index].currency}
                 id={"montobs"}
               />
             </div>
@@ -545,7 +637,7 @@ export const FormTerceros = ({
           <Grid item xs={6}>
             <div className="divInputs">
               <FormControl fullWidth size="small">
-                <InputLabel id="cuenta-label3">Concepto</InputLabel>
+                <InputLabel id="cuenta-label3">Concepto(*)</InputLabel>
                 <Select
                   labelId="cuenta-label3"
                   label="Concepto"
@@ -658,7 +750,22 @@ export const FormTerceros = ({
                                 fullWidth="true"
                                 size="small"
                                 value={inputFields[index].instrumento.alias}
+                                helperText={errorAlias} // error message
+                                error={!!errorAlias} // set to true to change the border/helperText color to red
                                 onChange={(event) => {
+                                  const newValue = event.target.value;
+
+                                  if (
+                                    newValue == "" ||
+                                    newValue.match(patterns.usuarioUnico)
+                                  ) {
+                                    setErrorAlias("");
+                                  } else {
+                                    setErrorAlias(
+                                      "No colocar caracteres especiales"
+                                    );
+                                  }
+
                                   setterDataFields(
                                     "registro",
                                     event.target.value,
@@ -714,7 +821,7 @@ export const FormTerceros = ({
           </>
         )}
 
-        {inputFields[index].currency != "bs" && (
+        {inputFields[index].currency != "Bs" && (
           <Grid
             sx={{ marginTop: "5px" }}
             container
@@ -849,7 +956,9 @@ export const FormTerceros = ({
                       right: 50,
                       bottom: 50,
                     }}
-                    onClick={() => handleAddFields(inputFields, setInputFields)}
+                    onClick={() =>
+                      handleAddFields(inputFields, setInputFields, "terceros")
+                    }
                   >
                     <AddIcon></AddIcon>
                   </IconButton>

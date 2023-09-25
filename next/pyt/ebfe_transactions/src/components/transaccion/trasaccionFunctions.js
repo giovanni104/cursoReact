@@ -1,5 +1,6 @@
 import {
   formData,
+  formDataTerceros,
   setChangeValues,
   setChangeValuesLista,
 } from "../dynamicForm/dynamicForm_";
@@ -12,10 +13,18 @@ export const removeTabActive = async () => {
   });
 };
 
-export const handleAddFields = (inputFields, setInputFields) => {
+export const handleAddFields = (inputFields, setInputFields, form) => {
   const values = [...inputFields];
   if (values.length < 5) {
-    values.push(JSON.parse(JSON.stringify(formData)));
+    switch (form) {
+      case "terceros":
+        values.push(JSON.parse(JSON.stringify(formDataTerceros)));
+        break;
+
+      default:
+        values.push(JSON.parse(JSON.stringify(formData)));
+        break;
+    }
 
     setInputFields(values);
   }
