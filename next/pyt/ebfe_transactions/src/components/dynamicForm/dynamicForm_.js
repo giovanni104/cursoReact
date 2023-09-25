@@ -106,6 +106,8 @@ export const formDataTerceros = {
     mes: "",
     dia: "",
   },
+  tasabcv: "123",
+  montorecibir: "456",
 };
 
 export const formDataTercerosReset = {
@@ -141,6 +143,8 @@ export const formDataTercerosReset = {
     mes: "",
     dia: "",
   },
+  tasabcv: "123",
+  montorecibir: "456",
 };
 
 export const setChangeValues = (values, name, index, event) => {

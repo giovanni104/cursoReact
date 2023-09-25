@@ -29,6 +29,8 @@ import transaccionStyle from "./transaccionStyle";
 
 export const Transaccion = () => {
   const [btnTranferir, setBtnTranferir] = useState(true);
+  const [txtSubtitulo, setTxtSubtitulo] = useState("");
+  const [lblSubtituloresult, setLblSubtituloresult] = useState("");
 
   const [inputFieldsPropia, setInputFieldsPropia] = useState([
     JSON.parse(JSON.stringify(formDataPropia)),
@@ -81,6 +83,7 @@ export const Transaccion = () => {
 
     switch (elementos[0].id) {
       case "tab_1":
+        handleSubtitulo("propias");
         setTituloOperacion(
           " - " + labelsTransaccion.transaccion.tituloOperacion1
         );
@@ -88,6 +91,7 @@ export const Transaccion = () => {
 
         break;
       case "tab_2":
+        handleSubtitulo("terceros");
         setTituloOperacion(
           " - " + labelsTransaccion.transaccion.tituloOperacion2
         );
@@ -126,6 +130,25 @@ export const Transaccion = () => {
     }
     const target = document.querySelector("#idsubtitulo");
     target.classList.remove("ocultarT");
+  };
+
+  const handleSubtitulo = (tipo) => {
+    setLblSubtituloresult("");
+    switch (tipo) {
+      case "propias":
+        setTxtSubtitulo(labelsTransaccion.transaccion.subtituloPropias);
+        break;
+      case "terceros":
+        setTxtSubtitulo(labelsTransaccion.transaccion.subtituloTerceros);
+        break;
+      case "terceros2":
+        setLblSubtituloresult("terceros2");
+        setTxtSubtitulo(labelsTransaccion.transaccion.subtituloTerceros2);
+        break;
+      default:
+        setTxtSubtitulo("");
+        break;
+    }
   };
 
   const resetForm = () => {
@@ -181,8 +204,14 @@ export const Transaccion = () => {
       <div className="contenedor">
         <div id="idsubtitulo" style={{ paddingTop: "5px" }}>
           <div style={{ paddingBottom: "5px" }}>
-            <span className="subtitulo">
-              {labelsTransaccion.transaccion.subtitulo}
+            <span
+              className={
+                lblSubtituloresult != "terceros2"
+                  ? "subtitulo"
+                  : "subtituloTerceros"
+              }
+            >
+              {txtSubtitulo}
             </span>
           </div>
         </div>
@@ -244,6 +273,7 @@ export const Transaccion = () => {
                   addVisible={true}
                   setInputFields={setInputFields2}
                   type={"terceros"}
+                  setBtnTranferir={setBtnTranferir}
                 ></DynamicForm>
               </div>
               <div className="tabs__tab" id="tab_3" data-tab-info>
@@ -274,7 +304,14 @@ export const Transaccion = () => {
           </div>
           {/* ventana de pagos multiples*/}
           <div id="datospagogrilla" className="ocultarT">
-            {inputFieldsData.length > 1 && <ResumenMultiTransaccion />}
+            {inputFieldsData.length > 1 && (
+              <ResumenMultiTransaccion
+                inputFieldsData={inputFieldsData}
+                setOpenModal={setOpenModal}
+                resetForm={resetForm}
+                handleSubtitulo={handleSubtitulo}
+              />
+            )}
           </div>
 
           {/* pagos con un solo registro*/}
@@ -350,7 +387,7 @@ export const Transaccion = () => {
               {labelsTransaccion.transaccion.btnLimpiar}
             </Button>
           </div>
-          <ResumenMultiTransaccion />
+          {/*<ResumenMultiTransaccion />*/}
 
           <AuthTKForm />
         </Box>

@@ -30,20 +30,18 @@ export const conceptos = [
   { value: "Otros", label: "Otros" },
 ];
 export const FormTerceros = ({
-  handleInputChange,
   handleRemoveFields,
-  handlePeriodoChange,
   handleAddFields,
   index,
   addVisible,
   setInputFields,
   inputFields,
+  setBtnTranferir,
 }) => {
   inputFields[index].index = index;
 
   const [openModal, setOpenModal] = React.useState(false);
   const [registrar, setRegistrar] = React.useState(false);
-  const [tipoRegistro, setTipoRegistro] = React.useState("");
 
   const setterDataFields = (atributo, valor, atributo2) => {
     let valores = [...inputFields];
@@ -71,6 +69,38 @@ export const FormTerceros = ({
   Bolívares según la tasa BCV de
   la fecha valor.
   `;
+
+  useEffect(() => {
+    setBtnTranferir(false);
+    /*
+    let valores = [...inputFields];
+
+    if (
+      valores[index].cuentaDebitar != "" &&
+      valores[index].cuentaAcreditar != "" &&
+      valores[index].monto != "" &&
+      valores[index].concepto != ""
+    ) {
+      if (valores[index].programar == true) {
+        if (
+          valores[index].programa.frecuencia != "" &&
+          valores[index].programa.anio != "" &&
+          valores[index].programa.mes != "" &&
+          valores[index].programa.dia != ""
+        ) {
+          if (valores[index].programa.frecuencia == "Una vez") {
+            setBtnTranferir(false);
+          } else {
+            if (valores[index].programa.repetir != "") {
+              setBtnTranferir(false);
+            }
+          }
+        }
+      } else {
+        setBtnTranferir(false);
+      }
+    }*/
+  }, [inputFields]);
 
   return (
     <Fragment key={`${"terceros"}~${index}`}>
@@ -198,7 +228,7 @@ export const FormTerceros = ({
           />
         </Stack>
 
-        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+        <Grid container rowSpacing={3} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
           <Grid item xs={6}>
             <div className="divInputs">
               <FormControl fullWidth size="small">
@@ -207,6 +237,12 @@ export const FormTerceros = ({
                   labelId="cuenta-label"
                   label="Cuenta a debitar"
                   defaultValue=""
+                  value={inputFields[index].cuentaDebitar}
+                  name="cuentaDebitar"
+                  id="cuentaDebitar"
+                  onChange={(event) => {
+                    setterDataFields("cuentaDebitar", event.target.value);
+                  }}
                 >
                   <MenuItem key={0} value="">
                     <em>Seleccionar</em>
@@ -236,8 +272,12 @@ export const FormTerceros = ({
                     <InputLabel id="cuenta-label1">Beneficiarios</InputLabel>
                     <Select
                       labelId="cuenta-label1"
-                      label="Cuenta a debitar"
+                      label="Beneficiarios"
+                      value={inputFields[index].beneficiario}
+                      name="beneficiario"
+                      id="beneficiario"
                       onChange={(event) => {
+                        setterDataFields("beneficiario", event.target.value);
                         setOpenModal(true);
                       }}
                     >
@@ -342,6 +382,14 @@ export const FormTerceros = ({
                               variant="outlined"
                               fullWidth="true"
                               size="small"
+                              value={inputFields[index].instrumento.telefono}
+                              onChange={(event) => {
+                                setterDataFields(
+                                  "instrumento",
+                                  event.target.value,
+                                  "telefono"
+                                );
+                              }}
                             />
                           </div>
                         </Grid>
@@ -349,12 +397,24 @@ export const FormTerceros = ({
                         <Grid item xs={6}>
                           <div className="divInputs">
                             <FormControl fullWidth size="small">
-                              <InputLabel id="cuenta-label2">
+                              <InputLabel id="lbancodestino">
                                 Banco destino
                               </InputLabel>
                               <Select
-                                labelId="cuenta-label2"
-                                label="Cuenta a debitar"
+                                labelId="lbancodestino"
+                                label="Banco destino"
+                                name="bancodestino"
+                                id="bancodestino"
+                                value={
+                                  inputFields[index].instrumento.bancodestino
+                                }
+                                onChange={(event) => {
+                                  setterDataFields(
+                                    "instrumento",
+                                    event.target.value,
+                                    "bancodestino"
+                                  );
+                                }}
                               >
                                 <MenuItem value="">
                                   <em>Seleccionar</em>
@@ -368,11 +428,21 @@ export const FormTerceros = ({
                         <Grid item xs={6}>
                           <div style={{ width: "86px", float: "left" }}>
                             <FormControl fullWidth size="small">
-                              <InputLabel id="cuenta-label2">Tipo</InputLabel>
+                              <InputLabel id="tipodoc-label">Tipo</InputLabel>
                               <Select
                                 className="selectTextBeneficiario"
-                                labelId="cuenta-label2"
-                                label="Cuenta a debitar"
+                                labelId="tipodoc-label"
+                                label="Tipo"
+                                name="tipodoc"
+                                id="tipodoc"
+                                value={inputFields[index].instrumento.tipodoc}
+                                onChange={(event) => {
+                                  setterDataFields(
+                                    "instrumento",
+                                    event.target.value,
+                                    "tipodoc"
+                                  );
+                                }}
                               >
                                 <MenuItem key={0} value="">
                                   <em>Seleccionar</em>
@@ -392,11 +462,20 @@ export const FormTerceros = ({
                           >
                             <TextField
                               className="inputTextBeneficiario"
-                              id="outlined-basic"
+                              id="numdoc"
                               label="Documento"
                               variant="outlined"
                               fullWidth="true"
                               size="small"
+                              name="numdoc"
+                              value={inputFields[index].instrumento.numdoc}
+                              onChange={(event) => {
+                                setterDataFields(
+                                  "instrumento",
+                                  event.target.value,
+                                  "numdoc"
+                                );
+                              }}
                             />
                           </div>
                         </Grid>
@@ -404,11 +483,20 @@ export const FormTerceros = ({
                         <Grid item xs={6}>
                           <div className="divInputs">
                             <TextField
-                              id="outlined-basic"
+                              id="nombre"
                               label="Nombre"
                               variant="outlined"
                               fullWidth="true"
                               size="small"
+                              name="nombre"
+                              value={inputFields[index].instrumento.nombre}
+                              onChange={(event) => {
+                                setterDataFields(
+                                  "instrumento",
+                                  event.target.value,
+                                  "nombre"
+                                );
+                              }}
                             />
                           </div>
                         </Grid>
@@ -419,11 +507,19 @@ export const FormTerceros = ({
                       <Grid item xs={6}>
                         <div className="divInputs">
                           <TextField
-                            id="outlined-basic"
+                            id="numcuenta"
                             label="Numero de cuenta"
                             variant="outlined"
                             fullWidth="true"
                             size="small"
+                            value={inputFields[index].instrumento.numcuenta}
+                            onChange={(event) => {
+                              setterDataFields(
+                                "instrumento",
+                                event.target.value,
+                                "numcuenta"
+                              );
+                            }}
                           />
                         </div>
                       </Grid>
@@ -450,7 +546,16 @@ export const FormTerceros = ({
             <div className="divInputs">
               <FormControl fullWidth size="small">
                 <InputLabel id="cuenta-label3">Concepto</InputLabel>
-                <Select labelId="cuenta-label3" label="Cuenta a debitar">
+                <Select
+                  labelId="cuenta-label3"
+                  label="Concepto"
+                  id="concepto"
+                  name="concepto"
+                  value={inputFields[index].concepto}
+                  onChange={(event) => {
+                    setterDataFields("concepto", event.target.value);
+                  }}
+                >
                   <MenuItem key={0} value="">
                     <em>Seleccionar</em>
                   </MenuItem>
@@ -471,39 +576,40 @@ export const FormTerceros = ({
               columnSpacing={{ xs: 1, sm: 2, md: 3 }}
             >
               <Grid item xs={6}>
-                <div className="divInputs"></div>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={registrar}
-                      onChange={(event) => {
-                        setRegistrar(event.target.checked);
-                      }}
-                      checkedIcon={
-                        <Icon>
-                          <img
-                            style={{ width: "24px", height: "24px" }}
-                            src={
-                              process.env.NEXT_PUBLIC_BASIC_URL +
-                              "checkSelect.svg"
-                            }
-                          />
-                        </Icon>
-                      }
-                      icon={
-                        <Icon>
-                          <img
-                            style={{ width: "24px", height: "24px" }}
-                            src={
-                              process.env.NEXT_PUBLIC_BASIC_URL + "check.svg"
-                            }
-                          />
-                        </Icon>
-                      }
-                    />
-                  }
-                  label="Registrar"
-                />
+                <div className="divInputs">
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={registrar}
+                        onChange={(event) => {
+                          setRegistrar(event.target.checked);
+                        }}
+                        checkedIcon={
+                          <Icon>
+                            <img
+                              style={{ width: "24px", height: "20px" }}
+                              src={
+                                process.env.NEXT_PUBLIC_BASIC_URL +
+                                "checkSelect.svg"
+                              }
+                            />
+                          </Icon>
+                        }
+                        icon={
+                          <Icon>
+                            <img
+                              style={{ width: "24px", height: "20px" }}
+                              src={
+                                process.env.NEXT_PUBLIC_BASIC_URL + "check.svg"
+                              }
+                            />
+                          </Icon>
+                        }
+                      />
+                    }
+                    label="Registrar"
+                  />
+                </div>
               </Grid>
               <Grid item xs={6}>
                 <div className="divInputs"></div>
@@ -518,9 +624,15 @@ export const FormTerceros = ({
                         <Select
                           labelId="tregistro"
                           label="Tipo de registro"
-                          value={tipoRegistro}
+                          id="registrotipo"
+                          name="registrotipo"
+                          value={inputFields[index].registro.tipo}
                           onChange={(event) => {
-                            setTipoRegistro(event.target.value);
+                            setterDataFields(
+                              "registro",
+                              event.target.value,
+                              "tipo"
+                            );
                           }}
                         >
                           <MenuItem key={0} value="">
@@ -533,17 +645,26 @@ export const FormTerceros = ({
                     </div>
                   </Grid>
                   {(() => {
-                    switch (tipoRegistro) {
+                    switch (inputFields[index].registro.tipo) {
                       case "telefono":
                         return (
                           <Grid item xs={6}>
                             <div className="divInputs">
                               <TextField
-                                id="outlined-basic"
+                                id="alias"
+                                name="alias"
                                 label="Alias"
                                 variant="outlined"
                                 fullWidth="true"
                                 size="small"
+                                value={inputFields[index].instrumento.alias}
+                                onChange={(event) => {
+                                  setterDataFields(
+                                    "registro",
+                                    event.target.value,
+                                    "alias"
+                                  );
+                                }}
                               />
                             </div>
                           </Grid>
@@ -559,6 +680,18 @@ export const FormTerceros = ({
                                 <Select
                                   labelId="tregistrobenefi"
                                   label="Beneficiarios"
+                                  id="tregistrobene"
+                                  name="tregistrobene"
+                                  value={
+                                    inputFields[index].registro.beneficiario
+                                  }
+                                  onChange={(event) => {
+                                    setterDataFields(
+                                      "registro",
+                                      event.target.value,
+                                      "beneficiario"
+                                    );
+                                  }}
                                 >
                                   <MenuItem key={0} value="">
                                     <em>Seleccionar</em>
@@ -590,8 +723,12 @@ export const FormTerceros = ({
           >
             <Grid item xs={6}>
               <Stack direction="column" spacing={0} sx={{ paddingTop: "10px" }}>
-                <label className={"lbltasa"}>Tasa BCV: Bs. 26,00</label>
-                <label className={"lbltasa"}>Monto a recibir: Bs. 0,00</label>
+                <label className={"lbltasa"}>
+                  Tasa BCV: Bs. {inputFields[index].tasabcv}
+                </label>
+                <label className={"lbltasa"}>
+                  Monto a recibir: Bs. {inputFields[index].montorecibir}
+                </label>
               </Stack>
             </Grid>
 
@@ -775,9 +912,15 @@ export const FormTerceros = ({
                 </InputLabel>
                 <Select
                   labelId="labelrbene"
-                  id="registrobeneficiario"
+                  id="beneficiarioCuenta"
                   label="Registro del beneficiario"
-                  name="registrobeneficiario"
+                  name="beneficiarioCuenta"
+                  value={inputFields[index].beneficiarioCuenta}
+                  onChange={(event) => {
+                    setterDataFields("beneficiarioCuenta", event.target.value);
+                    setterDataFields("beneficiarioBanco", event.target.value);
+                    setOpenModal(false);
+                  }}
                 >
                   <MenuItem key={0} value="">
                     <em>Seleccionar</em>
@@ -849,7 +992,7 @@ export const FormTerceros = ({
         }
 
         .divInputs {
-          text-align: right;
+          text-align: left;
           width: 401px;
           font-family: "Nunito";
           font-style: normal;

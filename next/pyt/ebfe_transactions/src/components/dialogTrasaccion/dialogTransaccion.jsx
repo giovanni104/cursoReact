@@ -9,6 +9,8 @@ import { InfoMessage } from "../InfoMessage/InfoMessage";
 import { formatDate } from "../../utils/genericas";
 import html2canvas from "html2canvas";
 import Button from "@mui/material/Button";
+import DeleteIcon from "@mui/icons-material/Delete";
+import IconButton from "@mui/material/IconButton";
 export const DialogTransaccion = ({
   openModal,
   handleClose,
@@ -112,6 +114,7 @@ export const DialogTransaccion = ({
             />
           </Stack>
         </div>
+
         <table
           id="reciboTransaccion"
           style={{ margin: "0 auto", width: "500px" }}

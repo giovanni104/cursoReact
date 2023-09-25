@@ -17,6 +17,7 @@ export const DynamicForm = ({
   setInputFields,
   type,
   setBtnTranferir,
+  handleSubtitulo,
 }) => {
   return (
     <div style={{ marginTop: "40px" }}>
@@ -50,27 +51,25 @@ export const DynamicForm = ({
                   inputFields.length == 1 ? (
                     <FormTerceros
                       key={index}
-                      handleInputChange={handleInputChange}
                       handleRemoveFields={handleRemoveFields}
-                      handlePeriodoChange={handlePeriodoChange}
                       handleAddFields={handleAddFields}
                       index={index}
                       addVisible={addVisible}
                       setInputFields={setInputFields}
                       inputFields={inputFields}
+                      setBtnTranferir={setBtnTranferir}
                     />
                   ) : (
                     <FormAccordion key={index} index={index}>
                       <FormTerceros
                         key={index}
-                        handleInputChange={handleInputChange}
                         handleRemoveFields={handleRemoveFields}
-                        handlePeriodoChange={handlePeriodoChange}
                         handleAddFields={handleAddFields}
                         index={index}
                         addVisible={addVisible}
                         setInputFields={setInputFields}
                         inputFields={inputFields}
+                        setBtnTranferir={setBtnTranferir}
                       />
                     </FormAccordion>
                   )

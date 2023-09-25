@@ -100,7 +100,14 @@ export default css.global`
     margin: 0 auto;
     color: #e21050;
   }
-
+  .subtituloTerceros {
+    font-family: Nunito;
+    font-size: 24px;
+    font-weight: 700;
+    display: table;
+    margin: 0 auto;
+    color: #484848;
+  }
   .ocultarT {
     display: none !important;
   }

@@ -150,4 +150,40 @@ export default css.global`
     margin: 0 auto;
     color: #e21050;
   }
+
+  .multiTransaccion {
+    border-collapse: separate;
+    border-spacing: 0 11px;
+    margin: "0 auto";
+  }
+
+  .multiTransaccion td {
+    border: 1px solid black;
+    border-style: solid none;
+    padding: 11px;
+    font-size: 14px;
+    font-weight: 800;
+  }
+
+  .multiTransaccion td:first-child {
+    border-left-style: solid;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+  }
+
+  .multiTransaccion td:last-child {
+    border-right-style: solid;
+    border-bottom-right-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+
+  .multiTransaccion th:first-child {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+  }
+
+  .multiTransaccion th:last-child {
+    border-bottom-right-radius: 8px;
+    border-top-right-radius: 8px;
+  }
 `;
