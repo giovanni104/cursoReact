@@ -42,7 +42,6 @@ export const FormTerceros = ({
   inputFields[index].index = index;
 
   const [openModal, setOpenModal] = React.useState(false);
-  const [registrar, setRegistrar] = React.useState(false);
   const [errorNumcuenta, setErrorNumcuenta] = useState("");
   const [errorNombre, setErrorNombre] = useState("");
   const [errorTelefono, setErrorTelefono] = useState("");
@@ -79,7 +78,23 @@ export const FormTerceros = ({
     setErrorNombre("");
     setErrorNumdoc("");
     setErrorTelefono("");
+    setterDataFields("beneficiario", false);
+    setterDataFields("beneficiarioCuenta", "");
+    setterDataFields("beneficiarioBanco", "");
 
+    setterDataFields("registrar", false);
+    clearDataRegistrar();
+
+    setInputFields(valores);
+  };
+
+  const clearDataRegistrar = () => {
+    let valores = [...inputFields];
+    let atributos = ["tipo", "alias", "beneficiario"];
+
+    atributos.forEach(function (atributo) {
+      valores[index]["registro"][atributo] = "";
+    });
     setInputFields(valores);
   };
 
@@ -100,17 +115,75 @@ export const FormTerceros = ({
   `;
 
   useEffect(() => {
-    setBtnTranferir(false);
-    /*
+    setBtnTranferir(true);
+
     let valores = [...inputFields];
 
     if (
       valores[index].cuentaDebitar != "" &&
-      valores[index].cuentaAcreditar != "" &&
       valores[index].monto != "" &&
       valores[index].concepto != ""
     ) {
+      setBtnTranferir(false);
+
+      if (valores[index].noregistrado == true) {
+        setBtnTranferir(true);
+
+        if (valores[index].instrumento.tipo == "") {
+          setBtnTranferir(true);
+        } else {
+          setBtnTranferir(true);
+          switch (valores[index].instrumento.tipo) {
+            case "cuenta":
+              if (valores[index].instrumento.numcuenta != "") {
+                setBtnTranferir(false);
+              }
+              break;
+            case "telefono":
+              if (
+                valores[index].instrumento.telefono != "" &&
+                valores[index].instrumento.bancodestino != "" &&
+                valores[index].instrumento.tipodoc != "" &&
+                valores[index].instrumento.numdoc != "" &&
+                valores[index].instrumento.nombre != ""
+              ) {
+                setBtnTranferir(false);
+              }
+              break;
+            default:
+              console.log("3");
+              setBtnTranferir(true);
+              break;
+          }
+        }
+
+        if (valores[index].registrar == true) {
+          setBtnTranferir(true);
+
+          switch (valores[index].registro.tipo) {
+            case "cuenta":
+              if (valores[index].registro.beneficiario != "") {
+                setBtnTranferir(false);
+              }
+              break;
+            case "telefono":
+              if (valores[index].registro.alias != "") {
+                setBtnTranferir(false);
+              }
+              break;
+            default:
+              setBtnTranferir(true);
+              break;
+          }
+        }
+      } else {
+        if (valores[index].beneficiarioCuenta != "") {
+          setBtnTranferir(false);
+        }
+      }
+
       if (valores[index].programar == true) {
+        setBtnTranferir(false);
         if (
           valores[index].programa.frecuencia != "" &&
           valores[index].programa.anio != "" &&
@@ -125,10 +198,18 @@ export const FormTerceros = ({
             }
           }
         }
-      } else {
-        setBtnTranferir(false);
       }
-    }*/
+
+      if (
+        errorNumcuenta != "" ||
+        errorNombre != "" ||
+        errorTelefono != "" ||
+        errorNumdoc != "" ||
+        errorAlias != ""
+      ) {
+        setBtnTranferir(true);
+      }
+    }
   }, [inputFields]);
 
   return (
@@ -337,6 +418,7 @@ export const FormTerceros = ({
               }}
             >
               <Checkbox
+                defaultValue={false}
                 style={{ padding: 0 }}
                 checked={inputFields[index].noregistrado}
                 onChange={(event) => {
@@ -672,9 +754,11 @@ export const FormTerceros = ({
                   <FormControlLabel
                     control={
                       <Checkbox
-                        checked={registrar}
+                        defaultValue={false}
+                        checked={inputFields[index].registrar}
                         onChange={(event) => {
-                          setRegistrar(event.target.checked);
+                          setterDataFields("registrar", event.target.checked);
+                          clearDataRegistrar();
                         }}
                         checkedIcon={
                           <Icon>
@@ -707,7 +791,7 @@ export const FormTerceros = ({
                 <div className="divInputs"></div>
               </Grid>
 
-              {registrar && (
+              {inputFields[index].registrar && (
                 <>
                   <Grid item xs={6}>
                     <div className="divInputs">

@@ -9,7 +9,8 @@ import { labelsTransaccion } from "../../utils/labelsTransaccion";
 import { AuthTKForm } from "../tkForm/AuthTKForm";
 import { titleData, rowsData } from "../../utils/data";
 import { Datatable } from "../dataTable";
-
+import { ConfirmDialog } from "../confirmDialog";
+import DeleteIcon from "@mui/icons-material/Delete";
 import {
   formData,
   formDataReset,
@@ -29,9 +30,13 @@ import {
 } from "./trasaccionFunctions";
 
 import transaccionStyle from "./transaccionStyle";
+import { IconButton } from "@mui/material";
 
 export const Transaccion = () => {
   const [btnTranferir, setBtnTranferir] = useState(true);
+
+  const [confirmOpen, setConfirmOpen] = useState(false);
+
   const [txtSubtitulo, setTxtSubtitulo] = useState("");
   const [lblSubtituloresult, setLblSubtituloresult] = useState("");
 
@@ -403,6 +408,23 @@ export const Transaccion = () => {
             titleData={titleData}
             action={prueba}
             />*/}
+
+          <div>
+            <IconButton
+              aria-label="delete"
+              onClick={() => setConfirmOpen(true)}
+            >
+              <DeleteIcon />
+            </IconButton>
+            <ConfirmDialog
+              title="Delete Post?"
+              open={confirmOpen}
+              setOpen={setConfirmOpen}
+              onConfirm={prueba}
+            >
+              Are you sure you want to delete this post?
+            </ConfirmDialog>
+          </div>
         </Box>
       </div>
 

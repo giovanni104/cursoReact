@@ -93,7 +93,7 @@ export const formDataTerceros = {
   monto: "",
   concepto: "",
   currency: "Bs",
-  registrar: "",
+  registrar: false,
   registro: {
     tipo: "",
     alias: "",
@@ -129,8 +129,8 @@ export const formDataTercerosReset = {
   },
   monto: "",
   concepto: "",
-  currency: "bs",
-  registrar: "",
+  currency: "Bs",
+  registrar: false,
   registro: {
     tipo: "",
     alias: "",
