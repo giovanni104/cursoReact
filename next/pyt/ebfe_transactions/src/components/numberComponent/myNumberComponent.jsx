@@ -14,7 +14,7 @@ export const MyNumberComponent = ({
 
   const handleChange = (ev) => {
     const newValue = ev.floatValue;
-
+    console.log(ev);
     if (newValue == "0") {
       setErrorMonto("El monto no debe ser igual a cero");
     } else {

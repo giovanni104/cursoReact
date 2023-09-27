@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
+import Cookies from "cookies";
 import Button from "@mui/material/Button";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import { formatDate } from "../../utils/genericas";
 import { labelsTransaccion } from "../../utils/labelsTransaccion";
+import { publicFetch } from "@/utils/fetch";
 export const ResumenTransaccion = ({
   inputFieldsData,
   setOpenModal,
@@ -16,10 +18,43 @@ export const ResumenTransaccion = ({
   };
   const handleOpen = () => {
     setOpen(true);
+    fetchData();
   };
 
   const tranferencia = () => {
     handleOpen();
+  };
+
+  const fetchData = async () => {
+    const messageId = Cookies.get("messageId");
+    console.log(messageId);
+    try {
+      const transfer = await publicFetch.post(`/transfers`, {
+        company: "1",
+        messageId: messageId,
+        username: "JEFEDEVPYT",
+        channel: "WEB",
+        internalUserName: "PYT",
+        e2usm2: 1000,
+        e2cusc: 1000,
+        identification: "12345678",
+        typeIdentification: "CED",
+        originAccount: inputFieldsData[0].cuentaDebitar,
+        destinationAccount: inputFieldsData[0].cuentaAcreditar,
+        transferAmount: inputFieldsData[0].monto.toString(),
+        typeTransfer: "1",
+        typeCurrencyOriAccount: "USD",
+        language: "ES_CO",
+        descriptionTx: inputFieldsData[0].concepto,
+        typeCustomer: 1,
+      });
+
+      console.log("respuesta=>" + JSON.stringify(transfer));
+      setOpen(false);
+      setOpenModal(true);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (

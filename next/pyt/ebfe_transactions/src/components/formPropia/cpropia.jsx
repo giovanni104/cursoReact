@@ -1,4 +1,5 @@
 import React, { Fragment, useState, useEffect } from "react";
+
 import Grid from "@mui/material/Grid";
 import { Formdate } from "../formDate/FormDate";
 import Tooltip from "@mui/material/Tooltip";
@@ -41,9 +42,24 @@ export const FormPropia = ({
   useEffect(() => {
     async function fetchData() {
       try {
-        const users = await publicFetch.get(`/propias`);
-        // const users = await axios.get("/_transaction/api/propias");
-        cargaCuentasDebitar(setCuentasPropias, users.data, setCuentasUser);
+        const users = await publicFetch.post(`/cuentasPropias`, {
+          company: "1",
+          messageId:
+            "OC51QnNzLnVCc3MuOTc5YTdnN2QgOGQ5Y2E3LmFiY2NhZm1kbmNlcWF3ZGRkRENi",
+          username: "JEFEDEVPYT",
+          channel: "WEB",
+          internalUserName: "PYT",
+          identification: "CED",
+          typeIdentification: "12345678",
+          e2usm2: 1000,
+          e2cusc: 1000,
+        });
+        console.log(JSON.stringify(users.data.responseCode));
+        cargaCuentasDebitar(
+          setCuentasPropias,
+          users.data.responseBody,
+          setCuentasUser
+        );
       } catch (err) {
         console.log(err);
       }
