@@ -3,12 +3,12 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
-
+import WarningIcon from "@mui/icons-material/Warning";
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-export default function CustomizedSnackbars() {
+export const CustomizedSnackbars = () => {
   const [open, setOpen] = React.useState(false);
 
   const handleClick = () => {
@@ -25,27 +25,62 @@ export default function CustomizedSnackbars() {
 
   return (
     <>
-      <Stack spacing={2} sx={{ width: "100%" }}>
-        <Button variant="outlined" onClick={handleClick}>
-          Open success snackbar
-        </Button>
+      <Button variant="outlined" onClick={handleClick}>
+        Open success snackbar
+      </Button>
 
-        <Alert severity="error">This is an error message!</Alert>
-        <Alert severity="warning">This is a warning message!</Alert>
-        <Alert severity="info">This is an information message!</Alert>
-        <Alert severity="success">This is a success message!</Alert>
-      </Stack>
       <Snackbar
-        sx={{ marginBottom: "100px" }}
+        sx={{ width: "35%", marginBottom: "100px" }}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         open={open}
-        autoHideDuration={6000}
         onClose={handleClose}
       >
-        <Alert onClose={handleClose} severity="success" sx={{ width: "50%" }}>
-          This is a success message!
+        <Alert
+          icon={
+            <img
+              style={{
+                height: "40px",
+                width: "40px",
+                content: `url('${process.env.NEXT_PUBLIC_BASIC_URL}error.svg')`,
+              }}
+            />
+          }
+          onClose={handleClose}
+          severity="success"
+          sx={{ display: "flex", justifyContent: "right" }}
+          action={
+            <Button
+              sx={{
+                textTransform: "capitalize",
+                borderRadius: "4px",
+                borderWidth: "2px",
+                borderColor: "#E21050",
+                textTransform: "none",
+                width: "148px",
+                height: "38px",
+                fontSize: "16px",
+                fontWeight: "400",
+                fontFamily: "Nunito",
+                backgroundColor: "white",
+                color: "#E21050",
+                "&:hover": {
+                  borderColor: "#E21050",
+                  backgroundColor: "white",
+                  color: "#E21050",
+                  borderRadius: "4px",
+                  borderWidth: "2px",
+                },
+              }}
+              variant="outlined"
+            >
+              Cerrar
+            </Button>
+          }
+        >
+          This is a success message!This dscsd scdsdc sdcsdcsdcsdc sdcsd dscsdc
+          dscsdc sdc dc c sd dc csdc https://aguidehub.com/blog/
         </Alert>
       </Snackbar>
     </>
   );
-}
+};
