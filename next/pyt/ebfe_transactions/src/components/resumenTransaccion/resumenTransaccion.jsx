@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Cookies from "cookies";
+
 import Button from "@mui/material/Button";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -26,8 +26,6 @@ export const ResumenTransaccion = ({
   };
 
   const fetchData = async () => {
-    const messageId = Cookies.get("messageId");
-    console.log(messageId);
     try {
       const transfer = await publicFetch.post(`/transfers`, {
         company: "1",

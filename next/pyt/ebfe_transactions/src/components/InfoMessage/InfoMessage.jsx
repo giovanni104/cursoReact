@@ -74,7 +74,7 @@ export const InfoMessage = ({ typeMessage, message }) => {
         style={{ background: color.primario }}
         className="containerInfoMessage"
       >
-        <Stack direction="row" spacing={15}>
+        <Stack direction="row" spacing={30}>
           <img
             style={{
               height: "40px",

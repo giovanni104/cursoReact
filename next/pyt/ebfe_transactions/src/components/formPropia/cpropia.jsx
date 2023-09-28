@@ -15,6 +15,7 @@ import { Icon, Stack } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import { publicFetch } from "@/utils/fetch";
 import cpropiaStyle from "./cpropiaStyle";
+import { AlertMessage } from "../alertMessage";
 import {
   conceptos,
   switchHandler,
@@ -37,7 +38,10 @@ export const FormPropia = ({
   const [cuentasAcreditar, setCuentasAcreditar] = useState([]);
   const [cuentasUser, setCuentasUser] = useState([]);
   const [checked, setChecked] = useState(inputField.programar);
-  const [checkedUsd, setCheckedUsd] = React.useState(false);
+  const [checkedUsd, setCheckedUsd] = useState(false);
+  const [messageOpen, setMessageOpen] = useState(false);
+  const [messageAlert, setMessageAlert] = useState("error del sistema");
+  const [typeMessageAlert, setTypeMessageAlert] = useState("");
 
   useEffect(() => {
     async function fetchData() {
@@ -46,22 +50,36 @@ export const FormPropia = ({
           company: "1",
           messageId:
             "OC51QnNzLnVCc3MuOTc5YTdnN2QgOGQ5Y2E3LmFiY2NhZm1kbmNlcWF3ZGRkRENi",
-          username: "JEFEDEVPYT",
+          username: "JEFEDEVPYT1",
           channel: "WEB",
           internalUserName: "PYT",
           identification: "CED",
-          typeIdentification: "12345678",
+          typeIdentification: "123456785",
           e2usm2: 1000,
           e2cusc: 1000,
+          language: "EN_US",
         });
+
+        console.log(JSON.stringify(users));
+
         console.log(JSON.stringify(users.data.responseCode));
-        cargaCuentasDebitar(
-          setCuentasPropias,
-          users.data.responseBody,
-          setCuentasUser
-        );
+
+        if (users.data.responseCode == "0000") {
+          cargaCuentasDebitar(
+            setCuentasPropias,
+            users.data.responseBody,
+            setCuentasUser
+          );
+        } else {
+          setMessageAlert("error del sistema1");
+          setTypeMessageAlert("error");
+          setMessageOpen(true);
+        }
       } catch (err) {
-        console.log(err);
+        console.log(err.response.data);
+        setMessageAlert(err.response.data.message);
+        setTypeMessageAlert("error");
+        setMessageOpen(true);
       }
     }
 
@@ -413,6 +431,13 @@ export const FormPropia = ({
             )}
           </Grid>
         </Grid>
+
+        <AlertMessage
+          message={messageAlert}
+          typeMessage={typeMessageAlert}
+          open={messageOpen}
+          setOpen={setMessageOpen}
+        />
       </div>
 
       <style jsx>{cpropiaStyle}</style>

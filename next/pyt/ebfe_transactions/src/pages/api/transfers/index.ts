@@ -1,12 +1,18 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { propias, propias2 } from "../../../utils/data";
+import { responseTransaccion } from "../../../utils/data";
 import { makeCookie } from "@/utils/cookieMaker";
 import axios from "axios";
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+import { NextRequest } from "next/server";
+const handler = async (req: NextRequest, res: NextApiResponse) => {
   if (req.method == "POST") {
+    const resp = req.cookies?.messageId;
+    let dataTransaccion = req.body;
+    const messageId = resp == undefined ? "prueba" : resp;
+    dataTransaccion.messageId = messageId;
+
     const resAxios = await axios.post(
       "http://192.168.10.226:8793/transfers/maketransfer",
-      req.body
+      dataTransaccion
     );
 
     console.log(resAxios.data.responseBody);
@@ -18,6 +24,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     res.setHeader("set-cookie", messageCookie);
 
     return res.status(200).json(resAxios.data);
+
+    /* const message = responseTransaccion.messageId;
+    const messageCookie = makeCookie(message);
+    res.setHeader("set-cookie", messageCookie);
+    return res.status(200).json(responseTransaccion);*/
   }
 
   return res.status(400).json({ error: "El metodo no existe" });

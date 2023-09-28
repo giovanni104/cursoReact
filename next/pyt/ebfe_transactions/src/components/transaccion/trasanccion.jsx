@@ -11,7 +11,7 @@ import { titleData, rowsData } from "../../utils/data";
 import { Datatable } from "../dataTable";
 import { ConfirmDialog } from "../confirmDialog";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { CustomizedSnackbars } from "../InfoMessage/prueba";
+
 import {
   formData,
   formDataReset,
@@ -425,8 +425,6 @@ export const Transaccion = () => {
             >
               Are you sure you want to delete this post?
             </ConfirmDialog>
-
-            <CustomizedSnackbars />
           </div>
         </Box>
       </div>
