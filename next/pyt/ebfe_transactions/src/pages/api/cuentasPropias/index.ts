@@ -9,7 +9,7 @@ const handler = async (req: NextRequest, res: NextApiResponse) => {
     const resp = req.cookies?.messageId;
     let dataTransaccion = req.body;
 
-    const messageId = resp == undefined ? "prueba" : resp;
+    const messageId = resp == undefined ? "default" : resp;
     dataTransaccion.messageId = messageId;
 
     const resAxios = await axios
@@ -55,12 +55,22 @@ const handler = async (req: NextRequest, res: NextApiResponse) => {
           // http.ClientRequest en node.js
           console.log("La petición fue hecha pero no se recibió respuesta");
           console.log(error.request);
-          return res.status(400).json({ error: "El metodo no existe" });
+          return res.status(408).json({
+            errorLvl: "ERROR",
+            responseCode: "E2F2302",
+            responseDesc: "Tiempo de espera en solicitud",
+            responseBody: null,
+          });
         } else {
           // Algo paso al preparar la petición que lanzo un Error
           console.log("Algo paso al preparar la petición que lanzo un Error");
           console.log("Error", error);
-          return res.status(400).json({ error: "El metodo no existe" });
+          return res.status(400).json({
+            errorLvl: "ERROR",
+            responseCode: "E2F2302",
+            responseDesc: "Algo paso al preparar la petición",
+            responseBody: null,
+          });
         }
         console.log(error.config);
         res.status(400).json({ error: "El metodo no existe" });

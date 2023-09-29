@@ -77,7 +77,7 @@ export const FormPropia = ({
         }
       } catch (err) {
         console.log(err.response.data);
-        setMessageAlert(err.response.data.message);
+        setMessageAlert(err.response.data.responseDesc);
         setTypeMessageAlert("error");
         setMessageOpen(true);
       }
