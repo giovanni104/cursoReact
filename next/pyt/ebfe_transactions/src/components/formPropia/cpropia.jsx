@@ -16,6 +16,7 @@ import Checkbox from "@mui/material/Checkbox";
 import { publicFetch } from "@/utils/fetch";
 import cpropiaStyle from "./cpropiaStyle";
 import { AlertMessage } from "../alertMessage";
+import { separadoresMiles } from "../../utils/genericas";
 import {
   conceptos,
   switchHandler,
@@ -43,6 +44,8 @@ export const FormPropia = ({
   const [messageAlert, setMessageAlert] = useState("error del sistema");
   const [typeMessageAlert, setTypeMessageAlert] = useState("");
 
+  const [saldoDebitar, setSaldoDebitar] = useState("");
+
   useEffect(() => {
     async function fetchData() {
       try {
@@ -50,7 +53,7 @@ export const FormPropia = ({
           company: "1",
           messageId:
             "OC51QnNzLnVCc3MuOTc5YTdnN2QgOGQ5Y2E3LmFiY2NhZm1kbmNlcWF3ZGRkRENi",
-          username: "JEFEDEVPYT1",
+          username: "JEFEDEVPYT",
           channel: "WEB",
           internalUserName: "PYT",
           identification: "CED",
@@ -138,7 +141,8 @@ export const FormPropia = ({
                       inputFields,
                       setInputFields,
                       index,
-                      cuentasUser
+                      cuentasUser,
+                      setSaldoDebitar
                     );
                     filtroCuentasAcreditar(
                       event.target.value,
@@ -165,8 +169,7 @@ export const FormPropia = ({
                 </Select>
               </FormControl>
               <label className="lblInfoSaldo">
-                {" "}
-                Saldo disponible: Bs 45.454.545
+                Saldo disponible: Bs {saldoDebitar}
               </label>
             </div>
           </Grid>

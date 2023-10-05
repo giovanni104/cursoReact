@@ -334,6 +334,7 @@ export const Transaccion = () => {
                 inputFieldsData={inputFieldsData}
                 setOpenModal={setOpenModal}
                 resetForm={resetForm}
+                setInputFieldsData={setInputFieldsData}
               />
             )}
           </div>

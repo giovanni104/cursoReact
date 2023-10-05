@@ -6,15 +6,22 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { formatDate } from "../../utils/genericas";
 import { labelsTransaccion } from "../../utils/labelsTransaccion";
 import { publicFetch } from "@/utils/fetch";
+import { AlertMessage } from "../alertMessage";
+
 export const ResumenTransaccion = ({
   inputFieldsData,
   setOpenModal,
   resetForm,
+  setInputFieldsData,
 }) => {
-  const [open, setOpen] = React.useState(false);
+  const [messageOpen, setMessageOpen] = useState(false);
+  const [messageAlert, setMessageAlert] = useState("error del sistema");
+  const [typeMessageAlert, setTypeMessageAlert] = useState("");
+
+  const [open, setOpen] = useState(false);
   const handleClose = () => {
-    setOpen(false);
-    setOpenModal(true);
+    /*setOpen(false);
+    setOpenModal(true);*/
   };
   const handleOpen = () => {
     setOpen(true);
@@ -29,7 +36,8 @@ export const ResumenTransaccion = ({
     try {
       const transfer = await publicFetch.post(`/transfers`, {
         company: "1",
-        messageId: messageId,
+        messageId:
+          "OC51QnNzLnVCc3MuOTc5YTdnN2QgOGQ5Y2E3LmFiY2NhZm1kbmNlcWF3ZGRkRENi",
         username: "JEFEDEVPYT",
         channel: "WEB",
         internalUserName: "PYT",
@@ -48,10 +56,29 @@ export const ResumenTransaccion = ({
       });
 
       console.log("respuesta=>" + JSON.stringify(transfer));
-      setOpen(false);
-      setOpenModal(true);
+
+      if (transfer.data.responseCode == "0000") {
+        let valores = [...inputFieldsData];
+        valores[0].NroOperacion = transfer.data.responseBody.NroOperacion;
+        valores[0].errorLvl = transfer.data.errorLvl;
+        valores[0].responseDesc = transfer.data.responseDesc;
+
+        setInputFieldsData(valores);
+
+        setOpen(false);
+        setOpenModal(true);
+      } else {
+        setOpen(false);
+        setMessageAlert("Error del sistema");
+        setTypeMessageAlert("error");
+        setMessageOpen(true);
+      }
     } catch (err) {
+      setOpen(false);
       console.log(err);
+      setMessageAlert(err.response.data.responseDesc);
+      setTypeMessageAlert("error");
+      setMessageOpen(true);
     }
   };
 
@@ -161,7 +188,12 @@ export const ResumenTransaccion = ({
           {labelsTransaccion.resumenTransaccion.btncancelar}
         </Button>
       </div>
-
+      <AlertMessage
+        message={messageAlert}
+        typeMessage={typeMessageAlert}
+        open={messageOpen}
+        setOpen={setMessageOpen}
+      />
       <style jsx>{`
         td {
           font-family: "Nunito";

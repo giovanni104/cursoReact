@@ -73,7 +73,7 @@ export const DialogTransaccion = ({
 
           <div style={{ textAlign: "center" }}>
             <label className={"lbltitulo2Modal"}>
-              Operación N° 42049097012
+              Operación N° {inputFieldsData[0].NroOperacion}
             </label>
           </div>
         </Stack>
@@ -192,7 +192,10 @@ export const DialogTransaccion = ({
         </Button>
       </div>
 
-      <InfoMessage message={"Transacción exitosa"} typeMessage={"error"} />
+      <InfoMessage
+        message={inputFieldsData[0].responseDesc}
+        typeMessage={inputFieldsData[0].errorLvl}
+      />
 
       <style jsx>{`
         .descargar:hover {

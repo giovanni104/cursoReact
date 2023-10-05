@@ -1,3 +1,5 @@
+import { separadoresMiles } from "../../utils/genericas";
+
 export const conceptos = [
   { value: "Pagos", label: "Pagos" },
   { value: "Alquiler condominio", label: "Alquiler condominio" },
@@ -44,6 +46,7 @@ export const filtroCuentasAcreditar = (
   const cuentas = cuentasUser.filter(function (el) {
     return (
       el.numberAccount != valor &&
+      valor != "" &&
       (el.actionDebited == "C" || el.actionDebited == "A")
     );
   });
@@ -60,7 +63,8 @@ export const valoresCuenta = (
   inputFields,
   setInputFields,
   index,
-  cuentasUser
+  cuentasUser,
+  setSaldoDebitar
 ) => {
   let valores = [...inputFields];
   let cuenta;
@@ -70,8 +74,14 @@ export const valoresCuenta = (
       cuenta = cuentasUser.filter(function (el) {
         return el.numberAccount == valor;
       });
-      valores[index].descuentaDebitar =
-        cuenta[0].descriptionAccount + " " + cuenta[0].numberMask;
+
+      if (cuenta.length > 0) {
+        valores[index].descuentaDebitar =
+          cuenta[0].descriptionAccount + " " + cuenta[0].numberMask;
+        setSaldoDebitar(cuenta[0].balanceMask);
+      } else {
+        valores[index].descuentaDebitar = "";
+      }
       break;
 
     case "cuentaAcreditar":
@@ -118,6 +128,9 @@ export const cargaCuentasDebitar = (
       "****" +
       dataCuentas[i].numberAccount.slice(-4);
     dataCuentas[i].numberMask = dato;
+    dataCuentas[i].balanceMask = separadoresMiles(
+      dataCuentas[i].balanceAvailable
+    );
   }
 
   setCuentasUser(dataCuentas);

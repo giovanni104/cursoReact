@@ -20,3 +20,34 @@ export const patterns = {
   usuarioUnico: /^[a-zA-Z0-9]+$/i,
   monto: /^[0-9]+$/i,
 };
+
+export const separadoresMiles = (numberoCompleto) => {
+  let separadorMil = ".";
+  let separadorDecimal = ",";
+
+  let numero = new String(numberoCompleto);
+
+  numero = numero.replace(/\./g, "");
+
+  let numeroSize = numero.length;
+  let arrayNumero = numero.split(separadorDecimal);
+
+  let number = new String(arrayNumero[0]);
+  let result = "";
+
+  if (numero != null) {
+    while (number.length > 3) {
+      result = separadorMil + number.substr(number.length - 3) + result;
+      number = number.substring(0, number.length - 3);
+    }
+
+    if (arrayNumero.length == 1) {
+      result = number + result;
+    }
+    if (arrayNumero.length > 1) {
+      result = number + result + separadorDecimal + arrayNumero[1];
+    }
+
+    return result;
+  }
+};
