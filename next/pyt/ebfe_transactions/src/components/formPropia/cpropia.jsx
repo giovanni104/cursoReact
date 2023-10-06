@@ -65,8 +65,6 @@ export const FormPropia = ({
 
         console.log(JSON.stringify(users));
 
-        console.log(JSON.stringify(users.data.responseCode));
-
         if (users.data.responseCode == "0000") {
           cargaCuentasDebitar(
             setCuentasPropias,

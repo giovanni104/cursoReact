@@ -1,0 +1,241 @@
+respuesta transaccion ok
+
+{
+  "data": {
+    "errorLvl": "INFO",
+    "messageId": "by42MTIxMDFpY2xnLktSSUkucG5wcW9ubnMgb3Jxb3FvLnlyVXV0b0lQS0dScXp0bk91cnBV",
+    "responseCode": "0000",
+    "responseDesc": "Transaction Complete",
+    "responseBody": {
+      "NroOperacion": "12345",
+      "Referencia": "ABC123",
+      "Beneficiario": "John Doe",
+      "Codigo": null,
+      "Descripcion": null
+    }
+  },
+  "status": 200,
+  "statusText": "OK",
+  "headers": {
+    "access-control-allow-origin": "*",
+    "connection": "close",
+    "content-length": "287",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 05 Oct 2023 19:31:31 GMT",
+    "etag": "\"qobhh5mx6q7z\"",
+    "vary": "Accept-Encoding"
+  },
+  "config": {
+    "transitional": {
+      "silentJSONParsing": true,
+      "forcedJSONParsing": true,
+      "clarifyTimeoutError": false
+    },
+    "adapter": ["xhr", "http"],
+    "transformRequest": [null],
+    "transformResponse": [null],
+    "timeout": 0,
+    "xsrfCookieName": "XSRF-TOKEN",
+    "xsrfHeaderName": "X-XSRF-TOKEN",
+    "maxContentLength": -1,
+    "maxBodyLength": -1,
+    "env": {},
+    "headers": {
+      "Accept": "application/json, text/plain, */*",
+      "Content-Type": "application/json"
+    },
+    "baseURL": "http://localhost:3001/_transaction/api/",
+    "method": "post",
+    "url": "/transfers",
+    "data": "{\"company\":\"1\",\"messageId\":\"OC51QnNzLnVCc3MuOTc5YTdnN2QgOGQ5Y2E3LmFiY2NhZm1kbmNlcWF3ZGRkRENi\",\"username\":\"JEFEDEVPYT\",\"channel\":\"WEB\",\"internalUserName\":\"PYT\",\"e2usm2\":1000,\"e2cusc\":1000,\"identification\":\"12345678\",\"typeIdentification\":\"CED\",\"originAccount\":\"44406000343\",\"destinationAccount\":\"41101001715\",\"transferAmount\":\"22\",\"typeTransfer\":\"1\",\"typeCurrencyOriAccount\":\"USD\",\"language\":\"ES_CO\",\"descriptionTx\":\"Pagos\",\"typeCustomer\":1}"
+  },
+  "request": {}
+}
+
+
+
+
+
+//-------cuentas propias--------------------------------
+
+
+{"data":{"errorLvl":"INFO","messageId":"Yi5UT1BPTk81WjgzLnhFdnYuY2FjZGJhYWcgYmhiamFlLmJjd21mZGFIRmRpZXRmYm9naHFj","responseCode":"0000","responseDesc":"Customer accounts obtained","responseBody":[{"actionDebited":"A","numberAccount":"44406000343","typeAccount":"10","currency":"USD","balance":100,"balanceAvailable":100000,"status":"ACTIVA","descriptionAccount":"Ahorro Personal"},{"actionDebited":"A","numberAccount":"41101001715","typeAccount":"10","currency":"USD","balance":0,"balanceAvailable":1000000,"status":"ACTIVA","descriptionAccount":"Ahorro Personal"},{"actionDebited":"A","numberAccount":"411030000038","typeAccount":"10","currency":"USD","balance":0,"balanceAvailable":1000000,"status":"ACTIVA","descriptionAccount":"Ahorro Personal"},{"actionDebited":"A","numberAccount":"4256311111","typeAccount":"10","currency":"USD","balance":0,"balanceAvailable":1000000,"status":"ACTIVA","descriptionAccount":"Ahorro Personal"}]},"status":200,"statusText":"OK","headers":{"access-control-allow-origin":"*","connection":"close","content-length":"926","content-type":"application/json; charset=utf-8","date":"Fri, 06 Oct 2023 22:19:05 GMT","etag":"\"o3p3f6hbv2pq\"","vary":"Accept-Encoding"},"config":{"transitional":{"silentJSONParsing":true,"forcedJSONParsing":true,"clarifyTimeoutError":false},"adapter":["xhr","http"],"transformRequest":[null],"transformResponse":[null],"timeout":0,"xsrfCookieName":"XSRF-TOKEN","xsrfHeaderName":"X-XSRF-TOKEN","maxContentLength":-1,"maxBodyLength":-1,"env":{},"headers":{"Accept":"application/json, text/plain, */*","Content-Type":"application/json"},"baseURL":"http://localhost:3001/_transaction/api/","method":"post","url":"/cuentasPropias","data":"{\"company\":\"1\",\"messageId\":\"OC51QnNzLnVCc3MuOTc5YTdnN2QgOGQ5Y2E3LmFiY2NhZm1kbmNlcWF3ZGRkRENi\",\"username\":\"JEFEDEVPYT\",\"channel\":\"WEB\",\"internalUserName\":\"PYT\",\"identification\":\"CED\",\"typeIdentification\":\"123456785\",\"e2usm2\":1000,\"e2cusc\":1000,\"language\":\"EN_US\"}"},"request":{}}
+
+
+
+///beneficios terceros
+
+
+{
+  "errorLvl": "INFO",
+  "messageId": "OC5RTE1MS0wyVzUwLnVCc3MuOTc5YTg3N2QgOGU4ZThnLnl6YWFoZTdwdW1yYUJka0NxRGRB",
+  "responseCode": "0000",
+  "responseDesc": "Customer third accounts obtained",
+  "responseBody": [
+      {
+          "nameOwner": "DIEZPEPEITO:202122",
+          "accounts": [
+              {
+                  "numberAccount": "44060000503",
+                  "typeAccount": 2,
+                  "currency": "USD",
+                  "status": "A",
+                  "nameBank": "BANCO INTTEGRIO",
+                  "codeBank": "345",
+                  "descriptionAccount": null,
+                  "nameOwnerAccount": "DIEZPEPEITO",
+                  "identification": "202122"
+              },
+              {
+                  "numberAccount": "44060000504",
+                  "typeAccount": 2,
+                  "currency": "USD",
+                  "status": "A",
+                  "nameBank": "BANCO INTTEGRIO",
+                  "codeBank": "345",
+                  "descriptionAccount": null,
+                  "nameOwnerAccount": "DIEZPEPEITO",
+                  "identification": "202122"
+              }
+          ]
+      },
+      {
+          "nameOwner": "JEJEJEJE:141516",
+          "accounts": [
+              {
+                  "numberAccount": "1173000597",
+                  "typeAccount": 2,
+                  "currency": "USD",
+                  "status": "A",
+                  "nameBank": "BANCO INTTEGRIO",
+                  "codeBank": "345",
+                  "descriptionAccount": null,
+                  "nameOwnerAccount": "JEJEJEJE",
+                  "identification": "141516"
+              }
+          ]
+      },
+      {
+          "nameOwner": "PEPITOERR:111213",
+          "accounts": [
+              {
+                  "numberAccount": "1173000595",
+                  "typeAccount": 2,
+                  "currency": "USD",
+                  "status": "A",
+                  "nameBank": "BANCO INTTEGRIO",
+                  "codeBank": "345",
+                  "descriptionAccount": null,
+                  "nameOwnerAccount": "PEPITOERR",
+                  "identification": "111213"
+              }
+          ]
+      },
+      {
+          "nameOwner": "John Doe:CED12345678",
+          "accounts": [
+              {
+                  "numberAccount": "13100000137",
+                  "typeAccount": 3,
+                  "currency": "USD",
+                  "status": "A",
+                  "nameBank": "Banco Inttegrio",
+                  "codeBank": "123",
+                  "descriptionAccount": null,
+                  "nameOwnerAccount": "John Doe",
+                  "identification": "CED12345678"
+              },
+              {
+                  "numberAccount": "13100000134",
+                  "typeAccount": 3,
+                  "currency": "USD",
+                  "status": "A",
+                  "nameBank": "Banco Inttegrio",
+                  "codeBank": "123",
+                  "descriptionAccount": null,
+                  "nameOwnerAccount": "John Doe",
+                  "identification": "CED12345678"
+              },
+              {
+                  "numberAccount": "13100000135",
+                  "typeAccount": 3,
+                  "currency": "USD",
+                  "status": "A",
+                  "nameBank": "Banco Inttegrio",
+                  "codeBank": "123",
+                  "descriptionAccount": null,
+                  "nameOwnerAccount": "John Doe",
+                  "identification": "CED12345678"
+              },
+              {
+                  "numberAccount": "13100000139",
+                  "typeAccount": 2,
+                  "currency": "USD",
+                  "status": "A",
+                  "nameBank": "Banco Inttegrio",
+                  "codeBank": "123",
+                  "descriptionAccount": null,
+                  "nameOwnerAccount": "John Doe",
+                  "identification": "CED12345678"
+              }
+          ]
+      },
+      {
+          "nameOwner": "PEPITO:678910",
+          "accounts": [
+              {
+                  "numberAccount": "1173000594",
+                  "typeAccount": 2,
+                  "currency": "USD",
+                  "status": "A",
+                  "nameBank": "BANCO INTTEGRIO",
+                  "codeBank": "345",
+                  "descriptionAccount": null,
+                  "nameOwnerAccount": "PEPITO",
+                  "identification": "678910"
+              }
+          ]
+      },
+      {
+          "nameOwner": "OTROSNUMEROS:171819",
+          "accounts": [
+              {
+                  "numberAccount": "404406000072",
+                  "typeAccount": 2,
+                  "currency": "USD",
+                  "status": "A",
+                  "nameBank": "BANCO INTTEGRIO",
+                  "codeBank": "345",
+                  "descriptionAccount": null,
+                  "nameOwnerAccount": "OTROSNUMEROS",
+                  "identification": "171819"
+              }
+          ]
+      },
+      {
+          "nameOwner": "LOLOLOL:12345",
+          "accounts": [
+              {
+                  "numberAccount": "1173000593",
+                  "typeAccount": 2,
+                  "currency": "USD",
+                  "status": "A",
+                  "nameBank": "BANCO INTTEGRIO",
+                  "codeBank": "345",
+                  "descriptionAccount": null,
+                  "nameOwnerAccount": "LOLOLOL",
+                  "identification": "12345"
+              }
+          ]
+      }
+  ]
+}
+
+
+
+
+
+
+
+
+
