@@ -25,7 +25,12 @@ export const ResumenTransaccion = ({
   };
   const handleOpen = () => {
     setOpen(true);
-    fetchData();
+
+    if (inputFieldsData[0].programar == true) {
+      fetchDataProgram();
+    } else {
+      fetchData();
+    }
   };
 
   const tranferencia = () => {
@@ -67,6 +72,81 @@ export const ResumenTransaccion = ({
 
         setOpen(false);
         setOpenModal(true);
+      } else {
+        setOpen(false);
+        setMessageAlert("Error del sistema");
+        setTypeMessageAlert("error");
+        setMessageOpen(true);
+      }
+    } catch (err) {
+      setOpen(false);
+      console.log(err);
+      setMessageAlert(err.response.data.responseDesc);
+      setTypeMessageAlert("error");
+      setMessageOpen(true);
+    }
+  };
+
+  const fetchDataProgram = async () => {
+    try {
+      const transfer = await publicFetch.post(`/cuentasProgramadas`, {
+        username: "JEFEDEVPYT",
+        messageId:
+          "OC51QnNzLnVCc3MuOTc5YTdnN2QgOGQ5Y2E3LmFiY2NhZm1kbmNlcWF3ZGRkRENi",
+        channel: "WEB",
+        internalUserName: "PYT",
+        language: "ES_CO",
+        company: "1",
+        userData: {
+          company: "1",
+          e2usm2: 1000,
+          e2cusc: 1000,
+          typeIdentification: "CED",
+          identification: 12345678,
+        },
+        transactions: [
+          {
+            originAccount: inputFieldsData[0].cuentaDebitar,
+            destinationAccount: inputFieldsData[0].cuentaAcreditar,
+            transferAmount: inputFieldsData[0].monto.toString(),
+            typeTransfer: "1",
+            typeCurrencyOriAccount:
+              inputFieldsData[0].monedaUsd == true
+                ? "USD"
+                : inputFieldsData[0].monedaDebitar,
+            descriptionTx: inputFieldsData[0].concepto,
+            dateExecution: "20231010",
+            howOften: inputFieldsData[0].programa.repetir,
+            frecuency: inputFieldsData[0].programa.frecuenciaType,
+          },
+        ],
+      });
+
+      console.log("respuesta=>" + JSON.stringify(transfer));
+
+      if (transfer.data.responseCode == "0000") {
+        if (transfer.data.responseBody.Invalidas.length > 0) {
+          let mensaje =
+            transfer.data.responseBody.Invalidas[0].whyFailed.split("-");
+          setOpen(false);
+          setMessageAlert(mensaje[1]);
+          setTypeMessageAlert("error");
+          setMessageOpen(true);
+        } else {
+          // datos.data.responseBody.Validas.length;
+          if (transfer.data.responseBody.Validas.length > 0) {
+            let valores = [...inputFieldsData];
+            valores[0].NroOperacion =
+              transfer.data.responseBody.Validas[0].nrOperation;
+            valores[0].errorLvl = transfer.data.errorLvl;
+            valores[0].responseDesc = transfer.data.responseDesc;
+
+            setInputFieldsData(valores);
+
+            setOpen(false);
+            setOpenModal(true);
+          }
+        }
       } else {
         setOpen(false);
         setMessageAlert("Error del sistema");

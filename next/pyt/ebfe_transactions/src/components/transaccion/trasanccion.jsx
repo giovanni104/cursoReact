@@ -344,6 +344,7 @@ export const Transaccion = () => {
             handleClose={handleClose}
             inputFieldsData={inputFieldsData}
             setOpenModal={setOpenModal}
+            resetForm={resetForm}
           />
 
           {/* botones de tranferencia*/}

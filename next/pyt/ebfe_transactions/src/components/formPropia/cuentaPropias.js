@@ -12,12 +12,19 @@ export const switchHandler = (
   setChecked,
   inputFields,
   setInputFields,
-  index
+  index,
+  setCheckedUsd
 ) => {
   setChecked(event.target.checked);
   let valores = [...inputFields];
   valores[index].programar = event.target.checked;
   setInputFields(valores);
+
+  if (!event.target.checked) {
+    setCheckedUsd(false);
+    valores[index].monto = "";
+    valores[index].monedaUsd = false;
+  }
 };
 
 export const handleChangeUsd = (
@@ -64,13 +71,16 @@ export const valoresCuenta = (
   setInputFields,
   index,
   cuentasUser,
-  setSaldoDebitar
+  setSaldo
 ) => {
   let valores = [...inputFields];
   let cuenta;
   switch (id) {
     case "cuentaDebitar":
       valores[index].cuentaDebitar = valor;
+      valores[index].descuentaDebitar = "";
+      valores[index].monedaDebitar = "";
+      setSaldo("");
       cuenta = cuentasUser.filter(function (el) {
         return el.numberAccount == valor;
       });
@@ -78,19 +88,24 @@ export const valoresCuenta = (
       if (cuenta.length > 0) {
         valores[index].descuentaDebitar =
           cuenta[0].descriptionAccount + " " + cuenta[0].numberMask;
-        setSaldoDebitar(cuenta[0].balanceMask);
-      } else {
-        valores[index].descuentaDebitar = "";
+        setSaldo(cuenta[0].balanceMask);
+        valores[index].monedaDebitar = cuenta[0].currency;
       }
       break;
 
     case "cuentaAcreditar":
+      setSaldo("");
       valores[index].cuentaAcreditar = valor;
       cuenta = cuentasUser.filter(function (el) {
         return el.numberAccount == valor;
       });
-      valores[index].descuentaAcreditar =
-        cuenta[0].descriptionAccount + " " + cuenta[0].numberMask;
+
+      if (cuenta.length > 0) {
+        valores[index].descuentaAcreditar =
+          cuenta[0].descriptionAccount + " " + cuenta[0].numberMask;
+
+        setSaldo(cuenta[0].balanceMask);
+      }
       break;
 
     case "concepto":
@@ -139,4 +154,36 @@ export const cargaCuentasDebitar = (
     return el.actionDebited == "A" || el.actionDebited == "D";
   });
   setCuentasPropias(cuentas);
+};
+
+export const validacionFormulario = (setBtnTranferir, inputFields, index) => {
+  setBtnTranferir(true);
+
+  let valores = [...inputFields];
+
+  if (
+    valores[index].cuentaDebitar != "" &&
+    valores[index].cuentaAcreditar != "" &&
+    valores[index].monto != "" &&
+    valores[index].concepto != ""
+  ) {
+    if (valores[index].programar == true) {
+      if (
+        valores[index].programa.frecuencia != "" &&
+        valores[index].programa.anio != "" &&
+        valores[index].programa.mes != "" &&
+        valores[index].programa.dia != ""
+      ) {
+        if (valores[index].programa.frecuencia == "Una vez") {
+          setBtnTranferir(false);
+        } else {
+          if (valores[index].programa.repetir != "") {
+            setBtnTranferir(false);
+          }
+        }
+      }
+    } else {
+      setBtnTranferir(false);
+    }
+  }
 };

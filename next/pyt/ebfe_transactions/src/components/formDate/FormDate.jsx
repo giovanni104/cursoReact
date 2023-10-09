@@ -21,22 +21,28 @@ export const Formdate = ({ index, inputFields, setInputFields }) => {
   const [startDate, setStartDate] = React.useState(new Date());
   const [programaDate, setprogramaDate] = React.useState("");
   const [frecienciaData, setFrecienciaData] = React.useState("");
+
   const [displayRepetir, setDisplayRepetir] = React.useState("none");
-  const [dataRepetir, setDataRepetir] = React.useState("none");
+  const [dataRepetir, setDataRepetir] = React.useState("0");
   useEffect(function () {}, []);
 
   const handleRefreshData = () => {
     let valores = [...inputFields];
     valores[index].programa.frecuencia = "";
-    valores[index].programa.dia = "";
+    valores[index].programa.frecuenciaType = "";
     valores[index].programa.mes = "";
     valores[index].programa.anio = "";
-    valores[index].programa.repetir = "";
+    valores[index].programa.repetir = "0";
     setInputFields(valores);
     setprogramaDate("");
   };
 
-  const frecuencia = ["Una vez", "Semanal", "Quincenal", "Mensual"];
+  const frecuencia = [
+    { id: "0", desc: "Una vez" },
+    { id: "1", desc: "Semanal" },
+    { id: "2", desc: "Quincenal" },
+    { id: "3", desc: "Mensual" },
+  ];
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -44,16 +50,20 @@ export const Formdate = ({ index, inputFields, setInputFields }) => {
 
   const handleClose = () => {
     handleRefreshData();
-    setDataRepetir("");
+    setDataRepetir("0");
     setDisplayRepetir("none");
     setOpen(false);
   };
 
   const handledata = () => {
     if (frecienciaData != "") {
-      setprogramaDate(frecienciaData + ": " + formatDate(startDate));
+      let data = frecienciaData.split("-");
+
+      setprogramaDate(data[1] + ": " + formatDate(startDate));
       let valores = [...inputFields];
-      valores[index].programa.frecuencia = frecienciaData;
+      valores[index].programa.frecuencia = data[1];
+      valores[index].programa.frecuenciaType = data[0];
+
       setInputFields(valores);
     } else {
       handleRefreshData();
@@ -122,7 +132,12 @@ export const Formdate = ({ index, inputFields, setInputFields }) => {
               }
             }}
             onChange={(e) => {
-              setDataRepetir(e.target.value);
+              if (e.target.value == "") {
+                setDataRepetir("0");
+              } else {
+                setDataRepetir(e.target.value);
+              }
+
               let valores = [...inputFields];
               valores[index].programa.repetir = e.target.value;
               setInputFields(valores);
@@ -141,18 +156,24 @@ export const Formdate = ({ index, inputFields, setInputFields }) => {
                 id="frecuencia"
                 value={frecienciaData}
                 label="Frecuencia"
+                defaultValue=""
                 onChange={(event) => {
-                  console.log(event);
-                  setFrecienciaData(event.target.value);
+                  let dataSelect = "";
 
-                  if (
-                    event.target.value == "Una vez" ||
-                    event.target.value == ""
-                  ) {
+                  console.log(event);
+                  if (event.target.value != "") {
+                    let data = event.target.value.split("-");
+                    setFrecienciaData(event.target.value);
+                    dataSelect = data[1];
+                  } else {
+                    setFrecienciaData("");
+                  }
+                  console.log(dataSelect);
+                  if (dataSelect == "Una vez" || dataSelect == "") {
                     setDisplayRepetir("none");
-                    setDataRepetir("");
+                    setDataRepetir("0");
                     let valores = [...inputFields];
-                    valores[index].programa.repetir = "";
+                    valores[index].programa.repetir = "0";
                     setInputFields(valores);
                   } else {
                     setDisplayRepetir("unset");
@@ -166,8 +187,11 @@ export const Formdate = ({ index, inputFields, setInputFields }) => {
 
                 {frecuencia.map((concepto, index) => {
                   return (
-                    <MenuItem key={index} value={concepto}>
-                      {concepto}
+                    <MenuItem
+                      key={index}
+                      value={concepto.id + "-" + concepto.desc}
+                    >
+                      {concepto.desc}
                     </MenuItem>
                   );
                 })}

@@ -6,7 +6,7 @@ import Stack from "@mui/material/Stack";
 
 import InfoMessageStyle from "./InfoMessageStyle";
 
-export const InfoMessage = ({ typeMessage, message }) => {
+export const InfoMessage = ({ typeMessage, message, setOpenMessage }) => {
   const [progress, setProgress] = React.useState(0);
   const [color, setColor] = React.useState({
     primario: "",
@@ -42,10 +42,7 @@ export const InfoMessage = ({ typeMessage, message }) => {
     const timer = setInterval(() => {
       setProgress((oldProgress) => {
         if (oldProgress === 100) {
-          const mensaje = document.querySelector("#infoMessage");
-          if (mensaje != null) {
-            mensaje.classList.add("ocultar");
-          }
+          setOpenMessage(false);
 
           return 0;
         }
@@ -60,10 +57,7 @@ export const InfoMessage = ({ typeMessage, message }) => {
   }, []);
 
   const cerrarMensaje = () => {
-    const mensaje = document.querySelector("#infoMessage");
-    if (mensaje != null) {
-      mensaje.classList.add("ocultar");
-    }
+    setOpenMessage(false);
   };
 
   const mensaje = document.querySelector("#infoMessage");

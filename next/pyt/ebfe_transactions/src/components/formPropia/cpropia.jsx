@@ -7,7 +7,6 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import axios from "axios";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import { MyNumberComponent } from "../numberComponent/myNumberComponent";
@@ -16,7 +15,7 @@ import Checkbox from "@mui/material/Checkbox";
 import { publicFetch } from "@/utils/fetch";
 import cpropiaStyle from "./cpropiaStyle";
 import { AlertMessage } from "../alertMessage";
-import { separadoresMiles } from "../../utils/genericas";
+
 import {
   conceptos,
   switchHandler,
@@ -26,6 +25,7 @@ import {
   infoIcon,
   infoTasa,
   cargaCuentasDebitar,
+  validacionFormulario,
 } from "./cuentaPropias";
 
 export const FormPropia = ({
@@ -43,8 +43,8 @@ export const FormPropia = ({
   const [messageOpen, setMessageOpen] = useState(false);
   const [messageAlert, setMessageAlert] = useState("error del sistema");
   const [typeMessageAlert, setTypeMessageAlert] = useState("");
-
   const [saldoDebitar, setSaldoDebitar] = useState("");
+  const [saldoAcreditar, setSaldoAcreditar] = useState("");
 
   useEffect(() => {
     async function fetchData() {
@@ -88,41 +88,13 @@ export const FormPropia = ({
   }, []);
 
   useEffect(() => {
-    setBtnTranferir(true);
-
-    let valores = [...inputFields];
-
-    if (
-      valores[index].cuentaDebitar != "" &&
-      valores[index].cuentaAcreditar != "" &&
-      valores[index].monto != "" &&
-      valores[index].concepto != ""
-    ) {
-      if (valores[index].programar == true) {
-        if (
-          valores[index].programa.frecuencia != "" &&
-          valores[index].programa.anio != "" &&
-          valores[index].programa.mes != "" &&
-          valores[index].programa.dia != ""
-        ) {
-          if (valores[index].programa.frecuencia == "Una vez") {
-            setBtnTranferir(false);
-          } else {
-            if (valores[index].programa.repetir != "") {
-              setBtnTranferir(false);
-            }
-          }
-        }
-      } else {
-        setBtnTranferir(false);
-      }
-    }
+    validacionFormulario(setBtnTranferir, inputFields, index);
   }, [inputFields]);
 
   return (
     <Fragment key={`${inputField}~${index}`}>
       <div className="divBloque">
-        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+        <Grid container rowSpacing={4} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
           <Grid item xs={6}>
             <div className="divInputs">
               <FormControl fullWidth size="small">
@@ -166,9 +138,11 @@ export const FormPropia = ({
                   })}
                 </Select>
               </FormControl>
-              <label className="lblInfoSaldo">
-                Saldo disponible: Bs {saldoDebitar}
-              </label>
+              {saldoDebitar != "" && (
+                <label className="lblInfoSaldo">
+                  Saldo disponible: Bs {saldoDebitar}
+                </label>
+              )}
             </div>
           </Grid>
           <Grid item xs={6}>
@@ -187,7 +161,8 @@ export const FormPropia = ({
                       inputFields,
                       setInputFields,
                       index,
-                      cuentasUser
+                      cuentasUser,
+                      setSaldoAcreditar
                     );
                   }}
                   name="cuentaAcreditar"
@@ -205,14 +180,16 @@ export const FormPropia = ({
                   })}
                 </Select>
               </FormControl>
-              <label className="lblInfoSaldo">
-                {" "}
-                Saldo disponible: Bs 45.454.545
-              </label>
+
+              {saldoAcreditar != "" && (
+                <label className="lblInfoSaldo">
+                  Saldo disponible: {saldoAcreditar}
+                </label>
+              )}
             </div>
           </Grid>
 
-          {!checkedUsd && (
+          {!inputFields[index].monedaUsd && (
             <Grid item xs={6}>
               <div className="divInputs">
                 <MyNumberComponent
@@ -264,7 +241,7 @@ export const FormPropia = ({
             </div>
           </Grid>
 
-          {checkedUsd && <Grid item xs={6}></Grid>}
+          {inputFields[index].monedaUsd && <Grid item xs={6}></Grid>}
 
           <Grid item xs={6}>
             <div style={{ marginTop: "15px" }}>
@@ -281,7 +258,8 @@ export const FormPropia = ({
                             setChecked,
                             inputFields,
                             setInputFields,
-                            index
+                            index,
+                            setCheckedUsd
                           );
                         }}
                         inputProps={{ "aria-label": "controlled" }}
@@ -414,7 +392,7 @@ export const FormPropia = ({
                   </Stack>
                 </div>
 
-                {checkedUsd && (
+                {inputFields[index].monedaUsd && (
                   <div style={{ marginTop: "15px" }}>
                     <div className="divInputs">
                       <MyNumberComponent

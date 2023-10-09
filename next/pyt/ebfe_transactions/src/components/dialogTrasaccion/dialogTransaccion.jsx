@@ -1,5 +1,4 @@
-import React from "react";
-
+import React, { useEffect, useState } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -9,14 +8,16 @@ import { InfoMessage } from "../InfoMessage/InfoMessage";
 import { formatDate } from "../../utils/genericas";
 import html2canvas from "html2canvas";
 import Button from "@mui/material/Button";
-import DeleteIcon from "@mui/icons-material/Delete";
-import IconButton from "@mui/material/IconButton";
+
 export const DialogTransaccion = ({
   openModal,
   handleClose,
   inputFieldsData,
   setOpenModal,
+  resetForm,
 }) => {
+  const [openMessage, setOpenMessage] = useState(true);
+
   const downloadImage = () => {
     const table = document.getElementById("reciboTransaccion");
 
@@ -27,6 +28,12 @@ export const DialogTransaccion = ({
       link.click();
     });
   };
+
+  useEffect(() => {
+    if (openModal) {
+      setOpenMessage(true);
+    }
+  }, [openModal]);
 
   return (
     <Dialog
@@ -186,16 +193,22 @@ export const DialogTransaccion = ({
               backgroundColor: "#004A72",
             },
           }}
-          onClick={() => setOpenModal(false)}
+          onClick={() => {
+            setOpenModal(false);
+            resetForm();
+          }}
         >
           Salir
         </Button>
       </div>
 
-      <InfoMessage
-        message={inputFieldsData[0].responseDesc}
-        typeMessage={inputFieldsData[0].errorLvl}
-      />
+      {openMessage && (
+        <InfoMessage
+          message={inputFieldsData[0].responseDesc}
+          typeMessage={inputFieldsData[0].errorLvl}
+          setOpenMessage={setOpenMessage}
+        />
+      )}
 
       <style jsx>{`
         .descargar:hover {

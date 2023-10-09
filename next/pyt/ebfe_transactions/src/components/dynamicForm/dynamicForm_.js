@@ -9,15 +9,17 @@ export const formDataPropia = {
   programar: false,
   programa: {
     frecuencia: "",
+    frecuenciaType: "",
     anio: "",
     mes: "",
     dia: "",
-    repetir: "",
+    repetir: "0",
   },
   monedaUsd: false,
   NroOperacion: "",
   errorLvl: "",
   responseDesc: "",
+  monedaDebitar: "",
 };
 
 export const formDataPropiaReset = {
@@ -31,12 +33,14 @@ export const formDataPropiaReset = {
   programar: false,
   programa: {
     frecuencia: "",
+    frecuenciaType: "",
     anio: "",
     mes: "",
     dia: "",
-    repetir: "",
+    repetir: "0",
   },
   monedaUsd: false,
+  monedaDebitar: "",
 };
 
 export const formData = {
@@ -105,6 +109,7 @@ export const formDataTerceros = {
   programar: false,
   programa: {
     frecuencia: "",
+    frecuenciaType: "",
     anio: "",
     mes: "",
     dia: "",
@@ -142,6 +147,7 @@ export const formDataTercerosReset = {
   programar: false,
   programa: {
     frecuencia: "",
+    frecuenciaType: "",
     anio: "",
     mes: "",
     dia: "",
