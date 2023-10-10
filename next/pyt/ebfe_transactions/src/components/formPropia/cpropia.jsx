@@ -63,7 +63,7 @@ export const FormPropia = ({
           language: "EN_US",
         });
 
-        console.log(JSON.stringify(users));
+        // console.log(JSON.stringify(users));
 
         if (users.data.responseCode == "0000") {
           cargaCuentasDebitar(

@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useEffect } from "react";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
@@ -21,8 +21,9 @@ import { DialogTitle } from "@mui/material";
 import Button from "@mui/material/Button";
 import { MyNumberComponent } from "../numberComponent/myNumberComponent";
 import { patterns } from "../../utils/genericas";
-//import "../../styles/formPay.module.css";
-
+import formTercerosStyle from "./formTercerosStyle";
+import { useCuentaTerceros } from "./cuentaTerceros";
+import { publicFetch } from "@/utils/fetch";
 const icon_trash = process.env.NEXT_PUBLIC_BASIC_URL + "trash_azul.svg";
 export const conceptos = [
   { value: "Pagos", label: "Pagos" },
@@ -41,176 +42,109 @@ export const FormTerceros = ({
 }) => {
   inputFields[index].index = index;
 
-  const [openModal, setOpenModal] = React.useState(false);
-  const [errorNumcuenta, setErrorNumcuenta] = useState("");
-  const [errorNombre, setErrorNombre] = useState("");
-  const [errorTelefono, setErrorTelefono] = useState("");
-  const [errorNumdoc, setErrorNumdoc] = useState("");
-  const [errorAlias, setErrorAlias] = useState("");
-
-  const setterDataFields = (atributo, valor, atributo2) => {
-    let valores = [...inputFields];
-    if (atributo2 == null || atributo2 == "" || atributo2 == undefined) {
-      valores[index][atributo] = valor;
-    } else {
-      valores[index][atributo][atributo2] = valor;
-    }
-
-    setInputFields(valores);
-  };
-
-  const clearDataNoRegistrado = () => {
-    let valores = [...inputFields];
-    let atributos = [
-      "tipo",
-      "telefono",
-      "bancodestino",
-      "tipodoc",
-      "numdoc",
-      "nombre",
-      "numcuenta",
-    ];
-
-    atributos.forEach(function (atributo) {
-      valores[index]["instrumento"][atributo] = "";
-    });
-    setErrorNumcuenta("");
-    setErrorNombre("");
-    setErrorNumdoc("");
-    setErrorTelefono("");
-    setterDataFields("beneficiario", false);
-    setterDataFields("beneficiarioCuenta", "");
-    setterDataFields("beneficiarioBanco", "");
-
-    setterDataFields("registrar", false);
-    clearDataRegistrar();
-
-    setInputFields(valores);
-  };
-
-  const clearDataRegistrar = () => {
-    let valores = [...inputFields];
-    let atributos = ["tipo", "alias", "beneficiario"];
-
-    atributos.forEach(function (atributo) {
-      valores[index]["registro"][atributo] = "";
-    });
-    setInputFields(valores);
-  };
-
-  const handleClose = () => {
-    setOpenModal(false);
-  };
-  const infoIcon = `
-  Programa operaciones con una fecha de
-  ejecución futura. Además, podrás
-  asignar una frecuencia y cantidad de 
-  repeticiones.
-  `;
-
-  const infoTasa = `
-  La operación será procesada en
-  Bolívares según la tasa BCV de
-  la fecha valor.
-  `;
+  const {
+    openModal,
+    setOpenModal,
+    errorNumcuenta,
+    setErrorNumcuenta,
+    errorNombre,
+    setErrorNombre,
+    errorTelefono,
+    setErrorTelefono,
+    errorNumdoc,
+    setErrorNumdoc,
+    errorAlias,
+    setErrorAlias,
+    infoIcon,
+    handleClose,
+    clearDataNoRegistrado,
+    clearDataRegistrar,
+    infoTasa,
+    validacionFormulario,
+    setterDataFields,
+    cargaCuentasDebitar,
+    cuentasPropias,
+    filtroCuentas,
+    datosBeneficiario,
+    listBeneficiarios,
+    filterCuentasBeneficiario,
+  } = useCuentaTerceros();
 
   useEffect(() => {
-    setBtnTranferir(true);
+    validacionFormulario(setBtnTranferir, inputFields, index);
+  }, [inputFields]);
 
-    let valores = [...inputFields];
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const users = await publicFetch.post(`/cuentasPropias`, {
+          company: "1",
+          messageId:
+            "OC51QnNzLnVCc3MuOTc5YTdnN2QgOGQ5Y2E3LmFiY2NhZm1kbmNlcWF3ZGRkRENi",
+          username: "JEFEDEVPYT",
+          channel: "WEB",
+          internalUserName: "PYT",
+          identification: "CED",
+          typeIdentification: "123456785",
+          e2usm2: 1000,
+          e2cusc: 1000,
+          language: "EN_US",
+        });
 
-    if (
-      valores[index].cuentaDebitar != "" &&
-      valores[index].monto != "" &&
-      valores[index].concepto != ""
-    ) {
-      setBtnTranferir(false);
+        // console.log(JSON.stringify(users));
 
-      if (valores[index].noregistrado == true) {
-        setBtnTranferir(true);
-
-        if (valores[index].instrumento.tipo == "") {
-          setBtnTranferir(true);
+        if (users.data.responseCode == "0000") {
+          cargaCuentasDebitar(users.data.responseBody, "BS");
         } else {
-          setBtnTranferir(true);
-          switch (valores[index].instrumento.tipo) {
-            case "cuenta":
-              if (valores[index].instrumento.numcuenta != "") {
-                setBtnTranferir(false);
-              }
-              break;
-            case "telefono":
-              if (
-                valores[index].instrumento.telefono != "" &&
-                valores[index].instrumento.bancodestino != "" &&
-                valores[index].instrumento.tipodoc != "" &&
-                valores[index].instrumento.numdoc != "" &&
-                valores[index].instrumento.nombre != ""
-              ) {
-                setBtnTranferir(false);
-              }
-              break;
-            default:
-              console.log("3");
-              setBtnTranferir(true);
-              break;
-          }
+          setMessageAlert("error del sistema1");
+          setTypeMessageAlert("error");
+          setMessageOpen(true);
         }
+      } catch (err) {
+        console.log(err);
 
-        if (valores[index].registrar == true) {
-          setBtnTranferir(true);
-
-          switch (valores[index].registro.tipo) {
-            case "cuenta":
-              if (valores[index].registro.beneficiario != "") {
-                setBtnTranferir(false);
-              }
-              break;
-            case "telefono":
-              if (valores[index].registro.alias != "") {
-                setBtnTranferir(false);
-              }
-              break;
-            default:
-              setBtnTranferir(true);
-              break;
-          }
-        }
-      } else {
-        if (valores[index].beneficiarioCuenta != "") {
-          setBtnTranferir(false);
-        }
-      }
-
-      if (valores[index].programar == true) {
-        setBtnTranferir(false);
-        if (
-          valores[index].programa.frecuencia != "" &&
-          valores[index].programa.anio != "" &&
-          valores[index].programa.mes != "" &&
-          valores[index].programa.dia != ""
-        ) {
-          if (valores[index].programa.frecuencia == "Una vez") {
-            setBtnTranferir(false);
-          } else {
-            if (valores[index].programa.repetir != "") {
-              setBtnTranferir(false);
-            }
-          }
-        }
-      }
-
-      if (
-        errorNumcuenta != "" ||
-        errorNombre != "" ||
-        errorTelefono != "" ||
-        errorNumdoc != "" ||
-        errorAlias != ""
-      ) {
-        setBtnTranferir(true);
+        /*console.log(err.response.data);
+        setMessageAlert(err.response.data.responseDesc);
+        setTypeMessageAlert("error");
+        setMessageOpen(true);*/
       }
     }
-  }, [inputFields]);
+
+    async function fetchDataBeneficiario() {
+      try {
+        const beneficiarios = await publicFetch.post(`/cuentasBeneficiarios`, {
+          company: "1",
+          messageId:
+            "eS5VMVNTLlUxU1Muenh6QXl4eXggeUV6eHlBLkVFRUN6Qkt4QnpDQ1cxRUl4TTNL",
+          username: "JEFEDEVPYT",
+          channel: "WEB",
+          internalUserName: "PYT",
+          e2cusc: 1000,
+          e2usm2: 1000,
+          language: "EN_US",
+        });
+
+        console.log(JSON.stringify(beneficiarios));
+
+        if (beneficiarios.data.responseCode == "0000") {
+          datosBeneficiario(beneficiarios.data.responseBody);
+        } else {
+          setMessageAlert("error del sistema1");
+          setTypeMessageAlert("error");
+          setMessageOpen(true);
+        }
+      } catch (err) {
+        console.log(err);
+        /* console.log(err.response.data);
+        setMessageAlert(err.response.data.responseDesc);
+        setTypeMessageAlert("error");
+        setMessageOpen(true);*/
+      }
+    }
+
+    fetchData();
+    fetchDataBeneficiario();
+  }, []);
 
   return (
     <Fragment key={`${"terceros"}~${index}`}>
@@ -289,7 +223,15 @@ export const FormTerceros = ({
               minHeight: "40px",
             }}
             onClick={(event) => {
-              setterDataFields("currency", "Bs");
+              setterDataFields(
+                "currency",
+                "Bs",
+                null,
+                inputFields,
+                setInputFields,
+                index
+              );
+              filtroCuentas("BS");
             }}
           />
 
@@ -311,7 +253,15 @@ export const FormTerceros = ({
               minHeight: "40px",
             }}
             onClick={(event) => {
-              setterDataFields("currency", "USD");
+              setterDataFields(
+                "currency",
+                "USD",
+                null,
+                inputFields,
+                setInputFields,
+                index
+              );
+              filtroCuentas("USD");
             }}
           />
 
@@ -333,7 +283,16 @@ export const FormTerceros = ({
               minHeight: "40px",
             }}
             onClick={(event) => {
-              setterDataFields("currency", "EUR");
+              setterDataFields(
+                "currency",
+                "EUR",
+                null,
+                inputFields,
+                setInputFields,
+                index
+              );
+
+              filtroCuentas("EUR");
             }}
           />
         </Stack>
@@ -351,17 +310,24 @@ export const FormTerceros = ({
                   name="cuentaDebitar"
                   id="cuentaDebitar"
                   onChange={(event) => {
-                    setterDataFields("cuentaDebitar", event.target.value);
+                    setterDataFields(
+                      "cuentaDebitar",
+                      event.target.value,
+                      null,
+                      inputFields,
+                      setInputFields,
+                      index
+                    );
                   }}
                 >
                   <MenuItem key={0} value="">
                     <em>Seleccionar</em>
                   </MenuItem>
 
-                  {conceptos.map((concepto, index) => {
+                  {cuentasPropias.map((cuenta, index) => {
                     return (
-                      <MenuItem key={index} value={concepto.value}>
-                        {concepto.label}
+                      <MenuItem key={index} value={cuenta.numberAccount}>
+                        {cuenta.descriptionAccount + " " + cuenta.numberMask}
                       </MenuItem>
                     );
                   })}
@@ -387,15 +353,30 @@ export const FormTerceros = ({
                       name="beneficiario"
                       id="beneficiario"
                       onChange={(event) => {
-                        setterDataFields("beneficiario", event.target.value);
+                        setterDataFields(
+                          "beneficiario",
+                          event.target.value,
+                          null,
+                          inputFields,
+                          setInputFields,
+                          index
+                        );
+
+                        filterCuentasBeneficiario(event.target.value);
                         setOpenModal(true);
                       }}
                     >
                       <MenuItem key={0} value="">
                         <em>Seleccionar</em>
                       </MenuItem>
-                      <MenuItem value="cuenta">Cuenta</MenuItem>
-                      <MenuItem value="telefono">Telefono</MenuItem>
+
+                      {listBeneficiarios.map((cuenta, index) => {
+                        return (
+                          <MenuItem key={index} value={cuenta}>
+                            {cuenta.split(":")[0]}
+                          </MenuItem>
+                        );
+                      })}
                     </Select>
                   </FormControl>
                   <label className="lblInfoSaldo">
@@ -422,8 +403,15 @@ export const FormTerceros = ({
                 style={{ padding: 0 }}
                 checked={inputFields[index].noregistrado}
                 onChange={(event) => {
-                  setterDataFields("noregistrado", event.target.checked);
-                  clearDataNoRegistrado();
+                  setterDataFields(
+                    "noregistrado",
+                    event.target.checked,
+                    null,
+                    inputFields,
+                    setInputFields,
+                    index
+                  );
+                  clearDataNoRegistrado(inputFields, setInputFields, index);
                 }}
                 checkedIcon={
                   <Icon>
@@ -467,7 +455,10 @@ export const FormTerceros = ({
                         setterDataFields(
                           "instrumento",
                           event.target.value,
-                          "tipo"
+                          "tipo",
+                          inputFields,
+                          setInputFields,
+                          index
                         );
                       }}
                     >
@@ -515,7 +506,10 @@ export const FormTerceros = ({
                                 setterDataFields(
                                   "instrumento",
                                   event.target.value,
-                                  "telefono"
+                                  "telefono",
+                                  inputFields,
+                                  setInputFields,
+                                  index
                                 );
                               }}
                             />
@@ -540,7 +534,10 @@ export const FormTerceros = ({
                                   setterDataFields(
                                     "instrumento",
                                     event.target.value,
-                                    "bancodestino"
+                                    "bancodestino",
+                                    inputFields,
+                                    setInputFields,
+                                    index
                                   );
                                 }}
                               >
@@ -568,7 +565,10 @@ export const FormTerceros = ({
                                   setterDataFields(
                                     "instrumento",
                                     event.target.value,
-                                    "tipodoc"
+                                    "tipodoc",
+                                    inputFields,
+                                    setInputFields,
+                                    index
                                   );
                                 }}
                               >
@@ -616,7 +616,10 @@ export const FormTerceros = ({
                                 setterDataFields(
                                   "instrumento",
                                   event.target.value,
-                                  "numdoc"
+                                  "numdoc",
+                                  inputFields,
+                                  setInputFields,
+                                  index
                                 );
                               }}
                             />
@@ -652,7 +655,10 @@ export const FormTerceros = ({
                                 setterDataFields(
                                   "instrumento",
                                   event.target.value,
-                                  "nombre"
+                                  "nombre",
+                                  inputFields,
+                                  setInputFields,
+                                  index
                                 );
                               }}
                             />
@@ -691,7 +697,10 @@ export const FormTerceros = ({
                               setterDataFields(
                                 "instrumento",
                                 event.target.value,
-                                "numcuenta"
+                                "numcuenta",
+                                inputFields,
+                                setInputFields,
+                                index
                               );
                             }}
                           />
@@ -727,7 +736,14 @@ export const FormTerceros = ({
                   name="concepto"
                   value={inputFields[index].concepto}
                   onChange={(event) => {
-                    setterDataFields("concepto", event.target.value);
+                    setterDataFields(
+                      "concepto",
+                      event.target.value,
+                      null,
+                      inputFields,
+                      setInputFields,
+                      index
+                    );
                   }}
                 >
                   <MenuItem key={0} value="">
@@ -757,8 +773,19 @@ export const FormTerceros = ({
                         defaultValue={false}
                         checked={inputFields[index].registrar}
                         onChange={(event) => {
-                          setterDataFields("registrar", event.target.checked);
-                          clearDataRegistrar();
+                          setterDataFields(
+                            "registrar",
+                            event.target.checked,
+                            null,
+                            inputFields,
+                            setInputFields,
+                            index
+                          );
+                          clearDataRegistrar(
+                            inputFields,
+                            setInputFields,
+                            index
+                          );
                         }}
                         checkedIcon={
                           <Icon>
@@ -807,7 +834,10 @@ export const FormTerceros = ({
                             setterDataFields(
                               "registro",
                               event.target.value,
-                              "tipo"
+                              "tipo",
+                              inputFields,
+                              setInputFields,
+                              index
                             );
                           }}
                         >
@@ -853,7 +883,10 @@ export const FormTerceros = ({
                                   setterDataFields(
                                     "registro",
                                     event.target.value,
-                                    "alias"
+                                    "alias",
+                                    inputFields,
+                                    setInputFields,
+                                    index
                                   );
                                 }}
                               />
@@ -880,7 +913,10 @@ export const FormTerceros = ({
                                     setterDataFields(
                                       "registro",
                                       event.target.value,
-                                      "beneficiario"
+                                      "beneficiario",
+                                      inputFields,
+                                      setInputFields,
+                                      index
                                     );
                                   }}
                                 >
@@ -942,7 +978,14 @@ export const FormTerceros = ({
                         size="medium"
                         checked={inputFields[index].programar}
                         onChange={(event) => {
-                          setterDataFields("programar", event.target.checked);
+                          setterDataFields(
+                            "programar",
+                            event.target.checked,
+                            null,
+                            inputFields,
+                            setInputFields,
+                            index
+                          );
                         }}
                         inputProps={{ "aria-label": "controlled" }}
                       />
@@ -1063,8 +1106,8 @@ export const FormTerceros = ({
         <DialogTitle style={{ padding: "0px 0px 0px 0px" }}>
           <div
             style={{
-              width: "350px",
-              height: "30px",
+              width: "100%",
+              height: "50px",
               backgroundColor: "#E9E9E9",
               paddingTop: "8px",
               paddingBottom: "8px",
@@ -1110,8 +1153,22 @@ export const FormTerceros = ({
                   name="beneficiarioCuenta"
                   value={inputFields[index].beneficiarioCuenta}
                   onChange={(event) => {
-                    setterDataFields("beneficiarioCuenta", event.target.value);
-                    setterDataFields("beneficiarioBanco", event.target.value);
+                    setterDataFields(
+                      "beneficiarioCuenta",
+                      event.target.value,
+                      null,
+                      inputFields,
+                      setInputFields,
+                      index
+                    );
+                    setterDataFields(
+                      "beneficiarioBanco",
+                      event.target.value,
+                      null,
+                      inputFields,
+                      setInputFields,
+                      index
+                    );
                     setOpenModal(false);
                   }}
                 >
@@ -1128,205 +1185,7 @@ export const FormTerceros = ({
         <DialogActions style={{ justifyContent: "center" }}></DialogActions>
       </Dialog>
 
-      <style jsx>{`
-        .imgCurrencyBS:hover {
-          content: url("${process.env
-            .NEXT_PUBLIC_BASIC_URL}moneda/hoverBs.svg") !important;
-        }
-        .imgCurrencyEUR:hover {
-          content: url("${process.env
-            .NEXT_PUBLIC_BASIC_URL}moneda/hoverEUR.svg") !important;
-        }
-
-        .imgCurrencyUSD:hover {
-          content: url("${process.env
-            .NEXT_PUBLIC_BASIC_URL}moneda/hoverUSD.svg") !important;
-        }
-
-        .lblNombre {
-          font-family: Nunito !important;
-          font-size: 20px !important;
-          font-weight: 700 !important;
-        }
-
-        .lbltasa {
-          font-family: Nunito;
-          font-size: 12px;
-
-          color: #7b7b7b;
-        }
-
-        .inputText {
-          box-sizing: border-box;
-          /* Auto layout */
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          padding: 10px 10px 10px 20px;
-          gap: 10px;
-          width: 400px;
-          height: 50px;
-          left: 98px;
-          top: 251px;
-          /* Grises/Blanco */
-          background: #ffffff;
-          border: 1px solid rgba(123, 123, 123, 0.5);
-          border-radius: 4px;
-          font-family: "Nunito";
-          font-style: normal;
-          font-weight: 400;
-          font-size: 16px;
-          line-height: 22px;
-          /* identical to box height */
-          display: flex;
-          align-items: center;
-
-          color: #7b7b7b;
-        }
-
-        .divInputs {
-          text-align: left;
-          width: 401px;
-          font-family: "Nunito";
-          font-style: normal;
-          font-weight: 400;
-          font-size: 14px;
-          line-height: 19px;
-        }
-
-        .divCheckbox {
-          text-align: left;
-          font-family: "Nunito";
-          font-style: normal;
-          font-weight: 400;
-          font-size: 16px;
-          line-height: 22px;
-          width: 320px;
-          height: 22px;
-          left: 597px;
-          top: 207px;
-
-          color: #7b7b7b;
-        }
-
-        .divBloque {
-          width: 862px;
-          /* Grises/Blanco */
-          background: #ffffff;
-
-          margin: 0 auto;
-          margin-top: 10px;
-        }
-
-        .divTrash {
-          width: 100%;
-          float: right;
-          text-align: right;
-        }
-
-        .selectText {
-          box-sizing: border-box;
-          /* Auto layout */
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          padding: 10px 10px 10px 20px;
-          gap: 20px;
-          width: 400px;
-          height: 50px;
-          left: 558px;
-          top: 135px;
-          /* Grises/Blanco */
-          background: #ffffff;
-          border: 1px solid rgba(123, 123, 123, 0.5);
-          border-radius: 4px;
-          font-family: "Nunito";
-          font-style: normal;
-          font-weight: 400;
-          font-size: 16px;
-          line-height: 22px;
-          /* identical to box height */
-          display: flex;
-          align-items: center;
-          color: #7b7b7b;
-
-          /* Arrow */
-          appearance: none;
-          background-image: url("${process.env
-            .NEXT_PUBLIC_BASIC_URL}forms/rowSelect.svg");
-          background-repeat: no-repeat;
-          background-position: right 30px top 50%;
-          background-size: 0.65rem auto;
-        }
-
-        .selectTextBeneficiario {
-          box-sizing: border-box;
-          /* Auto layout */
-          display: flex;
-          flex-direction: row;
-          align-items: start;
-          padding: 10px 10px 10px 20px;
-          gap: 20px;
-          width: 86px;
-          height: 50px;
-          left: 96px;
-          top: 248px;
-          /* Grises/Blanco */
-          background: #ffffff;
-          border: 1px solid rgba(123, 123, 123, 0.5);
-          border-radius: 4px;
-          font-family: "Nunito";
-          font-style: normal;
-          font-weight: 400;
-          font-size: 16px;
-          line-height: 22px;
-          /* identical to box height */
-          display: flex;
-          align-items: center;
-
-          color: #7b7b7b;
-
-          /* Arrow */
-          appearance: none;
-          background-image: url("${process.env
-            .NEXT_PUBLIC_BASIC_URL}forms/rowSelect.svg");
-          background-repeat: no-repeat;
-          background-position: right 12px top 50%;
-          background-size: 0.65rem auto;
-        }
-
-        .inputTextBeneficiario {
-          box-sizing: border-box;
-          /* Auto layout */
-          display: flex;
-          flex-direction: row;
-          align-items: end;
-          padding: 10px 10px 10px 20px;
-          gap: 10px;
-          height: 50px;
-          width: 290px;
-          left: 0px;
-          top: 0px;
-          /* Grises/Blanco */
-          background: #ffffff;
-          border: 1px solid rgba(123, 123, 123, 0.5);
-          border-radius: 4px;
-          font-family: "Nunito";
-          font-style: normal;
-          font-weight: 400;
-          font-size: 16px;
-          line-height: 22px;
-          /* identical to box height */
-          display: flex;
-
-          color: #7b7b7b;
-        }
-
-        .trash img:hover {
-          content: url("${process.env
-            .NEXT_PUBLIC_BASIC_URL}trash_blanco.svg") !important;
-        }
-      `}</style>
+      <style jsx>{formTercerosStyle}</style>
     </Fragment>
   );
 };
