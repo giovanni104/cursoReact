@@ -258,7 +258,7 @@ export const useCuentaTerceros = () => {
     const cuentas = dataBeneficiarios.filter(function (el) {
       return el.nameOwner == beneficiario;
     });
-
+    console.log(cuentas[0].accounts);
     setcuentasBeneficiario(cuentas[0].accounts);
   };
 
@@ -288,5 +288,6 @@ export const useCuentaTerceros = () => {
     datosBeneficiario,
     listBeneficiarios,
     filterCuentasBeneficiario,
+    cuentasBeneficiario,
   };
 };

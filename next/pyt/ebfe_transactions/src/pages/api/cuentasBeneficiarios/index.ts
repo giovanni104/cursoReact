@@ -17,7 +17,7 @@ const handler = async (req: NextRequest, res: NextApiResponse) => {
 
     const resAxios = await axios
       .post("http://192.168.10.226:8793/accounts/others", dataTransaccion, {
-        timeout: 1000,
+        timeout: 6000,
       })
       .catch(function (error) {
         if (error.response) {

@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import { FormPay } from "../form/FormPay";
 import { FormPropia } from "../formPropia/cpropia";
 import { FormTerceros } from "../formTerceros/FormTerceros";
-
+import { ProvidersTerceros } from "../../store/storeCuentasTerceros";
 import { FormAccordion } from "../formAccordion/FormAccordion";
 
 export const DynamicForm = ({
@@ -49,18 +47,7 @@ export const DynamicForm = ({
               {type == "terceros" &&
                 inputFields.map((inputField, index) =>
                   inputFields.length == 1 ? (
-                    <FormTerceros
-                      key={index}
-                      handleRemoveFields={handleRemoveFields}
-                      handleAddFields={handleAddFields}
-                      index={index}
-                      addVisible={addVisible}
-                      setInputFields={setInputFields}
-                      inputFields={inputFields}
-                      setBtnTranferir={setBtnTranferir}
-                    />
-                  ) : (
-                    <FormAccordion key={index} index={index}>
+                    <ProvidersTerceros>
                       <FormTerceros
                         key={index}
                         handleRemoveFields={handleRemoveFields}
@@ -71,6 +58,21 @@ export const DynamicForm = ({
                         inputFields={inputFields}
                         setBtnTranferir={setBtnTranferir}
                       />
+                    </ProvidersTerceros>
+                  ) : (
+                    <FormAccordion key={index} index={index}>
+                      <ProvidersTerceros>
+                        <FormTerceros
+                          key={index}
+                          handleRemoveFields={handleRemoveFields}
+                          handleAddFields={handleAddFields}
+                          index={index}
+                          addVisible={addVisible}
+                          setInputFields={setInputFields}
+                          inputFields={inputFields}
+                          setBtnTranferir={setBtnTranferir}
+                        />
+                      </ProvidersTerceros>
                     </FormAccordion>
                   )
                 )}

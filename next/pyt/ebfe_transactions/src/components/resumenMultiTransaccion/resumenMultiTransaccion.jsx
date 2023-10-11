@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import resumenMultiTransaccionStyle from "./resumenMultiTransaccionStyle";
@@ -6,15 +6,21 @@ import Button from "@mui/material/Button";
 import { labelsTransaccion } from "../../utils/labelsTransaccion";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
+import { Datatable } from "../dataTable";
+import { ConfirmDialog } from "../confirmDialog";
 export const ResumenMultiTransaccion = ({
   inputFieldsData,
   setOpenModal,
   resetForm,
   handleSubtitulo,
+  setInputFieldsData,
 }) => {
+  console.log(JSON.stringify(inputFieldsData));
+
   const [open, setOpen] = React.useState(false);
   const [openResultados, setOpenResultados] = React.useState(false);
-
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [idRow, setIdRow] = useState(0);
   const handleClose = () => {
     setOpen(false);
     handleSubtitulo("terceros2");
@@ -28,7 +34,15 @@ export const ResumenMultiTransaccion = ({
   const tranferencia = () => {
     handleOpen();
   };
+  const deleteRows = () => {
+    //document.getElementById(idRow).remove();
 
+    const cuentas = inputFieldsData.filter(function (el) {
+      return el.index != idRow;
+    });
+
+    setInputFieldsData(cuentas);
+  };
   return (
     <div>
       <Backdrop
@@ -54,7 +68,7 @@ export const ResumenMultiTransaccion = ({
               </tr>
 
               {inputFieldsData.map((data, index) => (
-                <tr>
+                <tr id={data.index}>
                   <td>{data.cuentaDebitar} </td>
                   <td>{data.beneficiarioCuenta} </td>
                   <td>{data.beneficiario} </td>
@@ -63,10 +77,8 @@ export const ResumenMultiTransaccion = ({
                   <td>24/01/2023</td>
                   <td>
                     <IconButton
-                      className="trash"
-                      size="large"
+                      aria-label="delete"
                       sx={{
-                        position: "unset",
                         color: "#4A96D2",
                         backgroundColor: "white",
                         padding: "2px",
@@ -77,11 +89,12 @@ export const ResumenMultiTransaccion = ({
                         },
                         border: "1px solid #FFFFFF",
                         boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.1)",
-                        right: 50,
-                        bottom: 50,
+                      }}
+                      onClick={() => {
+                        setIdRow(data.index);
+                        setConfirmOpen(true);
                       }}
                     >
-                      {/*<img src={icon_trash} height={23} width={23} />*/}
                       <DeleteIcon />
                     </IconButton>
                   </td>
@@ -195,6 +208,14 @@ export const ResumenMultiTransaccion = ({
         </>
       )}
 
+      <ConfirmDialog
+        title="Delete Post?"
+        open={confirmOpen}
+        setOpen={setConfirmOpen}
+        onConfirm={deleteRows}
+      >
+        ¿Deseas eliminar esta transacción?
+      </ConfirmDialog>
       <style jsx>{resumenMultiTransaccionStyle}</style>
     </div>
   );

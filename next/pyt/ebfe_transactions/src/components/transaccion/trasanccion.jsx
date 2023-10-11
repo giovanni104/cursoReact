@@ -323,6 +323,7 @@ export const Transaccion = () => {
                 setOpenModal={setOpenModal}
                 resetForm={resetForm}
                 handleSubtitulo={handleSubtitulo}
+                setInputFieldsData={setInputFieldsData}
               />
             )}
           </div>
@@ -412,7 +413,7 @@ export const Transaccion = () => {
             action={prueba}
             />*/}
 
-          <div>
+          {/*<div>
             <IconButton
               aria-label="delete"
               onClick={() => setConfirmOpen(true)}
@@ -425,9 +426,9 @@ export const Transaccion = () => {
               setOpen={setConfirmOpen}
               onConfirm={prueba}
             >
-              Are you sure you want to delete this post?
+              ¿Deseas eliminar esta transacción?
             </ConfirmDialog>
-          </div>
+          </div>*/}
         </Box>
       </div>
 

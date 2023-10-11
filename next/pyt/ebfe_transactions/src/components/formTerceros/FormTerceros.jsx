@@ -24,6 +24,13 @@ import { patterns } from "../../utils/genericas";
 import formTercerosStyle from "./formTercerosStyle";
 import { useCuentaTerceros } from "./cuentaTerceros";
 import { publicFetch } from "@/utils/fetch";
+import { useSelector, useDispatch } from "react-redux";
+
+import {
+  guardarBeneficiarios,
+  guardarPropias,
+} from "../../store/storeCuentasTerceros";
+
 const icon_trash = process.env.NEXT_PUBLIC_BASIC_URL + "trash_azul.svg";
 export const conceptos = [
   { value: "Pagos", label: "Pagos" },
@@ -41,6 +48,13 @@ export const FormTerceros = ({
   setBtnTranferir,
 }) => {
   inputFields[index].index = index;
+
+  const dispatch = useDispatch();
+
+  const storePropias = useSelector((state) => state.cuentas.propias);
+  const storeBeneficiarios = useSelector(
+    (state) => state.cuentas.beneficiarios
+  );
 
   const {
     openModal,
@@ -68,6 +82,7 @@ export const FormTerceros = ({
     datosBeneficiario,
     listBeneficiarios,
     filterCuentasBeneficiario,
+    cuentasBeneficiario,
   } = useCuentaTerceros();
 
   useEffect(() => {
@@ -95,6 +110,7 @@ export const FormTerceros = ({
 
         if (users.data.responseCode == "0000") {
           cargaCuentasDebitar(users.data.responseBody, "BS");
+          dispatch(guardarPropias(users.data.responseBody));
         } else {
           setMessageAlert("error del sistema1");
           setTypeMessageAlert("error");
@@ -103,10 +119,9 @@ export const FormTerceros = ({
       } catch (err) {
         console.log(err);
 
-        /*console.log(err.response.data);
         setMessageAlert(err.response.data.responseDesc);
         setTypeMessageAlert("error");
-        setMessageOpen(true);*/
+        setMessageOpen(true);
       }
     }
 
@@ -128,22 +143,31 @@ export const FormTerceros = ({
 
         if (beneficiarios.data.responseCode == "0000") {
           datosBeneficiario(beneficiarios.data.responseBody);
+          dispatch(guardarBeneficiarios(beneficiarios.data.responseBody));
         } else {
-          setMessageAlert("error del sistema1");
+          setMessageAlert("error del sistema");
           setTypeMessageAlert("error");
           setMessageOpen(true);
         }
       } catch (err) {
         console.log(err);
-        /* console.log(err.response.data);
         setMessageAlert(err.response.data.responseDesc);
         setTypeMessageAlert("error");
-        setMessageOpen(true);*/
+        setMessageOpen(true);
       }
     }
 
-    fetchData();
-    fetchDataBeneficiario();
+    if (storePropias.length == 0) {
+      fetchData();
+    } else {
+      cargaCuentasDebitar(JSON.parse(JSON.stringify(storePropias)), "BS");
+    }
+
+    if (storeBeneficiarios.length == 0) {
+      fetchDataBeneficiario();
+    } else {
+      datosBeneficiario(JSON.parse(JSON.stringify(storeBeneficiarios)));
+    }
   }, []);
 
   return (
@@ -685,12 +709,12 @@ export const FormTerceros = ({
                               if (
                                 newValue == "" ||
                                 (newValue.match(patterns.phone) &&
-                                  newValue.length == 11)
+                                  newValue.length >= 11)
                               ) {
                                 setErrorNumcuenta("");
                               } else {
                                 setErrorNumcuenta(
-                                  "Debes introduccir 11 digitos"
+                                  "Debes introduccir mínimo 11 digitos"
                                 );
                               }
 
@@ -1155,7 +1179,7 @@ export const FormTerceros = ({
                   onChange={(event) => {
                     setterDataFields(
                       "beneficiarioCuenta",
-                      event.target.value,
+                      event.target.value.numberAccount,
                       null,
                       inputFields,
                       setInputFields,
@@ -1163,7 +1187,7 @@ export const FormTerceros = ({
                     );
                     setterDataFields(
                       "beneficiarioBanco",
-                      event.target.value,
+                      event.target.value.nameBank,
                       null,
                       inputFields,
                       setInputFields,
@@ -1175,8 +1199,14 @@ export const FormTerceros = ({
                   <MenuItem key={0} value="">
                     <em>Seleccionar</em>
                   </MenuItem>
-                  <MenuItem value={"cuenta"}>Cuenta</MenuItem>
-                  <MenuItem value={"telefono"}>Telefono</MenuItem>
+
+                  {cuentasBeneficiario.map((cuenta, index) => {
+                    return (
+                      <MenuItem key={index} value={cuenta}>
+                        {cuenta.nameBank + " " + cuenta.numberAccount}
+                      </MenuItem>
+                    );
+                  })}
                 </Select>
               </FormControl>
             </div>
