@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
@@ -25,7 +25,7 @@ import formTercerosStyle from "./formTercerosStyle";
 import { useCuentaTerceros } from "./cuentaTerceros";
 import { publicFetch } from "@/utils/fetch";
 import { useSelector, useDispatch } from "react-redux";
-
+import { AlertMessage } from "../alertMessage";
 import {
   guardarBeneficiarios,
   guardarPropias,
@@ -48,7 +48,10 @@ export const FormTerceros = ({
   setBtnTranferir,
 }) => {
   inputFields[index].index = index;
-
+  const [datosCuentaBeneficiario, setDatosCuentaBeneficiario] = useState("");
+  const [messageOpen, setMessageOpen] = useState(false);
+  const [messageAlert, setMessageAlert] = useState("error del sistema");
+  const [typeMessageAlert, setTypeMessageAlert] = useState("");
   const dispatch = useDispatch();
 
   const storePropias = useSelector((state) => state.cuentas.propias);
@@ -83,6 +86,8 @@ export const FormTerceros = ({
     listBeneficiarios,
     filterCuentasBeneficiario,
     cuentasBeneficiario,
+    saldoAcreditar,
+    valoresCuenta,
   } = useCuentaTerceros();
 
   useEffect(() => {
@@ -112,13 +117,12 @@ export const FormTerceros = ({
           cargaCuentasDebitar(users.data.responseBody, "BS");
           dispatch(guardarPropias(users.data.responseBody));
         } else {
-          setMessageAlert("error del sistema1");
+          setMessageAlert("error del sistema");
           setTypeMessageAlert("error");
           setMessageOpen(true);
         }
       } catch (err) {
-        console.log(err);
-
+        console.log(err.response.data);
         setMessageAlert(err.response.data.responseDesc);
         setTypeMessageAlert("error");
         setMessageOpen(true);
@@ -150,7 +154,7 @@ export const FormTerceros = ({
           setMessageOpen(true);
         }
       } catch (err) {
-        console.log(err);
+        console.log(err.response.data);
         setMessageAlert(err.response.data.responseDesc);
         setTypeMessageAlert("error");
         setMessageOpen(true);
@@ -342,6 +346,13 @@ export const FormTerceros = ({
                       setInputFields,
                       index
                     );
+                    valoresCuenta(
+                      event.target.value,
+                      "cuentaDebitar",
+                      index,
+                      inputFields,
+                      setInputFields
+                    );
                   }}
                 >
                   <MenuItem key={0} value="">
@@ -357,10 +368,12 @@ export const FormTerceros = ({
                   })}
                 </Select>
               </FormControl>
-              <label className="lblInfoSaldo">
-                {" "}
-                Saldo disponible: Bs 45.454.545
-              </label>
+
+              {saldoAcreditar != "" && (
+                <label className="lblInfoSaldo">
+                  Saldo disponible: {saldoAcreditar}
+                </label>
+              )}
             </div>
           </Grid>
 
@@ -377,6 +390,23 @@ export const FormTerceros = ({
                       name="beneficiario"
                       id="beneficiario"
                       onChange={(event) => {
+                        setDatosCuentaBeneficiario("");
+                        setterDataFields(
+                          "beneficiarioCuenta",
+                          "",
+                          null,
+                          inputFields,
+                          setInputFields,
+                          index
+                        );
+                        setterDataFields(
+                          "beneficiarioBanco",
+                          "",
+                          null,
+                          inputFields,
+                          setInputFields,
+                          index
+                        );
                         setterDataFields(
                           "beneficiario",
                           event.target.value,
@@ -386,8 +416,28 @@ export const FormTerceros = ({
                           index
                         );
 
+                        setterDataFields(
+                          "beneficiarioCodBanco",
+                          "",
+                          null,
+                          inputFields,
+                          setInputFields,
+                          index
+                        );
+
+                        setterDataFields(
+                          "beneficiarioTipoCuenta",
+                          "",
+                          null,
+                          inputFields,
+                          setInputFields,
+                          index
+                        );
+
                         filterCuentasBeneficiario(event.target.value);
-                        setOpenModal(true);
+                        if (event.target.value != "") {
+                          setOpenModal(true);
+                        }
                       }}
                     >
                       <MenuItem key={0} value="">
@@ -403,9 +453,13 @@ export const FormTerceros = ({
                       })}
                     </Select>
                   </FormControl>
+
                   <label className="lblInfoSaldo">
-                    {" "}
-                    Saldo disponible: Bs 45.454.545
+                    {datosCuentaBeneficiario != "" && (
+                      <label className="lblInfoSaldo">
+                        {datosCuentaBeneficiario}
+                      </label>
+                    )}
                   </label>
                 </div>
               </Grid>
@@ -1177,22 +1231,93 @@ export const FormTerceros = ({
                   name="beneficiarioCuenta"
                   value={inputFields[index].beneficiarioCuenta}
                   onChange={(event) => {
-                    setterDataFields(
-                      "beneficiarioCuenta",
-                      event.target.value.numberAccount,
-                      null,
-                      inputFields,
-                      setInputFields,
-                      index
-                    );
-                    setterDataFields(
-                      "beneficiarioBanco",
-                      event.target.value.nameBank,
-                      null,
-                      inputFields,
-                      setInputFields,
-                      index
-                    );
+                    setDatosCuentaBeneficiario("");
+                    let cuenta = cuentasBeneficiario.filter(function (el) {
+                      return el.numberAccount == event.target.value;
+                    });
+                    if (cuenta.length > 0) {
+                      setterDataFields(
+                        "beneficiarioCuenta",
+                        cuenta[0].numberAccount,
+                        null,
+                        inputFields,
+                        setInputFields,
+                        index
+                      );
+                      setterDataFields(
+                        "beneficiarioBanco",
+                        cuenta[0].nameBank,
+                        null,
+                        inputFields,
+                        setInputFields,
+                        index
+                      );
+
+                      setterDataFields(
+                        "descuentaAcreditar",
+                        cuenta[0].nameBank + " " + cuenta[0].numberAccount,
+                        null,
+                        inputFields,
+                        setInputFields,
+                        index
+                      );
+
+                      setDatosCuentaBeneficiario(
+                        cuenta[0].nameBank + " " + cuenta[0].numberAccount
+                      );
+
+                      setterDataFields(
+                        "beneficiarioTipoCuenta",
+                        cuenta[0].typeAccount,
+                        null,
+                        inputFields,
+                        setInputFields,
+                        index
+                      );
+                      setterDataFields(
+                        "beneficiarioCodBanco",
+                        cuenta[0].codeBank,
+                        null,
+                        inputFields,
+                        setInputFields,
+                        index
+                      );
+                    } else {
+                      setterDataFields(
+                        "beneficiarioCuenta",
+                        "",
+                        null,
+                        inputFields,
+                        setInputFields,
+                        index
+                      );
+                      setterDataFields(
+                        "beneficiarioBanco",
+                        "",
+                        null,
+                        inputFields,
+                        setInputFields,
+                        index
+                      );
+
+                      setterDataFields(
+                        "beneficiarioTipoCuenta",
+                        "",
+                        null,
+                        inputFields,
+                        setInputFields,
+                        index
+                      );
+                      setterDataFields(
+                        "beneficiarioCodBanco",
+                        "",
+                        null,
+                        inputFields,
+                        setInputFields,
+                        index
+                      );
+                    }
+
                     setOpenModal(false);
                   }}
                 >
@@ -1202,7 +1327,7 @@ export const FormTerceros = ({
 
                   {cuentasBeneficiario.map((cuenta, index) => {
                     return (
-                      <MenuItem key={index} value={cuenta}>
+                      <MenuItem key={index} value={cuenta.numberAccount}>
                         {cuenta.nameBank + " " + cuenta.numberAccount}
                       </MenuItem>
                     );
@@ -1214,7 +1339,12 @@ export const FormTerceros = ({
         </DialogContent>
         <DialogActions style={{ justifyContent: "center" }}></DialogActions>
       </Dialog>
-
+      <AlertMessage
+        message={messageAlert}
+        typeMessage={typeMessageAlert}
+        open={messageOpen}
+        setOpen={setMessageOpen}
+      />
       <style jsx>{formTercerosStyle}</style>
     </Fragment>
   );

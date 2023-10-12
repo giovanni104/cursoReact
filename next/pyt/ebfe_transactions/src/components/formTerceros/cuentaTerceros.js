@@ -12,7 +12,7 @@ export const useCuentaTerceros = () => {
   const [listBeneficiarios, setListBeneficiarios] = useState([]);
   const [dataBeneficiarios, setDataBeneficiarios] = useState([]);
   const [cuentasBeneficiario, setcuentasBeneficiario] = useState([]);
-
+  const [saldoAcreditar, setSaldoAcreditar] = useState("");
   const clearDataNoRegistrado = (inputFields, setInputFields, index) => {
     let valores = [...inputFields];
     let atributos = [
@@ -255,11 +255,59 @@ export const useCuentaTerceros = () => {
   };
 
   const filterCuentasBeneficiario = (beneficiario) => {
-    const cuentas = dataBeneficiarios.filter(function (el) {
-      return el.nameOwner == beneficiario;
-    });
-    console.log(cuentas[0].accounts);
-    setcuentasBeneficiario(cuentas[0].accounts);
+    if (beneficiario != "") {
+      const cuentas = dataBeneficiarios.filter(function (el) {
+        return el.nameOwner == beneficiario;
+      });
+
+      setcuentasBeneficiario(cuentas[0].accounts);
+    } else {
+      setcuentasBeneficiario([]);
+    }
+  };
+
+  const valoresCuenta = (valor, id, index, inputFields, setInputFields) => {
+    let valores = [...inputFields];
+    let cuenta;
+    switch (id) {
+      case "cuentaDebitar":
+        setSaldoAcreditar("");
+        cuenta = cuentasUser.filter(function (el) {
+          return el.numberAccount == valor;
+        });
+
+        if (cuenta.length > 0) {
+          valores[index].descuentaDebitar =
+            cuenta[0].descriptionAccount + " " + cuenta[0].numberMask;
+          setSaldoAcreditar(cuenta[0].balanceMask);
+          valores[index].monedaDebitar = cuenta[0].currency;
+        }
+        break;
+
+      case "cuentaAcreditar":
+        setSaldoAcreditar("");
+        valores[index].cuentaAcreditar = valor;
+        cuenta = cuentasUser.filter(function (el) {
+          return el.numberAccount == valor;
+        });
+
+        if (cuenta.length > 0) {
+          valores[index].descuentaAcreditar =
+            cuenta[0].descriptionAccount + " " + cuenta[0].numberMask;
+
+          setSaldoAcreditar(cuenta[0].balanceMask);
+        }
+        break;
+
+      case "concepto":
+        valores[index].concepto = valor;
+        break;
+
+      default:
+        break;
+    }
+
+    setInputFields(valores);
   };
 
   return {
@@ -289,5 +337,7 @@ export const useCuentaTerceros = () => {
     listBeneficiarios,
     filterCuentasBeneficiario,
     cuentasBeneficiario,
+    saldoAcreditar,
+    valoresCuenta,
   };
 };

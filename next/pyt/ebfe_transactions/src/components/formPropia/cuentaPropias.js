@@ -90,6 +90,8 @@ export const valoresCuenta = (
           cuenta[0].descriptionAccount + " " + cuenta[0].numberMask;
         setSaldo(cuenta[0].balanceMask);
         valores[index].monedaDebitar = cuenta[0].currency;
+        valores[index].codBanco = cuenta[0].codBank;
+        valores[index].banco = cuenta[0].namBank;
       }
       break;
 

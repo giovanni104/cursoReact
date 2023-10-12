@@ -1,8 +1,11 @@
 export const formDataPropia = {
+  tipo: "propias",
   cuentaDebitar: "",
   cuentaAcreditar: "",
   descuentaDebitar: "",
   descuentaAcreditar: "",
+  codBanco: "",
+  banco: "",
   monto: "",
   montoFormat: "",
   concepto: "",
@@ -23,6 +26,7 @@ export const formDataPropia = {
 };
 
 export const formDataPropiaReset = {
+  tipo: "propias",
   cuentaDebitar: "",
   cuentaAcreditar: "",
   descuentaDebitar: "",
@@ -30,6 +34,8 @@ export const formDataPropiaReset = {
   monto: "",
   montoFormat: "",
   concepto: "",
+  codBanco: "",
+  banco: "",
   programar: false,
   programa: {
     frecuencia: "",
@@ -81,12 +87,17 @@ export const formDataReset = {
 };
 
 export const formDataTerceros = {
+  tipo: "terceros",
   index: "",
   cuentaDebitar: "",
   cuentaDebitarSaldoDisponible: "",
+  descuentaDebitar: "",
   beneficiario: "",
   beneficiarioCuenta: "",
   beneficiarioBanco: "",
+  beneficiarioTipoCuenta: "",
+  beneficiarioCodBanco: "",
+  descuentaAcreditar: "",
   noregistrado: false,
   instrumento: {
     tipo: "",
@@ -98,6 +109,7 @@ export const formDataTerceros = {
     numcuenta: "",
   },
   monto: "",
+  montoFormat: "",
   concepto: "",
   currency: "Bs",
   registrar: false,
@@ -114,17 +126,23 @@ export const formDataTerceros = {
     mes: "",
     dia: "",
   },
-  tasabcv: "123",
-  montorecibir: "456",
+  tasabcv: "0",
+  montorecibir: "0",
+  monedaDebitar: "",
 };
 
 export const formDataTercerosReset = {
+  tipo: "terceros",
   index: "",
   cuentaDebitar: "",
   cuentaDebitarSaldoDisponible: "",
+  descuentaDebitar: "",
   beneficiario: "",
   beneficiarioCuenta: "",
   beneficiarioBanco: "",
+  beneficiarioTipoCuenta: "",
+  beneficiarioCodBanco: "",
+  descuentaAcreditar: "",
   noregistrado: false,
   instrumento: {
     tipo: "",
@@ -136,6 +154,7 @@ export const formDataTercerosReset = {
     numcuenta: "",
   },
   monto: "",
+  montoFormat: "",
   concepto: "",
   currency: "Bs",
   registrar: false,
@@ -152,8 +171,9 @@ export const formDataTercerosReset = {
     mes: "",
     dia: "",
   },
-  tasabcv: "123",
-  montorecibir: "456",
+  tasabcv: "0",
+  montorecibir: "0",
+  monedaDebitar: "",
 };
 
 export const setChangeValues = (values, name, index, event) => {

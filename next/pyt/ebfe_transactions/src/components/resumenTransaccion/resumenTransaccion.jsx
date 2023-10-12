@@ -39,7 +39,7 @@ export const ResumenTransaccion = ({
 
   const fetchData = async () => {
     try {
-      const transfer = await publicFetch.post(`/transfers`, {
+      let datosTransaccion = {
         company: "1",
         messageId:
           "OC51QnNzLnVCc3MuOTc5YTdnN2QgOGQ5Y2E3LmFiY2NhZm1kbmNlcWF3ZGRkRENi",
@@ -50,17 +50,47 @@ export const ResumenTransaccion = ({
         e2cusc: 1000,
         identification: "12345678",
         typeIdentification: "CED",
-        originAccount: inputFieldsData[0].cuentaDebitar,
-        destinationAccount: inputFieldsData[0].cuentaAcreditar,
-        transferAmount: inputFieldsData[0].monto.toString(),
-        typeTransfer: "1",
-        typeCurrencyOriAccount: "USD",
-        language: "ES_CO",
-        descriptionTx: inputFieldsData[0].concepto,
-        typeCustomer: 1,
-      });
+      };
 
-      console.log("respuesta=>" + JSON.stringify(transfer));
+      if (inputFieldsData[0].tipo == "terceros") {
+        datosTransaccion.originAccount = inputFieldsData[0].cuentaDebitar;
+        datosTransaccion.destinationAccount =
+          inputFieldsData[0].beneficiarioCuenta;
+        datosTransaccion.transferAmount = inputFieldsData[0].monto.toString();
+        datosTransaccion.typeTransfer =
+          inputFieldsData[0].beneficiarioTipoCuenta;
+        datosTransaccion.typeCurrencyOriAccount = inputFieldsData[0].currency;
+        datosTransaccion.language = "ES_CO";
+        datosTransaccion.descriptionTx = inputFieldsData[0].concepto;
+
+        datosTransaccion.nameBeneficiary =
+          inputFieldsData[0].beneficiario.split(":")[0];
+        datosTransaccion.codeBank = inputFieldsData[0].beneficiarioCodBanco;
+        datosTransaccion.nameBank = inputFieldsData[0].beneficiarioBanco;
+        datosTransaccion.idBeneficiary =
+          inputFieldsData[0].beneficiario.split(":")[2];
+        datosTransaccion.typeIdBeneficiary =
+          inputFieldsData[0].beneficiario.split(":")[1];
+      } else {
+        datosTransaccion.originAccount = inputFieldsData[0].cuentaDebitar;
+        datosTransaccion.destinationAccount =
+          inputFieldsData[0].cuentaAcreditar;
+        datosTransaccion.transferAmount = inputFieldsData[0].monto.toString();
+        datosTransaccion.typeTransfer = "1";
+        datosTransaccion.typeCurrencyOriAccount = "USD";
+        datosTransaccion.language = "ES_CO";
+        datosTransaccion.descriptionTx = inputFieldsData[0].concepto;
+
+        datosTransaccion.codeBank = inputFieldsData[0].codBanco;
+        datosTransaccion.nameBank = inputFieldsData[0].banco;
+        datosTransaccion.idBeneficiary = "12345678";
+        datosTransaccion.typeIdBeneficiary = "CED";
+        datosTransaccion.nameBeneficiary = "JEFEDEVPYT";
+      }
+
+      const transfer = await publicFetch.post(`/transfers`, datosTransaccion);
+
+      console.log("respuesta transaccion=>" + JSON.stringify(transfer));
 
       if (transfer.data.responseCode == "0000") {
         let valores = [...inputFieldsData];

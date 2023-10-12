@@ -17,8 +17,11 @@ registerLocale("es", es); // register it with the name you want
 import "react-datepicker/dist/react-datepicker.css";
 
 export const Formdate = ({ index, inputFields, setInputFields }) => {
+  let fecha = new Date();
+  fecha = fecha.setDate(fecha.getDate() + 1);
+
   const [open, setOpen] = React.useState(false);
-  const [startDate, setStartDate] = React.useState(new Date());
+  const [startDate, setStartDate] = React.useState(fecha);
   const [programaDate, setprogramaDate] = React.useState("");
   const [frecienciaData, setFrecienciaData] = React.useState("");
 
@@ -201,6 +204,7 @@ export const Formdate = ({ index, inputFields, setInputFields }) => {
 
           <DatePicker
             selected={startDate}
+            minDate={fecha}
             locale="es"
             onChange={(date) => setStartDate(date)}
             inline
