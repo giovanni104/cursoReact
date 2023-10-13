@@ -44,10 +44,10 @@ export const DynamicForm = ({
                     )
                 )}
 
-              {type == "terceros" &&
-                inputFields.map((inputField, index) =>
-                  inputFields.length == 1 ? (
-                    <ProvidersTerceros>
+              {type == "terceros" && (
+                <ProvidersTerceros>
+                  {inputFields.map((inputField, index) =>
+                    inputFields.length == 1 ? (
                       <FormTerceros
                         key={index}
                         handleRemoveFields={handleRemoveFields}
@@ -58,10 +58,8 @@ export const DynamicForm = ({
                         inputFields={inputFields}
                         setBtnTranferir={setBtnTranferir}
                       />
-                    </ProvidersTerceros>
-                  ) : (
-                    <FormAccordion key={index} index={index}>
-                      <ProvidersTerceros>
+                    ) : (
+                      <FormAccordion key={index} index={index}>
                         <FormTerceros
                           key={index}
                           handleRemoveFields={handleRemoveFields}
@@ -72,10 +70,11 @@ export const DynamicForm = ({
                           inputFields={inputFields}
                           setBtnTranferir={setBtnTranferir}
                         />
-                      </ProvidersTerceros>
-                    </FormAccordion>
-                  )
-                )}
+                      </FormAccordion>
+                    )
+                  )}
+                </ProvidersTerceros>
+              )}
             </div>
           </form>
 

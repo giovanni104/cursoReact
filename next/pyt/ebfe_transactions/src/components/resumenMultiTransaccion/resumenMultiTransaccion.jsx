@@ -8,9 +8,11 @@ import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Datatable } from "../dataTable";
 import { ConfirmDialog } from "../confirmDialog";
+import Link from "@mui/material/Link";
+import { DialogTransaccion } from "../dialogTrasaccion/dialogTransaccion";
 export const ResumenMultiTransaccion = ({
   inputFieldsData,
-  setOpenModal,
+
   resetForm,
   handleSubtitulo,
   setInputFieldsData,
@@ -21,6 +23,7 @@ export const ResumenMultiTransaccion = ({
   const [openResultados, setOpenResultados] = React.useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [idRow, setIdRow] = useState(0);
+  const [openModal, setOpenModal] = React.useState(false);
   const handleClose = () => {
     setOpen(false);
     handleSubtitulo("terceros2");
@@ -168,7 +171,16 @@ export const ResumenMultiTransaccion = ({
               </tr>
               <tr>
                 <td>Trasancción 1</td>
-                <td>0102***3245</td>
+                <td>
+                  <Link
+                    href="#"
+                    onClick={() => {
+                      setOpenModal(true);
+                    }}
+                  >
+                    0102***3245
+                  </Link>
+                </td>
                 <td>Bs 2.237,32</td>
                 <td>Fallida</td>
               </tr>
@@ -216,6 +228,15 @@ export const ResumenMultiTransaccion = ({
       >
         ¿Deseas eliminar esta transacción?
       </ConfirmDialog>
+
+      <DialogTransaccion
+        openModal={openModal}
+        handleClose={handleClose}
+        inputFieldsData={inputFieldsData}
+        setOpenModal={setOpenModal}
+        resetForm={resetForm}
+      />
+
       <style jsx>{resumenMultiTransaccionStyle}</style>
     </div>
   );

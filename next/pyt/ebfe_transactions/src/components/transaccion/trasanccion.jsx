@@ -320,7 +320,6 @@ export const Transaccion = () => {
             {inputFieldsData.length > 1 && (
               <ResumenMultiTransaccion
                 inputFieldsData={inputFieldsData}
-                setOpenModal={setOpenModal}
                 resetForm={resetForm}
                 handleSubtitulo={handleSubtitulo}
                 setInputFieldsData={setInputFieldsData}

@@ -1,11 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { propias, propias2 } from "../../../utils/data";
+import { beneficiariosData } from "../../../utils/data";
 
 import { makeCookie } from "@/utils/cookieMaker";
 import axios from "axios";
 import { NextRequest } from "next/server";
 const handler = async (req: NextRequest, res: NextApiResponse) => {
-  let responseJson;
+  /*let responseJson;
   let messageIdError;
 
   if (req.method == "POST") {
@@ -70,7 +70,7 @@ const handler = async (req: NextRequest, res: NextApiResponse) => {
       const message = resAxios.data.messageId;
       const messageCookie = makeCookie(message);
       res.setHeader("set-cookie", messageCookie);
-      /* return res.status(200).json(propias2);*/
+     
       return res.status(200).json(resAxios.data);
     } else {
       if (messageIdError != undefined) {
@@ -86,7 +86,8 @@ const handler = async (req: NextRequest, res: NextApiResponse) => {
     responseCode: "400",
     responseDesc: "Algo paso al preparar la petición",
     responseBody: null,
-  });
+  });*/
+  return res.status(200).json(beneficiariosData);
 };
 
 export default handler;

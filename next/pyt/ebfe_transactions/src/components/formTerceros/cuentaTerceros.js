@@ -213,6 +213,8 @@ export const useCuentaTerceros = () => {
   };
 
   const cargaCuentasDebitar = (dataCuentas, currency) => {
+    currency = currency == "" ? "BS" : currency;
+
     for (let i = 0; i <= dataCuentas.length - 1; i++) {
       let dato =
         dataCuentas[i].numberAccount.slice(0, 4) +
@@ -232,6 +234,8 @@ export const useCuentaTerceros = () => {
         el.currency == currency
       );
     });
+
+    console.log("cuentas=>" + currency + JSON.stringify(dataCuentas));
     setCuentasPropias(cuentas);
   };
 

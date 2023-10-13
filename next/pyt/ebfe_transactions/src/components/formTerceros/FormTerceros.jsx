@@ -114,7 +114,12 @@ export const FormTerceros = ({
         // console.log(JSON.stringify(users));
 
         if (users.data.responseCode == "0000") {
-          cargaCuentasDebitar(users.data.responseBody, "BS");
+          cargaCuentasDebitar(
+            users.data.responseBody,
+            users.data.responseBody,
+            inputFields[index].currency
+          );
+
           dispatch(guardarPropias(users.data.responseBody));
         } else {
           setMessageAlert("error del sistema");
@@ -164,7 +169,10 @@ export const FormTerceros = ({
     if (storePropias.length == 0) {
       fetchData();
     } else {
-      cargaCuentasDebitar(JSON.parse(JSON.stringify(storePropias)), "BS");
+      cargaCuentasDebitar(
+        JSON.parse(JSON.stringify(storePropias)),
+        inputFields[index].currency
+      );
     }
 
     if (storeBeneficiarios.length == 0) {

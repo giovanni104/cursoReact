@@ -1,10 +1,5 @@
 @import url("https://fonts.googleapis.com/css?family=Nunito");
 
-.MuiAccordionSummary-root {
-  border-radius: 10px !important;
-  width: 1016px !important;
-}
-
 .css-3zb9r4-MuiPaper-root-MuiAccordion-root:before {
   position: inherit !important;
   left: 0;
@@ -30,4 +25,8 @@
   letter-spacing: 0em !important;
   text-align: left !important;
   color: #484848;
+}
+
+.MuiAccordionSummary-root {
+  height: 45px !important;
 }
