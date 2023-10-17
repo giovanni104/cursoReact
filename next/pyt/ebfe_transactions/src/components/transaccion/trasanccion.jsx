@@ -345,6 +345,8 @@ export const Transaccion = () => {
             inputFieldsData={inputFieldsData}
             setOpenModal={setOpenModal}
             resetForm={resetForm}
+            type={"propia"}
+            registro={0}
           />
 
           {/* botones de tranferencia*/}

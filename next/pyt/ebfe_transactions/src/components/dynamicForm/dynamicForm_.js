@@ -47,6 +47,9 @@ export const formDataPropiaReset = {
   },
   monedaUsd: false,
   monedaDebitar: "",
+  NroOperacion: "",
+  errorLvl: "",
+  responseDesc: "",
 };
 
 export const formData = {
@@ -129,6 +132,9 @@ export const formDataTerceros = {
   tasabcv: "0",
   montorecibir: "0",
   monedaDebitar: "",
+  NroOperacion: "",
+  errorLvl: "",
+  responseDesc: "",
 };
 
 export const formDataTercerosReset = {
@@ -174,6 +180,9 @@ export const formDataTercerosReset = {
   tasabcv: "0",
   montorecibir: "0",
   monedaDebitar: "",
+  NroOperacion: "",
+  errorLvl: "",
+  responseDesc: "",
 };
 
 export const setChangeValues = (values, name, index, event) => {

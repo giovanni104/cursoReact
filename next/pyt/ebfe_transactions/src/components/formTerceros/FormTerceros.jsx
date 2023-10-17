@@ -268,6 +268,15 @@ export const FormTerceros = ({
                 index
               );
               filtroCuentas("BS");
+
+              setterDataFields(
+                "tasabcv",
+                0,
+                null,
+                inputFields,
+                setInputFields,
+                index
+              );
             }}
           />
 
@@ -297,6 +306,16 @@ export const FormTerceros = ({
                 setInputFields,
                 index
               );
+
+              setterDataFields(
+                "tasabcv",
+                "0.02869",
+                null,
+                inputFields,
+                setInputFields,
+                index
+              );
+
               filtroCuentas("USD");
             }}
           />
@@ -322,6 +341,15 @@ export const FormTerceros = ({
               setterDataFields(
                 "currency",
                 "EUR",
+                null,
+                inputFields,
+                setInputFields,
+                index
+              );
+
+              setterDataFields(
+                "tasabcv",
+                "0.07618",
                 null,
                 inputFields,
                 setInputFields,
@@ -569,7 +597,7 @@ export const FormTerceros = ({
                               id="outlined-basic"
                               label="Telefono"
                               variant="outlined"
-                              fullWidth="true"
+                              fullWidth={true}
                               size="small"
                               value={inputFields[index].instrumento.telefono}
                               helperText={errorTelefono} // error message
@@ -641,7 +669,6 @@ export const FormTerceros = ({
                             <FormControl fullWidth size="small">
                               <InputLabel id="tipodoc-label">Tipo</InputLabel>
                               <Select
-                                className="selectTextBeneficiario"
                                 labelId="tipodoc-label"
                                 label="Tipo"
                                 name="tipodoc"
@@ -675,11 +702,10 @@ export const FormTerceros = ({
                             }}
                           >
                             <TextField
-                              className="inputTextBeneficiario"
                               id="numdoc"
                               label="Documento"
                               variant="outlined"
-                              fullWidth="true"
+                              fullWidth={true}
                               size="small"
                               name="numdoc"
                               value={inputFields[index].instrumento.numdoc}
@@ -718,7 +744,7 @@ export const FormTerceros = ({
                               id="nombre"
                               label="Nombre"
                               variant="outlined"
-                              fullWidth="true"
+                              fullWidth={true}
                               size="small"
                               name="nombre"
                               value={inputFields[index].instrumento.nombre}
@@ -925,20 +951,40 @@ export const FormTerceros = ({
                               setInputFields,
                               index
                             );
+
+                            setterDataFields(
+                              "registro",
+                              "",
+                              "alias",
+                              inputFields,
+                              setInputFields,
+                              index
+                            );
+
+                            setterDataFields(
+                              "registro",
+                              "",
+                              "beneficiario",
+                              inputFields,
+                              setInputFields,
+                              index
+                            );
                           }}
                         >
                           <MenuItem key={0} value="">
                             <em>Seleccionar</em>
                           </MenuItem>
-                          <MenuItem value="cuenta">Cuenta</MenuItem>
-                          <MenuItem value="telefono">Telefono</MenuItem>
+                          <MenuItem value="nuevo">Beneficiario Nuevo</MenuItem>
+                          <MenuItem value="existente">
+                            Beneficiario existente
+                          </MenuItem>
                         </Select>
                       </FormControl>
                     </div>
                   </Grid>
                   {(() => {
                     switch (inputFields[index].registro.tipo) {
-                      case "telefono":
+                      case "nuevo":
                         return (
                           <Grid item xs={6}>
                             <div className="divInputs">
@@ -947,7 +993,7 @@ export const FormTerceros = ({
                                 name="alias"
                                 label="Alias"
                                 variant="outlined"
-                                fullWidth="true"
+                                fullWidth={true}
                                 size="small"
                                 value={inputFields[index].instrumento.alias}
                                 helperText={errorAlias} // error message
@@ -979,7 +1025,7 @@ export const FormTerceros = ({
                             </div>
                           </Grid>
                         );
-                      case "cuenta":
+                      case "existente":
                         return (
                           <Grid item xs={6}>
                             <div className="divInputs">
@@ -1009,8 +1055,13 @@ export const FormTerceros = ({
                                   <MenuItem key={0} value="">
                                     <em>Seleccionar</em>
                                   </MenuItem>
-                                  <MenuItem value="cuenta">Cuenta</MenuItem>
-                                  <MenuItem value="telefono">Telefono</MenuItem>
+                                  {listBeneficiarios.map((cuenta, index) => {
+                                    return (
+                                      <MenuItem key={index} value={cuenta}>
+                                        {cuenta.split(":")[0]}
+                                      </MenuItem>
+                                    );
+                                  })}
                                 </Select>
                               </FormControl>
                             </div>

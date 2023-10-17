@@ -10,6 +10,7 @@ import { Datatable } from "../dataTable";
 import { ConfirmDialog } from "../confirmDialog";
 import Link from "@mui/material/Link";
 import { DialogTransaccion } from "../dialogTrasaccion/dialogTransaccion";
+import { random } from "../../utils/genericas";
 export const ResumenMultiTransaccion = ({
   inputFieldsData,
 
@@ -24,6 +25,8 @@ export const ResumenMultiTransaccion = ({
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [idRow, setIdRow] = useState(0);
   const [openModal, setOpenModal] = React.useState(false);
+  const [idRegistro, setIdRegistro] = React.useState(0);
+
   const handleClose = () => {
     setOpen(false);
     handleSubtitulo("terceros2");
@@ -31,6 +34,15 @@ export const ResumenMultiTransaccion = ({
     //setOpenModal(true);
   };
   const handleOpen = () => {
+    let valores = [...inputFieldsData];
+
+    for (let i = 0; i < valores.length; i++) {
+      valores[i]["NroOperacion"] = random(50000, 99999999);
+      valores[i]["errorLvl"] = "Succes";
+      valores[i]["responseDesc"] = "Proceso existoso";
+    }
+
+    setInputFieldsData(valores);
     setOpen(true);
   };
 
@@ -169,27 +181,25 @@ export const ResumenMultiTransaccion = ({
                 <td style={{ color: "black" }}>Monto</td>
                 <td style={{ color: "black" }}>Estatus</td>
               </tr>
-              <tr>
-                <td>Trasancción 1</td>
-                <td>
-                  <Link
-                    href="#"
-                    onClick={() => {
-                      setOpenModal(true);
-                    }}
-                  >
-                    0102***3245
-                  </Link>
-                </td>
-                <td>Bs 2.237,32</td>
-                <td>Fallida</td>
-              </tr>
-              <tr>
-                <td>Trasancción 1</td>
-                <td>0102***3242</td>
-                <td>USD 3.237,32</td>
-                <td>Procesada</td>
-              </tr>
+
+              {inputFieldsData.map((data, index) => (
+                <tr>
+                  <td>Trasancción {index + 1}</td>
+                  <td>
+                    <Link
+                      href="#"
+                      onClick={() => {
+                        setIdRegistro(index);
+                        setOpenModal(true);
+                      }}
+                    >
+                      {data.NroOperacion}
+                    </Link>
+                  </td>
+                  <td>{data.montoFormat} </td>
+                  <td>{data.responseDesc} </td>
+                </tr>
+              ))}
             </tbody>
           </table>
 
@@ -235,6 +245,8 @@ export const ResumenMultiTransaccion = ({
         inputFieldsData={inputFieldsData}
         setOpenModal={setOpenModal}
         resetForm={resetForm}
+        type={"terceros"}
+        registro={idRegistro}
       />
 
       <style jsx>{resumenMultiTransaccionStyle}</style>

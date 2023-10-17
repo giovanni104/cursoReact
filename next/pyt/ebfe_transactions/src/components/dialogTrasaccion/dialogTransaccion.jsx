@@ -15,9 +15,12 @@ export const DialogTransaccion = ({
   inputFieldsData,
   setOpenModal,
   resetForm,
+  type,
+  registro,
 }) => {
   const [openMessage, setOpenMessage] = useState(true);
-
+  const [posicion, setPosicion] = useState(registro);
+  console.log(registro);
   const downloadImage = () => {
     const table = document.getElementById("reciboTransaccion");
 
@@ -30,6 +33,7 @@ export const DialogTransaccion = ({
   };
 
   useEffect(() => {
+    setPosicion(registro);
     if (openModal) {
       setOpenMessage(true);
     }
@@ -75,12 +79,12 @@ export const DialogTransaccion = ({
       <DialogContent>
         <Stack paddingTop={"16px"} direction="column" spacing={3}>
           <div style={{ textAlign: "center" }}>
-            <label className={"lbltituloModal"}>Transferencias propias</label>
+            <label className={"lbltituloModal"}>Transferencias {type}</label>
           </div>
 
           <div style={{ textAlign: "center" }}>
             <label className={"lbltitulo2Modal"}>
-              Operación N° {inputFieldsData[0].NroOperacion}
+              Operación N° {inputFieldsData[posicion].NroOperacion}
             </label>
           </div>
         </Stack>
@@ -130,37 +134,39 @@ export const DialogTransaccion = ({
             <tr>
               <td style={{ width: "250px" }}>Cuenta a debitar:</td>
               <td style={{ width: "250px" }}>
-                {inputFieldsData[0].descuentaDebitar}
+                {inputFieldsData[posicion].descuentaDebitar}
               </td>
             </tr>
             <tr>
               <td>Cuenta a abonar:</td>
-              <td>{inputFieldsData[0].descuentaAcreditar}</td>
+              <td>{inputFieldsData[posicion].descuentaAcreditar}</td>
             </tr>
             <tr>
               <td>Monto:</td>
-              <td>{inputFieldsData[0].montoFormat}</td>
+              <td>{inputFieldsData[posicion].montoFormat}</td>
             </tr>
 
             <tr>
               <td>Concepto:</td>
-              <td>{inputFieldsData[0].concepto}</td>
+              <td>{inputFieldsData[posicion].concepto}</td>
             </tr>
 
-            {inputFieldsData[0].programar == true ? (
+            {inputFieldsData[posicion].programar == true ? (
               <>
                 <tr>
                   <td>Programación:</td>
-                  <td>{inputFieldsData[0].programa.frecuencia}</td>
+                  <td>{inputFieldsData[posicion].programa.frecuencia}</td>
                 </tr>
                 <tr>
                   <td>Fecha valor:</td>
-                  <td>{`${inputFieldsData[0].programa.dia}/${inputFieldsData[0].programa.mes}/${inputFieldsData[0].programa.anio}`}</td>
+                  <td>{`${inputFieldsData[posicion].programa.dia}/${inputFieldsData[posicion].programa.mes}/${inputFieldsData[posicion].programa.anio}`}</td>
                 </tr>
 
                 <tr>
                   <td>Repetir:</td>
-                  <td>{inputFieldsData[0].programa.repetir + " veces"}</td>
+                  <td>
+                    {inputFieldsData[posicion].programa.repetir + " veces"}
+                  </td>
                 </tr>
               </>
             ) : (
@@ -171,6 +177,49 @@ export const DialogTransaccion = ({
             )}
           </tbody>
         </table>
+
+        {inputFieldsData.length > 0 && (
+          <div className="containerIcons">
+            <Stack paddingTop={"16px"} direction="row" spacing={2}>
+              {posicion > 0 ? (
+                <img
+                  className="atras"
+                  src={process.env.NEXT_PUBLIC_BASIC_URL + "AtrasDefault.svg"}
+                  onClick={() => {
+                    setPosicion(posicion - 1);
+                  }}
+                />
+              ) : (
+                <img
+                  className="atras"
+                  src={process.env.NEXT_PUBLIC_BASIC_URL + "AtrasDisabled.svg"}
+                />
+              )}
+              <div style={{ textAlign: "center", paddingTop: "5px" }}>
+                <label className={"verTransaccion"}>Ver transacción</label>
+              </div>
+
+              {inputFieldsData.length - 1 == posicion ? (
+                <img
+                  className="adelante"
+                  src={
+                    process.env.NEXT_PUBLIC_BASIC_URL + "AdelanteDisabled.svg"
+                  }
+                />
+              ) : (
+                <img
+                  className="adelante"
+                  src={
+                    process.env.NEXT_PUBLIC_BASIC_URL + "AdelanteDefault.svg"
+                  }
+                  onClick={() => {
+                    setPosicion(posicion + 1);
+                  }}
+                />
+              )}
+            </Stack>
+          </div>
+        )}
       </DialogContent>
       <DialogActions style={{ justifyContent: "center" }}></DialogActions>
 
@@ -195,17 +244,19 @@ export const DialogTransaccion = ({
           }}
           onClick={() => {
             setOpenModal(false);
-            resetForm();
+            if (type != "terceros") {
+              resetForm();
+            }
           }}
         >
           Salir
         </Button>
       </div>
 
-      {openMessage && (
+      {openMessage && inputFieldsData.length == 0 && (
         <InfoMessage
-          message={inputFieldsData[0].responseDesc}
-          typeMessage={inputFieldsData[0].errorLvl}
+          message={inputFieldsData[posicion].responseDesc}
+          typeMessage={inputFieldsData[posicion].errorLvl}
           setOpenMessage={setOpenMessage}
         />
       )}
@@ -227,6 +278,15 @@ export const DialogTransaccion = ({
         .compartir:hover {
           content: url("${process.env
             .NEXT_PUBLIC_BASIC_URL}compartirHover.svg") !important;
+        }
+
+        .adelante:hover {
+          content: url("${process.env
+            .NEXT_PUBLIC_BASIC_URL}AdelanteHover.svg") !important;
+        }
+        .atras:hover {
+          content: url("${process.env
+            .NEXT_PUBLIC_BASIC_URL}AtrasHover.svg") !important;
         }
 
         td {
@@ -256,6 +316,12 @@ export const DialogTransaccion = ({
           font-family: Nunito !important;
           font-size: 16px !important;
           font-weight: 600 !important;
+        }
+
+        .verTransaccion {
+          font-family: Nunito !important;
+          font-size: 14px !important;
+          font-weight: 400 !important;
         }
 
         .containerIcons {

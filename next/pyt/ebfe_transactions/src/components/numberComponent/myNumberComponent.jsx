@@ -22,6 +22,11 @@ export const MyNumberComponent = ({
     }
 
     let valores = [...inputFields];
+    let monto = ev.floatValue == undefined ? "0" : ev.floatValue;
+    let montoRecibir = parseFloat(monto) * parseFloat(valores[index].tasabcv);
+
+    valores[index].montorecibir = montoRecibir;
+
     valores[index].monto = ev.floatValue == undefined ? "" : ev.floatValue;
     valores[index].montoFormat = ev.formattedValue;
     setInputFields(valores);
