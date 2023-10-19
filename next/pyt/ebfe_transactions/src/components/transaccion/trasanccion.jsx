@@ -7,11 +7,9 @@ import { DialogTransaccion } from "../dialogTrasaccion/dialogTransaccion";
 import { ResumenMultiTransaccion } from "../resumenMultiTransaccion/resumenMultiTransaccion";
 import { labelsTransaccion } from "../../utils/labelsTransaccion";
 import { AuthTKForm } from "../tkForm/AuthTKForm";
-import { titleData, rowsData } from "../../utils/data";
-import { Datatable } from "../dataTable";
-import { ConfirmDialog } from "../confirmDialog";
-import DeleteIcon from "@mui/icons-material/Delete";
 
+import { AlertMessage } from "../alertMessage";
+import { publicFetch } from "@/utils/fetch";
 import {
   formData,
   formDataReset,
@@ -27,16 +25,24 @@ import {
   handleRemoveFields,
   handleInputChange,
   handlePeriodoChange,
-  handleSubmit,
 } from "./trasaccionFunctions";
 
 import transaccionStyle from "./transaccionStyle";
-import { IconButton } from "@mui/material";
+
+import { useSelector, useDispatch } from "react-redux";
+import {
+  guardarBeneficiarios,
+  guardarPropias,
+} from "../../store/storeCuentasTerceros";
 
 export const Transaccion = () => {
-  const [btnTranferir, setBtnTranferir] = useState(true);
+  const dispatch = useDispatch();
+  const storePropias = useSelector((state) => state.cuentas.propias);
+  const storeBeneficiarios = useSelector(
+    (state) => state.cuentas.beneficiarios
+  );
 
-  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [btnTranferir, setBtnTranferir] = useState(true);
 
   const [txtSubtitulo, setTxtSubtitulo] = useState("");
   const [lblSubtituloresult, setLblSubtituloresult] = useState("");
@@ -67,7 +73,112 @@ export const Transaccion = () => {
     setOpenModal(false);
   };
 
+  const [messageOpen, setMessageOpen] = useState(false);
+  const [messageAlert, setMessageAlert] = useState("error del sistema");
+  const [typeMessageAlert, setTypeMessageAlert] = useState("");
+
   useEffect(() => {
+    async function fetchData() {
+      try {
+        const users = await publicFetch.post(`/cuentasPropias`, {
+          company: "1",
+          messageId:
+            "OC51QnNzLnVCc3MuOTc5YTdnN2QgOGQ5Y2E3LmFiY2NhZm1kbmNlcWF3ZGRkRENi",
+          username: "JEFEDEVPYT",
+          channel: "WEB",
+          internalUserName: "PYT",
+          identification: "CED",
+          typeIdentification: "123456785",
+          e2usm2: 1000,
+          e2cusc: 1000,
+          language: "EN_US",
+        });
+
+        // console.log(JSON.stringify(users));
+
+        if (users.data.responseCode == "0000") {
+          dispatch(guardarPropias(users.data.responseBody));
+          if (storeBeneficiarios.length == 0) {
+            fetchDataBeneficiario();
+          }
+        } else {
+          setMessageAlert("error del sistema");
+          setTypeMessageAlert("error");
+          setMessageOpen(true);
+        }
+      } catch (err) {
+        console.log(err);
+        setMessageAlert("error del sistema");
+        setTypeMessageAlert("error");
+        setMessageOpen(true);
+      }
+    }
+
+    async function fetchDataBeneficiario() {
+      try {
+        const beneficiarios = await publicFetch.post(`/cuentasBeneficiarios`, {
+          company: "1",
+          messageId:
+            "eS5VMVNTLlUxU1Muenh6QXl4eXggeUV6eHlBLkVFRUN6Qkt4QnpDQ1cxRUl4TTNL",
+          username: "JEFEDEVPYT",
+          channel: "WEB",
+          internalUserName: "PYT",
+          e2cusc: 1000,
+          e2usm2: 1000,
+          language: "EN_US",
+        });
+
+        console.log(JSON.stringify(beneficiarios));
+
+        if (beneficiarios.data.responseCode == "0000") {
+          dispatch(guardarBeneficiarios(beneficiarios.data.responseBody));
+          generales();
+        } else {
+          setMessageAlert("error del sistema");
+          setTypeMessageAlert("error");
+          setMessageOpen(true);
+        }
+      } catch (err) {
+        console.log(err);
+        setMessageAlert("error del sistema");
+        setTypeMessageAlert("error");
+        setMessageOpen(true);
+      }
+    }
+
+    async function generales() {
+      try {
+        const beneficiarios = await publicFetch.post(`/cuentasBeneficiarios`, {
+          messageId:
+            "OC51QnNzLnVCc3MuOTc5YTdnN2QgOGQ5Y2E3LmFiY2NhZm1kbmNlcWF3ZGRkRENi",
+          company: "1",
+          username: "JEFEDEVPYT",
+          internalUserName: "PYT",
+          channel: "WEB",
+          language: "EN_US",
+        });
+
+        console.log(JSON.stringify(beneficiarios));
+
+        if (beneficiarios.data.responseCode == "0000") {
+          console.log(beneficiarios.data.responseBody);
+        } else {
+          setMessageAlert("error del sistema");
+          setTypeMessageAlert("error");
+          setMessageOpen(true);
+        }
+      } catch (err) {
+        console.log(err);
+        setMessageAlert("error del sistema");
+        setTypeMessageAlert("error");
+        setMessageOpen(true);
+      }
+    }
+
+    if (storePropias.length == 0) {
+      fetchData();
+    }
+
     const tabs = document.querySelectorAll("[data-tab-value]");
     const tabInfos = document.querySelectorAll("[data-tab-info]");
 
@@ -84,7 +195,7 @@ export const Transaccion = () => {
         target_1.classList.add("act");
       });
     });
-  });
+  }, []);
 
   const prueba = () => {
     alert("ejecuto");
@@ -404,35 +515,16 @@ export const Transaccion = () => {
               {labelsTransaccion.transaccion.btnLimpiar}
             </Button>
           </div>
-          {/*<ResumenMultiTransaccion />*/}
 
           <AuthTKForm />
-
-          {/*<Datatable
-            rowsData={rowsData}
-            titleData={titleData}
-            action={prueba}
-            />*/}
-
-          {/*<div>
-            <IconButton
-              aria-label="delete"
-              onClick={() => setConfirmOpen(true)}
-            >
-              <DeleteIcon />
-            </IconButton>
-            <ConfirmDialog
-              title="Delete Post?"
-              open={confirmOpen}
-              setOpen={setConfirmOpen}
-              onConfirm={prueba}
-            >
-              ¿Deseas eliminar esta transacción?
-            </ConfirmDialog>
-          </div>*/}
         </Box>
       </div>
-
+      <AlertMessage
+        message={messageAlert}
+        typeMessage={typeMessageAlert}
+        open={messageOpen}
+        setOpen={setMessageOpen}
+      />
       <style jsx>{transaccionStyle}</style>
     </div>
   );

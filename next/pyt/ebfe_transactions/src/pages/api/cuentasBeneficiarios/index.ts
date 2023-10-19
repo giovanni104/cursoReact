@@ -4,21 +4,31 @@ import { beneficiariosData } from "../../../utils/data";
 import { makeCookie } from "@/utils/cookieMaker";
 import axios from "axios";
 import { NextRequest } from "next/server";
+import Cookies from "cookies";
 const handler = async (req: NextRequest, res: NextApiResponse) => {
-  /*let responseJson;
-  let messageIdError;
+  let responseJson: any;
+  let messageIdError: any;
+  const cookies = new Cookies(req, res);
+  const messageId = cookies.get("messageId");
 
   if (req.method == "POST") {
-    const resp = req.cookies?.messageId;
-    let dataTransaccion = req.body;
-
-    const messageId = resp == undefined ? "default" : resp;
-    dataTransaccion.messageId = messageId;
+    let dataTransaccion: any = req.body;
+    dataTransaccion.messageId = messageId == undefined ? "default" : messageId;
 
     const resAxios = await axios
-      .post("http://192.168.10.226:8793/accounts/others", dataTransaccion, {
+      .post("http://localhost:8793/accounts/others", dataTransaccion, {
         timeout: 6000,
       })
+
+      .then((response) => {
+        // console.log(response);
+
+        const message = response.data.messageId;
+        const messageCookie = makeCookie(message);
+        res.setHeader("set-cookie", messageCookie);
+        return res.status(200).json(response.data);
+      })
+
       .catch(function (error) {
         if (error.response) {
           // La respuesta fue hecha y el servidor respondió con un código de estado
@@ -47,7 +57,7 @@ const handler = async (req: NextRequest, res: NextApiResponse) => {
           // `error.request` es una instancia de XMLHttpRequest en el navegador y una instancia de
           // http.ClientRequest en node.js
           console.log("La petición fue hecha pero no se recibió respuesta");
-          console.log(error.request);
+          //console.log(error.request);
           responseJson = {
             errorLvl: "ERROR",
             responseCode: "408",
@@ -64,30 +74,24 @@ const handler = async (req: NextRequest, res: NextApiResponse) => {
             responseBody: null,
           };
         }
-      });
 
-    if (resAxios != undefined) {
-      const message = resAxios.data.messageId;
-      const messageCookie = makeCookie(message);
-      res.setHeader("set-cookie", messageCookie);
-     
-      return res.status(200).json(resAxios.data);
-    } else {
-      if (messageIdError != undefined) {
         const messageCookie = makeCookie(messageIdError);
         res.setHeader("set-cookie", messageCookie);
-      }
-      return res.status(responseJson.responseCode).json(responseJson);
-    }
+        return res.status(responseJson.responseCode).json(responseJson);
+      });
   }
 
   return res.status(400).json({
     errorLvl: "ERROR",
     responseCode: "400",
     responseDesc: "Algo paso al preparar la petición",
+
     responseBody: null,
-  });*/
-  return res.status(200).json(beneficiariosData);
+  });
+
+  /* const messageCookie = makeCookie(beneficiariosData.messageId);
+  res.setHeader("set-cookie", messageCookie);
+  return res.status(200).json(beneficiariosData);*/
 };
 
 export default handler;

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import { FormPropia } from "../formPropia/cpropia";
 import { FormTerceros } from "../formTerceros/FormTerceros";
-import { ProvidersTerceros } from "../../store/storeCuentasTerceros";
+
 import { FormAccordion } from "../formAccordion/FormAccordion";
 
 export const DynamicForm = ({
@@ -45,7 +45,7 @@ export const DynamicForm = ({
                 )}
 
               {type == "terceros" && (
-                <ProvidersTerceros>
+                <>
                   {inputFields.map((inputField, index) =>
                     inputFields.length == 1 ? (
                       <FormTerceros
@@ -73,7 +73,7 @@ export const DynamicForm = ({
                       </FormAccordion>
                     )
                   )}
-                </ProvidersTerceros>
+                </>
               )}
             </div>
           </form>

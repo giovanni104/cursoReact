@@ -15,7 +15,7 @@ import Checkbox from "@mui/material/Checkbox";
 import { publicFetch } from "@/utils/fetch";
 import cpropiaStyle from "./cpropiaStyle";
 import { AlertMessage } from "../alertMessage";
-
+import { useSelector, useDispatch } from "react-redux";
 import {
   conceptos,
   switchHandler,
@@ -45,47 +45,17 @@ export const FormPropia = ({
   const [typeMessageAlert, setTypeMessageAlert] = useState("");
   const [saldoDebitar, setSaldoDebitar] = useState("");
   const [saldoAcreditar, setSaldoAcreditar] = useState("");
+  const storePropias = useSelector((state) => state.cuentas.propias);
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const users = await publicFetch.post(`/cuentasPropias`, {
-          company: "1",
-          messageId:
-            "OC51QnNzLnVCc3MuOTc5YTdnN2QgOGQ5Y2E3LmFiY2NhZm1kbmNlcWF3ZGRkRENi",
-          username: "JEFEDEVPYT",
-          channel: "WEB",
-          internalUserName: "PYT",
-          identification: "CED",
-          typeIdentification: "123456785",
-          e2usm2: 1000,
-          e2cusc: 1000,
-          language: "EN_US",
-        });
-
-        // console.log(JSON.stringify(users));
-
-        if (users.data.responseCode == "0000") {
-          cargaCuentasDebitar(
-            setCuentasPropias,
-            users.data.responseBody,
-            setCuentasUser
-          );
-        } else {
-          setMessageAlert("error del sistema1");
-          setTypeMessageAlert("error");
-          setMessageOpen(true);
-        }
-      } catch (err) {
-        console.log(err.response.data);
-        setMessageAlert(err.response.data.responseDesc);
-        setTypeMessageAlert("error");
-        setMessageOpen(true);
-      }
+    if (storePropias.length > 0) {
+      cargaCuentasDebitar(
+        setCuentasPropias,
+        JSON.parse(JSON.stringify(storePropias)),
+        setCuentasUser
+      );
     }
-
-    fetchData();
-  }, []);
+  }, [storePropias]);
 
   useEffect(() => {
     validacionFormulario(setBtnTranferir, inputFields, index);

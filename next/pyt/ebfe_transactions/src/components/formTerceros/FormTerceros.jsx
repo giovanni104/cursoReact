@@ -95,92 +95,17 @@ export const FormTerceros = ({
   }, [inputFields]);
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const users = await publicFetch.post(`/cuentasPropias`, {
-          company: "1",
-          messageId:
-            "OC51QnNzLnVCc3MuOTc5YTdnN2QgOGQ5Y2E3LmFiY2NhZm1kbmNlcWF3ZGRkRENi",
-          username: "JEFEDEVPYT",
-          channel: "WEB",
-          internalUserName: "PYT",
-          identification: "CED",
-          typeIdentification: "123456785",
-          e2usm2: 1000,
-          e2cusc: 1000,
-          language: "EN_US",
-        });
-
-        // console.log(JSON.stringify(users));
-
-        if (users.data.responseCode == "0000") {
-          cargaCuentasDebitar(
-            users.data.responseBody,
-            users.data.responseBody,
-            inputFields[index].currency
-          );
-
-          dispatch(guardarPropias(users.data.responseBody));
-        } else {
-          setMessageAlert("error del sistema");
-          setTypeMessageAlert("error");
-          setMessageOpen(true);
-        }
-      } catch (err) {
-        console.log(err.response.data);
-        setMessageAlert(err.response.data.responseDesc);
-        setTypeMessageAlert("error");
-        setMessageOpen(true);
-      }
-    }
-
-    async function fetchDataBeneficiario() {
-      try {
-        const beneficiarios = await publicFetch.post(`/cuentasBeneficiarios`, {
-          company: "1",
-          messageId:
-            "eS5VMVNTLlUxU1Muenh6QXl4eXggeUV6eHlBLkVFRUN6Qkt4QnpDQ1cxRUl4TTNL",
-          username: "JEFEDEVPYT",
-          channel: "WEB",
-          internalUserName: "PYT",
-          e2cusc: 1000,
-          e2usm2: 1000,
-          language: "EN_US",
-        });
-
-        console.log(JSON.stringify(beneficiarios));
-
-        if (beneficiarios.data.responseCode == "0000") {
-          datosBeneficiario(beneficiarios.data.responseBody);
-          dispatch(guardarBeneficiarios(beneficiarios.data.responseBody));
-        } else {
-          setMessageAlert("error del sistema");
-          setTypeMessageAlert("error");
-          setMessageOpen(true);
-        }
-      } catch (err) {
-        console.log(err.response.data);
-        setMessageAlert(err.response.data.responseDesc);
-        setTypeMessageAlert("error");
-        setMessageOpen(true);
-      }
-    }
-
-    if (storePropias.length == 0) {
-      fetchData();
-    } else {
+    if (storePropias.length > 0) {
       cargaCuentasDebitar(
         JSON.parse(JSON.stringify(storePropias)),
         inputFields[index].currency
       );
     }
 
-    if (storeBeneficiarios.length == 0) {
-      fetchDataBeneficiario();
-    } else {
+    if (storeBeneficiarios.length > 0) {
       datosBeneficiario(JSON.parse(JSON.stringify(storeBeneficiarios)));
     }
-  }, []);
+  }, [storePropias, storeBeneficiarios]);
 
   return (
     <Fragment key={`${"terceros"}~${index}`}>
@@ -244,7 +169,7 @@ export const FormTerceros = ({
           <Button
             sx={{
               backgroundImage:
-                inputFields[index].currency != "Bs"
+                inputFields[index].currency != "BS"
                   ? `url('${process.env.NEXT_PUBLIC_BASIC_URL}moneda/defaultBs.svg')`
                   : `url('${process.env.NEXT_PUBLIC_BASIC_URL}moneda/pressedBs.svg')`,
               backgroundRepeat: "no-repeat",
@@ -843,7 +768,7 @@ export const FormTerceros = ({
                 <InputLabel id="cuenta-label3">Concepto(*)</InputLabel>
                 <Select
                   labelId="cuenta-label3"
-                  label="Concepto"
+                  label="Concepto(*)"
                   id="concepto"
                   name="concepto"
                   value={inputFields[index].concepto}

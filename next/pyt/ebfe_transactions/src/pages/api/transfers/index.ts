@@ -2,22 +2,33 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { responseTransaccion } from "../../../utils/data";
 import { makeCookie } from "@/utils/cookieMaker";
 import axios from "axios";
+import Cookies from "cookies";
 import { NextRequest } from "next/server";
 const handler = async (req: NextRequest, res: NextApiResponse) => {
-  let responseJson;
-  let messageIdError;
+  let responseJson: any;
+  let messageIdError: any;
+
+  const cookies = new Cookies(req, res);
+
+  const messageId = cookies.get("messageId");
+
   if (req.method == "POST") {
-    const resp = req.cookies?.messageId;
-    let dataTransaccion = req.body;
-    const messageId = resp == undefined ? "prueba" : resp;
-    dataTransaccion.messageId = messageId;
+    let dataTransaccion: any = req.body;
+    dataTransaccion.messageId = messageId == undefined ? "default" : messageId;
 
     const resAxios = await axios
-      .post(
-        "http://192.168.10.226:8793/transfers/maketransfer",
-        dataTransaccion,
-        { timeout: 6000 }
-      )
+      .post("http://localhost:8793/transfers/maketransfer", dataTransaccion, {
+        timeout: 6000,
+      })
+      .then((response) => {
+        // console.log(response);
+
+        const message = response.data.messageId;
+        const messageCookie = makeCookie(message);
+        res.setHeader("set-cookie", messageCookie);
+        return res.status(200).json(response.data);
+      })
+
       .catch(function (error) {
         if (error.response) {
           // La respuesta fue hecha y el servidor respondió con un código de estado
@@ -46,7 +57,7 @@ const handler = async (req: NextRequest, res: NextApiResponse) => {
           // `error.request` es una instancia de XMLHttpRequest en el navegador y una instancia de
           // http.ClientRequest en node.js
           console.log("La petición fue hecha pero no se recibió respuesta");
-          console.log(error.request);
+          //console.log(error.request);
           responseJson = {
             errorLvl: "ERROR",
             responseCode: "408",
@@ -63,21 +74,11 @@ const handler = async (req: NextRequest, res: NextApiResponse) => {
             responseBody: null,
           };
         }
-      });
 
-    if (resAxios != undefined) {
-      const message = resAxios.data.messageId;
-      const messageCookie = makeCookie(message);
-      res.setHeader("set-cookie", messageCookie);
-      /* return res.status(200).json(propias2);*/
-      return res.status(200).json(resAxios.data);
-    } else {
-      if (messageIdError != undefined) {
         const messageCookie = makeCookie(messageIdError);
         res.setHeader("set-cookie", messageCookie);
-      }
-      return res.status(responseJson.responseCode).json(responseJson);
-    }
+        return res.status(responseJson.responseCode).json(responseJson);
+      });
   }
 
   return res.status(400).json({ error: "El metodo no existe" });
