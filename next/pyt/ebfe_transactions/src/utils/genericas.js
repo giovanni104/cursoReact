@@ -27,7 +27,7 @@ export const separadoresMiles = (numberoCompleto) => {
 
   let numero = new String(numberoCompleto);
 
-  numero = numero.replace(/\./g, "");
+  numero = numero.replace(/\./g, ",");
 
   let numeroSize = numero.length;
   let arrayNumero = numero.split(separadorDecimal);

@@ -33,6 +33,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   guardarBeneficiarios,
   guardarPropias,
+  guardarParametros,
 } from "../../store/storeCuentasTerceros";
 
 export const Transaccion = () => {
@@ -41,6 +42,8 @@ export const Transaccion = () => {
   const storeBeneficiarios = useSelector(
     (state) => state.cuentas.beneficiarios
   );
+
+  const storeParametros = useSelector((state) => state.parametros.parametros);
 
   const [btnTranferir, setBtnTranferir] = useState(true);
 
@@ -91,7 +94,7 @@ export const Transaccion = () => {
           typeIdentification: "123456785",
           e2usm2: 1000,
           e2cusc: 1000,
-          language: "EN_US",
+          language: "ES_CO",
         });
 
         // console.log(JSON.stringify(users));
@@ -107,7 +110,7 @@ export const Transaccion = () => {
           setMessageOpen(true);
         }
       } catch (err) {
-        console.log(err);
+        //console.log(err);
         setMessageAlert("error del sistema");
         setTypeMessageAlert("error");
         setMessageOpen(true);
@@ -125,10 +128,10 @@ export const Transaccion = () => {
           internalUserName: "PYT",
           e2cusc: 1000,
           e2usm2: 1000,
-          language: "EN_US",
+          language: "ES_CO",
         });
 
-        console.log(JSON.stringify(beneficiarios));
+        //console.log(JSON.stringify(beneficiarios));
 
         if (beneficiarios.data.responseCode == "0000") {
           dispatch(guardarBeneficiarios(beneficiarios.data.responseBody));
@@ -139,7 +142,7 @@ export const Transaccion = () => {
           setMessageOpen(true);
         }
       } catch (err) {
-        console.log(err);
+        //console.log(err);
         setMessageAlert("error del sistema");
         setTypeMessageAlert("error");
         setMessageOpen(true);
@@ -148,20 +151,20 @@ export const Transaccion = () => {
 
     async function generales() {
       try {
-        const beneficiarios = await publicFetch.post(`/cuentasBeneficiarios`, {
+        const parametros = await publicFetch.post(`/parametrosGenerales`, {
           messageId:
             "OC51QnNzLnVCc3MuOTc5YTdnN2QgOGQ5Y2E3LmFiY2NhZm1kbmNlcWF3ZGRkRENi",
           company: "1",
           username: "JEFEDEVPYT",
           internalUserName: "PYT",
           channel: "WEB",
-          language: "EN_US",
+          language: "ES_CO",
         });
 
-        console.log(JSON.stringify(beneficiarios));
+        //console.log(JSON.stringify(beneficiarios));
 
-        if (beneficiarios.data.responseCode == "0000") {
-          console.log(beneficiarios.data.responseBody);
+        if (parametros.data.responseCode == "0000") {
+          dispatch(guardarParametros(parametros.data.responseBody));
         } else {
           setMessageAlert("error del sistema");
           setTypeMessageAlert("error");
@@ -203,7 +206,7 @@ export const Transaccion = () => {
 
   const siguiente = () => {
     var elementos = document.getElementsByClassName("active");
-    console.log(elementos[0].id);
+    //console.log(elementos[0].id);
 
     switch (elementos[0].id) {
       case "tab_1":
@@ -278,7 +281,7 @@ export const Transaccion = () => {
   const resetForm = () => {
     setTituloOperacion("");
     var elementos = document.getElementsByClassName("active");
-    console.log(elementos[0].id);
+    //console.log(elementos[0].id);
 
     switch (elementos[0].id) {
       case "tab_1":

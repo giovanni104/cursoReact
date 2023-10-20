@@ -23,7 +23,25 @@ export const MyNumberComponent = ({
 
     let valores = [...inputFields];
     let monto = ev.floatValue == undefined ? "0" : ev.floatValue;
-    let montoRecibir = parseFloat(monto) * parseFloat(valores[index].tasabcv);
+
+    //let montoRecibir = parseFloat(monto) * parseFloat(valores[index].tasabcv);
+
+    let number = valores[index].tasabcv;
+    let decimalNumbers = number.toString();
+
+    //se toman los números después del punto
+    decimalNumbers = decimalNumbers.substr(
+      decimalNumbers.indexOf(".") + 1,
+      decimalNumbers.length - 1
+    );
+
+    let decimalNumbersLength = decimalNumbers.length;
+
+    //se eleva el 10 a la cantidad de números decimales que hay
+    //para tener un numero con la misma cantidad de ceros que decimales
+    let fixNumber = 10 ** decimalNumbersLength;
+
+    let montoRecibir = Math.round(monto * fixNumber * number) / fixNumber;
 
     valores[index].montorecibir = montoRecibir;
 

@@ -106,6 +106,7 @@ export const formDataTerceros = {
     tipo: "",
     telefono: "",
     bancodestino: "",
+
     tipodoc: "",
     numdoc: "",
     nombre: "",
@@ -154,6 +155,7 @@ export const formDataTercerosReset = {
     tipo: "",
     telefono: "",
     bancodestino: "",
+
     tipodoc: "",
     numdoc: "",
     nombre: "",

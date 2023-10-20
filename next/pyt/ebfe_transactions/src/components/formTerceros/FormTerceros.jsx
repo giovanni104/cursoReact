@@ -20,7 +20,7 @@ import DialogContent from "@mui/material/DialogContent";
 import { DialogTitle } from "@mui/material";
 import Button from "@mui/material/Button";
 import { MyNumberComponent } from "../numberComponent/myNumberComponent";
-import { patterns } from "../../utils/genericas";
+import { patterns, separadoresMiles } from "../../utils/genericas";
 import formTercerosStyle from "./formTercerosStyle";
 import { useCuentaTerceros } from "./cuentaTerceros";
 import { publicFetch } from "@/utils/fetch";
@@ -53,11 +53,13 @@ export const FormTerceros = ({
   const [messageAlert, setMessageAlert] = useState("error del sistema");
   const [typeMessageAlert, setTypeMessageAlert] = useState("");
   const dispatch = useDispatch();
-
+  const [conceptos, setConceptos] = useState([]);
+  const [banksAvaibles, setBanksAvaibles] = useState([]);
   const storePropias = useSelector((state) => state.cuentas.propias);
   const storeBeneficiarios = useSelector(
     (state) => state.cuentas.beneficiarios
   );
+  const storeParametros = useSelector((state) => state.cuentas.parametros);
 
   const {
     openModal,
@@ -88,6 +90,7 @@ export const FormTerceros = ({
     cuentasBeneficiario,
     saldoAcreditar,
     valoresCuenta,
+    filtroMonedas,
   } = useCuentaTerceros();
 
   useEffect(() => {
@@ -95,17 +98,25 @@ export const FormTerceros = ({
   }, [inputFields]);
 
   useEffect(() => {
-    if (storePropias.length > 0) {
+    if (storePropias.length > 0 && cuentasPropias.length == 0) {
       cargaCuentasDebitar(
         JSON.parse(JSON.stringify(storePropias)),
         inputFields[index].currency
       );
     }
 
-    if (storeBeneficiarios.length > 0) {
+    if (storeBeneficiarios.length > 0 && listBeneficiarios.length == 0) {
       datosBeneficiario(JSON.parse(JSON.stringify(storeBeneficiarios)));
     }
-  }, [storePropias, storeBeneficiarios]);
+
+    if (Object.keys(storeParametros).length > 0 && conceptos.length == 0) {
+      let datos = [...storeParametros.concepts];
+      setConceptos(datos);
+
+      let bancos = [...storeParametros.banksAvaibles];
+      setBanksAvaibles(bancos);
+    }
+  }, [storePropias, storeBeneficiarios, storeParametros]);
 
   return (
     <Fragment key={`${"terceros"}~${index}`}>
@@ -232,9 +243,15 @@ export const FormTerceros = ({
                 index
               );
 
+              const datosTasa = filtroMonedas(
+                "USD",
+                storeParametros.currenciesAvaible
+              );
+              let trm = datosTasa.length > 0 ? datosTasa[0].trm : "0";
+
               setterDataFields(
                 "tasabcv",
-                "0.02869",
+                trm,
                 null,
                 inputFields,
                 setInputFields,
@@ -272,9 +289,15 @@ export const FormTerceros = ({
                 index
               );
 
+              const datosTasa = filtroMonedas(
+                "EUR",
+                storeParametros.currenciesAvaible
+              );
+              let trm = datosTasa.length > 0 ? datosTasa[0].trm : "0";
+
               setterDataFields(
                 "tasabcv",
-                "0.07618",
+                trm,
                 null,
                 inputFields,
                 setInputFields,
@@ -583,8 +606,14 @@ export const FormTerceros = ({
                                 <MenuItem value="">
                                   <em>Seleccionar</em>
                                 </MenuItem>
-                                <MenuItem value={"cuenta"}>Cuenta</MenuItem>
-                                <MenuItem value={"telefono"}>Telefono</MenuItem>
+
+                                {banksAvaibles.map((banco, index) => {
+                                  return (
+                                    <MenuItem key={index} value={banco}>
+                                      {banco.split(":")[1]}
+                                    </MenuItem>
+                                  );
+                                })}
                               </Select>
                             </FormControl>
                           </div>
@@ -786,8 +815,14 @@ export const FormTerceros = ({
                   <MenuItem key={0} value="">
                     <em>Seleccionar</em>
                   </MenuItem>
-                  <MenuItem value={"cuenta"}>Cuenta</MenuItem>
-                  <MenuItem value={"telefono"}>Telefono</MenuItem>
+
+                  {conceptos.map((concepto, index) => {
+                    return (
+                      <MenuItem key={index} value={concepto}>
+                        {concepto}
+                      </MenuItem>
+                    );
+                  })}
                 </Select>
               </FormControl>
             </div>
@@ -1003,7 +1038,7 @@ export const FormTerceros = ({
           </>
         )}
 
-        {inputFields[index].currency != "Bs" && (
+        {inputFields[index].currency != "BS" && (
           <Grid
             sx={{ marginTop: "5px" }}
             container
@@ -1013,10 +1048,11 @@ export const FormTerceros = ({
             <Grid item xs={6}>
               <Stack direction="column" spacing={0} sx={{ paddingTop: "10px" }}>
                 <label className={"lbltasa"}>
-                  Tasa BCV: Bs. {inputFields[index].tasabcv}
+                  Tasa BCV: Bs. {separadoresMiles(inputFields[index].tasabcv)}
                 </label>
                 <label className={"lbltasa"}>
-                  Monto a recibir: Bs. {inputFields[index].montorecibir}
+                  Monto a recibir: Bs.{" "}
+                  {separadoresMiles(inputFields[index].montorecibir)}
                 </label>
               </Stack>
             </Grid>

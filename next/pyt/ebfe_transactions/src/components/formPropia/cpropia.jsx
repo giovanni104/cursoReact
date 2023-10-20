@@ -17,7 +17,6 @@ import cpropiaStyle from "./cpropiaStyle";
 import { AlertMessage } from "../alertMessage";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  conceptos,
   switchHandler,
   handleChangeUsd,
   filtroCuentasAcreditar,
@@ -44,18 +43,30 @@ export const FormPropia = ({
   const [messageAlert, setMessageAlert] = useState("error del sistema");
   const [typeMessageAlert, setTypeMessageAlert] = useState("");
   const [saldoDebitar, setSaldoDebitar] = useState("");
+
   const [saldoAcreditar, setSaldoAcreditar] = useState("");
+
+  const [conceptos, setConceptos] = useState([]);
+
   const storePropias = useSelector((state) => state.cuentas.propias);
+  const storeParametros = useSelector((state) => state.cuentas.parametros);
 
   useEffect(() => {
-    if (storePropias.length > 0) {
+    if (storePropias.length > 0 && cuentasPropias.length == 0) {
+      console.log("parametros: storePropias");
+
       cargaCuentasDebitar(
         setCuentasPropias,
         JSON.parse(JSON.stringify(storePropias)),
         setCuentasUser
       );
     }
-  }, [storePropias]);
+
+    if (Object.keys(storeParametros).length > 0 && conceptos.length == 0) {
+      let datos = [...storeParametros.concepts];
+      setConceptos(datos);
+    }
+  }, [storePropias, storeParametros]);
 
   useEffect(() => {
     validacionFormulario(setBtnTranferir, inputFields, index);
@@ -201,8 +212,8 @@ export const FormPropia = ({
 
                   {conceptos.map((concepto, index) => {
                     return (
-                      <MenuItem key={index} value={concepto.value}>
-                        {concepto.label}
+                      <MenuItem key={index} value={concepto}>
+                        {concepto}
                       </MenuItem>
                     );
                   })}

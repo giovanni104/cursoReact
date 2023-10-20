@@ -20,7 +20,7 @@ export const DialogTransaccion = ({
 }) => {
   const [openMessage, setOpenMessage] = useState(true);
   const [posicion, setPosicion] = useState(registro);
-  console.log(registro);
+  //console.log(registro);
   const downloadImage = () => {
     const table = document.getElementById("reciboTransaccion");
 

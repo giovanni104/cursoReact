@@ -81,15 +81,7 @@ const handler = async (req: NextRequest, res: NextApiResponse) => {
       });
   }
 
-  return res.status(400).json({
-    errorLvl: "ERROR",
-    responseCode: "400",
-    responseDesc: "Algo paso al preparar la petición",
-
-    responseBody: null,
-  });
-
-  /* const messageCookie = makeCookie(beneficiariosData.messageId);
+  /* const messageCookie = makeCookie(beneficiariosData.messageId);a
   res.setHeader("set-cookie", messageCookie);
   return res.status(200).json(beneficiariosData);*/
 };

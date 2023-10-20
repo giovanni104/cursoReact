@@ -40,16 +40,21 @@ export const ResumenTransaccion = ({
   const fetchData = async () => {
     try {
       let datosTransaccion = {
-        company: "1",
         messageId:
-          "OC51QnNzLnVCc3MuOTc5YTdnN2QgOGQ5Y2E3LmFiY2NhZm1kbmNlcWF3ZGRkRENi",
+          "TC50b3Bvbm9GeklELjdlNTUuTUtNTktUTVIgTEtLTUxPLjZMUExVTU1ST1BnS01ZaEtZS1dL",
         username: "JEFEDEVPYT",
         channel: "WEB",
         internalUserName: "PYT",
-        e2usm2: 1000,
-        e2cusc: 1000,
-        identification: "12345678",
-        typeIdentification: "CED",
+        company: "1",
+        language: "ES_CO",
+
+        dataUser: {
+          company: "1",
+          e2usm2: 1000,
+          e2cusc: 1000,
+          typeIdentification: "CED",
+          identification: "12345678",
+        },
       };
 
       if (inputFieldsData[0].tipo == "terceros") {
@@ -60,7 +65,7 @@ export const ResumenTransaccion = ({
         datosTransaccion.typeTransfer =
           inputFieldsData[0].beneficiarioTipoCuenta;
         datosTransaccion.typeCurrencyOriAccount = inputFieldsData[0].currency;
-        datosTransaccion.language = "ES_CO";
+
         datosTransaccion.descriptionTx = inputFieldsData[0].concepto;
 
         datosTransaccion.nameBeneficiary =
@@ -78,14 +83,12 @@ export const ResumenTransaccion = ({
         datosTransaccion.transferAmount = inputFieldsData[0].monto.toString();
         datosTransaccion.typeTransfer = "1";
         datosTransaccion.typeCurrencyOriAccount = "USD";
-        datosTransaccion.language = "ES_CO";
         datosTransaccion.descriptionTx = inputFieldsData[0].concepto;
-
+        datosTransaccion.nameBeneficiary = "JEFEDEVPYT";
         datosTransaccion.codeBank = inputFieldsData[0].codBanco;
         datosTransaccion.nameBank = inputFieldsData[0].banco;
         datosTransaccion.idBeneficiary = "12345678";
         datosTransaccion.typeIdBeneficiary = "CED";
-        datosTransaccion.nameBeneficiary = "JEFEDEVPYT";
       }
 
       const transfer = await publicFetch.post(`/transfers`, datosTransaccion);
@@ -93,15 +96,26 @@ export const ResumenTransaccion = ({
       console.log("respuesta transaccion=>" + JSON.stringify(transfer));
 
       if (transfer.data.responseCode == "0000") {
-        let valores = [...inputFieldsData];
-        valores[0].NroOperacion = transfer.data.responseBody.NroOperacion;
-        valores[0].errorLvl = transfer.data.errorLvl;
-        valores[0].responseDesc = transfer.data.responseDesc;
+        if (transfer.data.responseBody.validTransactions.length > 0) {
+          ///transaccion existosa
+          const respuesta = transfer.data.responseBody.validTransactions;
 
-        setInputFieldsData(valores);
+          let valores = [...inputFieldsData];
+          valores[0].NroOperacion = respuesta[0].status.nroOperation;
+          valores[0].errorLvl = "sucess";
+          valores[0].responseDesc = transfer.data.responseDesc;
+          setInputFieldsData(valores);
+          setOpen(false);
+          setOpenModal(true);
+        } else {
+          ///transaccion genero error
 
-        setOpen(false);
-        setOpenModal(true);
+          const respuesta = transfer.data.responseBody.invalidTransactions;
+          setOpen(false);
+          setMessageAlert(respuesta[0].status.description);
+          setTypeMessageAlert("error");
+          setMessageOpen(true);
+        }
       } else {
         setOpen(false);
         setMessageAlert("Error del sistema");

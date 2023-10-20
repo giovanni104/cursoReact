@@ -10,6 +10,7 @@ export const Slice = createSlice({
   initialState: {
     propias: [],
     beneficiarios: [],
+    parametros: {},
   },
   reducers: {
     guardarPropias: (state, action) => {
@@ -18,14 +19,31 @@ export const Slice = createSlice({
     guardarBeneficiarios: (state, action) => {
       state.beneficiarios = action.payload;
     },
+    guardarParametros: (state, action) => {
+      state.parametros = action.payload;
+    },
   },
 });
 
-export const { guardarPropias, guardarBeneficiarios } = Slice.actions;
+export const Parametros = createSlice({
+  name: "parametros",
+  initialState: {
+    parametros: {},
+  },
+  reducers: {
+    guardarParametros: (state, action) => {
+      state.parametros = action.payload;
+    },
+  },
+});
+
+export const { guardarPropias, guardarBeneficiarios, guardarParametros } =
+  Slice.actions;
 
 const store = configureStore({
   reducer: {
     cuentas: Slice.reducer,
+    parametros: Parametros.reducer,
   },
 });
 

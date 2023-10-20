@@ -133,7 +133,7 @@ export const useCuentaTerceros = () => {
               }
               break;
             default:
-              console.log("3");
+              //console.log("3");
               setBtnTranferir(true);
               break;
           }
@@ -235,7 +235,7 @@ export const useCuentaTerceros = () => {
       );
     });
 
-    console.log("cuentas=>" + currency + JSON.stringify(dataCuentas));
+    //console.log("cuentas=>" + currency + JSON.stringify(dataCuentas));
     setCuentasPropias(cuentas);
   };
 
@@ -314,6 +314,13 @@ export const useCuentaTerceros = () => {
     setInputFields(valores);
   };
 
+  const filtroMonedas = (moneda, datos) => {
+    const resultado = datos.filter(function (el) {
+      return el.nameCurrency == moneda;
+    });
+    return resultado;
+  };
+
   return {
     openModal,
     setOpenModal,
@@ -343,5 +350,6 @@ export const useCuentaTerceros = () => {
     cuentasBeneficiario,
     saldoAcreditar,
     valoresCuenta,
+    filtroMonedas,
   };
 };
