@@ -58,37 +58,35 @@ export const ResumenTransaccion = ({
       };
 
       if (inputFieldsData[0].tipo == "terceros") {
-        datosTransaccion.originAccount = inputFieldsData[0].cuentaDebitar;
-        datosTransaccion.destinationAccount =
-          inputFieldsData[0].beneficiarioCuenta;
-        datosTransaccion.transferAmount = inputFieldsData[0].monto.toString();
-        datosTransaccion.typeTransfer =
-          inputFieldsData[0].beneficiarioTipoCuenta;
-        datosTransaccion.typeCurrencyOriAccount = inputFieldsData[0].currency;
-
-        datosTransaccion.descriptionTx = inputFieldsData[0].concepto;
-
-        datosTransaccion.nameBeneficiary =
-          inputFieldsData[0].beneficiario.split(":")[0];
-        datosTransaccion.codeBank = inputFieldsData[0].beneficiarioCodBanco;
-        datosTransaccion.nameBank = inputFieldsData[0].beneficiarioBanco;
-        datosTransaccion.idBeneficiary =
-          inputFieldsData[0].beneficiario.split(":")[2];
-        datosTransaccion.typeIdBeneficiary =
-          inputFieldsData[0].beneficiario.split(":")[1];
+        let transaccion = {
+          originAccount: inputFieldsData[0].cuentaDebitar,
+          destinationAccount: inputFieldsData[0].beneficiarioCuenta,
+          transferAmount: inputFieldsData[0].monto.toString(),
+          typeTransfer: inputFieldsData[0].beneficiarioTipoCuenta,
+          typeCurrencyOriAccount: inputFieldsData[0].currency,
+          descriptionTx: inputFieldsData[0].concepto,
+          nameBeneficiary: inputFieldsData[0].beneficiario.split(":")[0],
+          codeBank: inputFieldsData[0].beneficiarioCodBanco,
+          nameBank: inputFieldsData[0].beneficiarioBanco,
+          idBeneficiary: inputFieldsData[0].beneficiario.split(":")[2],
+          typeIdBeneficiary: inputFieldsData[0].beneficiario.split(":")[1],
+        };
+        datosTransaccion.transactions = [transaccion];
       } else {
-        datosTransaccion.originAccount = inputFieldsData[0].cuentaDebitar;
-        datosTransaccion.destinationAccount =
-          inputFieldsData[0].cuentaAcreditar;
-        datosTransaccion.transferAmount = inputFieldsData[0].monto.toString();
-        datosTransaccion.typeTransfer = "1";
-        datosTransaccion.typeCurrencyOriAccount = "USD";
-        datosTransaccion.descriptionTx = inputFieldsData[0].concepto;
-        datosTransaccion.nameBeneficiary = "JEFEDEVPYT";
-        datosTransaccion.codeBank = inputFieldsData[0].codBanco;
-        datosTransaccion.nameBank = inputFieldsData[0].banco;
-        datosTransaccion.idBeneficiary = "12345678";
-        datosTransaccion.typeIdBeneficiary = "CED";
+        let transaccion = {
+          originAccount: inputFieldsData[0].cuentaDebitar,
+          destinationAccount: inputFieldsData[0].cuentaAcreditar,
+          transferAmount: inputFieldsData[0].monto.toString(),
+          typeTransfer: "1",
+          typeCurrencyOriAccount: "USD",
+          descriptionTx: inputFieldsData[0].concepto,
+          nameBeneficiary: "JEFEDEVPYT",
+          codeBank: inputFieldsData[0].codBanco,
+          nameBank: inputFieldsData[0].banco,
+          idBeneficiary: "12345678",
+          typeIdBeneficiary: "CED",
+        };
+        datosTransaccion.transactions = [transaccion];
       }
 
       const transfer = await publicFetch.post(`/transfers`, datosTransaccion);

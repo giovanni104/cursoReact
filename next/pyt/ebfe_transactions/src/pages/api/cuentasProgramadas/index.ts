@@ -16,7 +16,7 @@ const handler = async (req: NextRequest, res: NextApiResponse) => {
 
     const resAxios = await axios
       .post(
-        "http://localhost:8793/transfers/programtranfers",
+        "http://192.168.10.220:8793/transfers/programtranfers",
         dataTransaccion,
         {
           timeout: 9000,
@@ -81,14 +81,14 @@ const handler = async (req: NextRequest, res: NextApiResponse) => {
         res.setHeader("set-cookie", messageCookie);
         return res.status(responseJson.responseCode).json(responseJson);
       });
+  } else {
+    return res.status(400).json({
+      errorLvl: "ERROR",
+      responseCode: "400",
+      responseDesc: "Algo paso al preparar la petición",
+      responseBody: null,
+    });
   }
-
-  return res.status(400).json({
-    errorLvl: "ERROR",
-    responseCode: "400",
-    responseDesc: "Algo paso al preparar la petición",
-    responseBody: null,
-  });
 };
 
 export default handler;

@@ -113,7 +113,7 @@ export const FormTerceros = ({
       let datos = [...storeParametros.concepts];
       setConceptos(datos);
 
-      let bancos = [...storeParametros.banksAvaibles];
+      let bancos = [...storeParametros.banksAvailable];
       setBanksAvaibles(bancos);
     }
   }, [storePropias, storeBeneficiarios, storeParametros]);
@@ -642,8 +642,16 @@ export const FormTerceros = ({
                                 <MenuItem key={0} value="">
                                   <em>Seleccionar</em>
                                 </MenuItem>
-                                <MenuItem value={"cuenta"}>Cuenta</MenuItem>
-                                <MenuItem value={"telefono"}>Telefono</MenuItem>
+
+                                {storeParametros.typesDocuments.map(
+                                  (tipoDoc, index) => {
+                                    return (
+                                      <MenuItem key={index} value={tipoDoc}>
+                                        {tipoDoc}
+                                      </MenuItem>
+                                    );
+                                  }
+                                )}
                               </Select>
                             </FormControl>
                           </div>

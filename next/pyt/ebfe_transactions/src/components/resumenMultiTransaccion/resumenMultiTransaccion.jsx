@@ -11,6 +11,7 @@ import { ConfirmDialog } from "../confirmDialog";
 import Link from "@mui/material/Link";
 import { DialogTransaccion } from "../dialogTrasaccion/dialogTransaccion";
 import { random } from "../../utils/genericas";
+import { publicFetch } from "@/utils/fetch";
 export const ResumenMultiTransaccion = ({
   inputFieldsData,
 
@@ -47,6 +48,7 @@ export const ResumenMultiTransaccion = ({
   };
 
   const tranferencia = () => {
+    fetchData();
     handleOpen();
   };
   const deleteRows = () => {
@@ -58,6 +60,88 @@ export const ResumenMultiTransaccion = ({
 
     setInputFieldsData(cuentas);
   };
+
+  const fetchData = async () => {
+    try {
+      let datosTransaccion = {
+        messageId:
+          "TC50b3Bvbm9GeklELjdlNTUuTUtNTktUTVIgTEtLTUxPLjZMUExVTU1ST1BnS01ZaEtZS1dL",
+        username: "JEFEDEVPYT",
+        channel: "WEB",
+        internalUserName: "PYT",
+        company: "1",
+        language: "ES_CO",
+
+        dataUser: {
+          company: "1",
+          e2usm2: 1000,
+          e2cusc: 1000,
+          typeIdentification: "CED",
+          identification: "12345678",
+        },
+      };
+
+      let multipleTrasacciones = [];
+
+      for (let i = 0; i < inputFieldsData.length; i++) {
+        let transaccion = {
+          originAccount: inputFieldsData[i].cuentaDebitar,
+          destinationAccount: inputFieldsData[i].beneficiarioCuenta,
+          transferAmount: inputFieldsData[i].monto.toString(),
+          typeTransfer: inputFieldsData[i].beneficiarioTipoCuenta,
+          typeCurrencyOriAccount: inputFieldsData[i].currency,
+          descriptionTx: inputFieldsData[i].concepto,
+          nameBeneficiary: inputFieldsData[i].beneficiario.split(":")[0],
+          codeBank: inputFieldsData[i].beneficiarioCodBanco,
+          nameBank: inputFieldsData[i].beneficiarioBanco,
+          idBeneficiary: inputFieldsData[i].beneficiario.split(":")[2],
+          typeIdBeneficiary: inputFieldsData[i].beneficiario.split(":")[1],
+        };
+
+        multipleTrasacciones.push(transaccion);
+      }
+      datosTransaccion.transactions = multipleTrasacciones;
+      console.log("datosTransaccion =>" + JSON.stringify(datosTransaccion));
+      const transfer = await publicFetch.post(`/transfers`, datosTransaccion);
+
+      console.log("respuesta transaccion=>" + JSON.stringify(transfer));
+
+      /*if (transfer.data.responseCode == "0000") {
+        if (transfer.data.responseBody.validTransactions.length > 0) {
+          ///transaccion existosa
+          const respuesta = transfer.data.responseBody.validTransactions;
+
+          let valores = [...inputFieldsData];
+          valores[0].NroOperacion = respuesta[0].status.nroOperation;
+          valores[0].errorLvl = "sucess";
+          valores[0].responseDesc = transfer.data.responseDesc;
+          setInputFieldsData(valores);
+          setOpen(false);
+          setOpenModal(true);
+        } else {
+          ///transaccion genero error
+
+          const respuesta = transfer.data.responseBody.invalidTransactions;
+          setOpen(false);
+          setMessageAlert(respuesta[0].status.description);
+          setTypeMessageAlert("error");
+          setMessageOpen(true);
+        }
+      } else {
+        setOpen(false);
+        setMessageAlert("Error del sistema");
+        setTypeMessageAlert("error");
+        setMessageOpen(true);
+      }*/
+    } catch (err) {
+      setOpen(false);
+      console.log(err);
+      setMessageAlert(err.response.data.responseDesc);
+      setTypeMessageAlert("error");
+      setMessageOpen(true);
+    }
+  };
+
   return (
     <div>
       <Backdrop

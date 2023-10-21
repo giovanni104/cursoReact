@@ -27,7 +27,7 @@ export const MyNumberComponent = ({
     //let montoRecibir = parseFloat(monto) * parseFloat(valores[index].tasabcv);
 
     let number = valores[index].tasabcv;
-    let decimalNumbers = number.toString();
+    /* let decimalNumbers = number.toString();
 
     //se toman los números después del punto
     decimalNumbers = decimalNumbers.substr(
@@ -42,6 +42,8 @@ export const MyNumberComponent = ({
     let fixNumber = 10 ** decimalNumbersLength;
 
     let montoRecibir = Math.round(monto * fixNumber * number) / fixNumber;
+*/
+    let montoRecibir = Math.round(monto * number);
 
     valores[index].montorecibir = montoRecibir;
 

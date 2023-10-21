@@ -17,9 +17,13 @@ const handler = async (req: NextRequest, res: NextApiResponse) => {
     dataTransaccion.messageId = messageId == undefined ? "default" : messageId;
 
     const resAxios = await axios
-      .post("http://localhost:8793/transfers/maketransfer", dataTransaccion, {
-        timeout: 6000,
-      })
+      .post(
+        "http://192.168.10.220:8793/transfers/maketransfer",
+        dataTransaccion,
+        {
+          timeout: 6000,
+        }
+      )
       .then((response) => {
         // console.log(response);
 
@@ -79,9 +83,9 @@ const handler = async (req: NextRequest, res: NextApiResponse) => {
         res.setHeader("set-cookie", messageCookie);
         return res.status(responseJson.responseCode).json(responseJson);
       });
+  } else {
+    return res.status(400).json({ error: "El metodo no existe" });
   }
-
-  return res.status(400).json({ error: "El metodo no existe" });
 };
 
 export default handler;

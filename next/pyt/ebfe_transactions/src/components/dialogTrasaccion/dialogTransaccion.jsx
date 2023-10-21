@@ -178,7 +178,7 @@ export const DialogTransaccion = ({
           </tbody>
         </table>
 
-        {inputFieldsData.length > 0 && (
+        {inputFieldsData.length > 1 && (
           <div className="containerIcons">
             <Stack paddingTop={"16px"} direction="row" spacing={2}>
               {posicion > 0 ? (
@@ -253,7 +253,7 @@ export const DialogTransaccion = ({
         </Button>
       </div>
 
-      {openMessage && inputFieldsData.length == 0 && (
+      {openMessage && inputFieldsData.length == 1 && (
         <InfoMessage
           message={inputFieldsData[posicion].responseDesc}
           typeMessage={inputFieldsData[posicion].errorLvl}

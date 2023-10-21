@@ -48,7 +48,7 @@ async function peticion(
   responseJson: any
 ) {
   await axios
-    .post("http://localhost:8793/transfers/details", dataTransaccion, {
+    .post("http://192.168.10.220:8793/transfers/details", dataTransaccion, {
       timeout: 6000,
     })
     .then((response) => {

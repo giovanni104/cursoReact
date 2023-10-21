@@ -16,7 +16,7 @@ const handler = async (req: NextRequest, res: NextApiResponse) => {
     dataTransaccion.messageId = messageId == undefined ? "default" : messageId;
 
     const resAxios = await axios
-      .post("http://localhost:8793/accounts/others", dataTransaccion, {
+      .post("http://192.168.10.220:8793/accounts/others", dataTransaccion, {
         timeout: 6000,
       })
 
