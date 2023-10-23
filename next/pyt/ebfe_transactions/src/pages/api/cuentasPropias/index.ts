@@ -18,7 +18,7 @@ const handler = async (req: NextRequest, res: NextApiResponse) => {
     dataTransaccion.messageId = messageId == undefined ? "default" : messageId;
 
     await axios
-      .post("http://192.168.10.220:8793/accounts/own", dataTransaccion, {
+      .post(process.env.BACK_PUBLIC_API_URL + "accounts/own", dataTransaccion, {
         timeout: 6000,
       })
       .then((response) => {

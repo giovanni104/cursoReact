@@ -18,7 +18,7 @@ const handler = async (req: NextRequest, res: NextApiResponse) => {
 
     const resAxios = await axios
       .post(
-        "http://192.168.10.220:8793/transfers/maketransfer",
+        process.env.BACK_PUBLIC_API_URL + "transfers/maketransfer",
         dataTransaccion,
         {
           timeout: 6000,

@@ -157,7 +157,10 @@ export const ResumenTransaccion = ({
                 ? "USD"
                 : inputFieldsData[0].monedaDebitar,
             descriptionTx: inputFieldsData[0].concepto,
-            dateExecution: "20231010",
+            dateExecution:
+              inputFieldsData[0].programa.anio +
+              inputFieldsData[0].programa.mes +
+              inputFieldsData[0].programa.dia,
             howOften: inputFieldsData[0].programa.repetir,
             frecuency: inputFieldsData[0].programa.frecuenciaType,
           },

@@ -118,6 +118,32 @@ export const FormTerceros = ({
     }
   }, [storePropias, storeBeneficiarios, storeParametros]);
 
+  async function fetchDataCuenta(cuentaUser) {
+    try {
+      const beneficiarios = await publicFetch.post(`/buscarCuenta`, {
+        cuenta: cuentaUser,
+      });
+
+      if (beneficiarios.data.responseCode != "0000") {
+        setErrorNumcuenta("El número de cuenta es inválido");
+
+        //beneficiarios.data.responseDesc": "account information doesn´t match",
+        setMessageAlert("El número de cuenta es inválido");
+        setTypeMessageAlert("error");
+        setMessageOpen(true);
+      } /* else {
+        setMessageAlert("error del sistema");
+        setTypeMessageAlert("error");
+        setMessageOpen(true);
+      }*/
+    } catch (err) {
+      //console.log(err);
+      setMessageAlert("error del sistema");
+      setTypeMessageAlert("error");
+      setMessageOpen(true);
+    }
+  }
+
   return (
     <Fragment key={`${"terceros"}~${index}`}>
       {index > 0 && (
@@ -245,7 +271,7 @@ export const FormTerceros = ({
 
               const datosTasa = filtroMonedas(
                 "USD",
-                storeParametros.currenciesAvaible
+                storeParametros.currenciesAvailable
               );
               let trm = datosTasa.length > 0 ? datosTasa[0].trm : "0";
 
@@ -291,7 +317,7 @@ export const FormTerceros = ({
 
               const datosTasa = filtroMonedas(
                 "EUR",
-                storeParametros.currenciesAvaible
+                storeParametros.currenciesAvailable
               );
               let trm = datosTasa.length > 0 ? datosTasa[0].trm : "0";
 
@@ -762,6 +788,7 @@ export const FormTerceros = ({
                                   newValue.length >= 11)
                               ) {
                                 setErrorNumcuenta("");
+                                fetchDataCuenta(newValue);
                               } else {
                                 setErrorNumcuenta(
                                   "Debes introduccir mínimo 11 digitos"

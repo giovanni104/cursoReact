@@ -19,7 +19,7 @@ export const ResumenMultiTransaccion = ({
   handleSubtitulo,
   setInputFieldsData,
 }) => {
-  console.log(JSON.stringify(inputFieldsData));
+  console.log(inputFieldsData);
 
   const [open, setOpen] = React.useState(false);
   const [openResultados, setOpenResultados] = React.useState(false);
@@ -27,7 +27,9 @@ export const ResumenMultiTransaccion = ({
   const [idRow, setIdRow] = useState(0);
   const [openModal, setOpenModal] = React.useState(false);
   const [idRegistro, setIdRegistro] = React.useState(0);
-
+  const [messageOpen, setMessageOpen] = useState(false);
+  const [messageAlert, setMessageAlert] = useState("error del sistema");
+  const [typeMessageAlert, setTypeMessageAlert] = useState("");
   const handleClose = () => {
     setOpen(false);
     handleSubtitulo("terceros2");
@@ -35,15 +37,6 @@ export const ResumenMultiTransaccion = ({
     //setOpenModal(true);
   };
   const handleOpen = () => {
-    let valores = [...inputFieldsData];
-
-    for (let i = 0; i < valores.length; i++) {
-      valores[i]["NroOperacion"] = random(50000, 99999999);
-      valores[i]["errorLvl"] = "Succes";
-      valores[i]["responseDesc"] = "Proceso existoso";
-    }
-
-    setInputFieldsData(valores);
     setOpen(true);
   };
 
@@ -52,8 +45,6 @@ export const ResumenMultiTransaccion = ({
     handleOpen();
   };
   const deleteRows = () => {
-    //document.getElementById(idRow).remove();
-
     const cuentas = inputFieldsData.filter(function (el) {
       return el.index != idRow;
     });
@@ -85,6 +76,7 @@ export const ResumenMultiTransaccion = ({
 
       for (let i = 0; i < inputFieldsData.length; i++) {
         let transaccion = {
+          id: inputFieldsData[i].index,
           originAccount: inputFieldsData[i].cuentaDebitar,
           destinationAccount: inputFieldsData[i].beneficiarioCuenta,
           transferAmount: inputFieldsData[i].monto.toString(),
@@ -104,35 +96,107 @@ export const ResumenMultiTransaccion = ({
       console.log("datosTransaccion =>" + JSON.stringify(datosTransaccion));
       const transfer = await publicFetch.post(`/transfers`, datosTransaccion);
 
-      console.log("respuesta transaccion=>" + JSON.stringify(transfer));
+      console.log("respuesta transaccion=>" + JSON.stringify(transfer.data));
 
-      /*if (transfer.data.responseCode == "0000") {
-        if (transfer.data.responseBody.validTransactions.length > 0) {
-          ///transaccion existosa
-          const respuesta = transfer.data.responseBody.validTransactions;
+      let valores = [...inputFieldsData];
 
-          let valores = [...inputFieldsData];
-          valores[0].NroOperacion = respuesta[0].status.nroOperation;
-          valores[0].errorLvl = "sucess";
-          valores[0].responseDesc = transfer.data.responseDesc;
-          setInputFieldsData(valores);
+      transfer.data.responseBody.validTransactions.forEach(function (
+        transaccion
+      ) {
+        valores[transaccion.id]["NroOperacion"] =
+          transaccion.status.nroOperation == "12345"
+            ? random(50000, 99999999)
+            : transaccion.status.nroOperation;
+        valores[transaccion.id]["errorLvl"] = "sucess";
+        valores[transaccion.id]["responseDesc"] = "Procesada";
+      });
+
+      transfer.data.responseBody.invalidTransactions.forEach(function (
+        transaccion
+      ) {
+        valores[transaccion.id]["NroOperacion"] = transaccion.status.code;
+        valores[transaccion.id]["errorLvl"] = "error";
+        valores[transaccion.id]["responseDesc"] =
+          transaccion.status.description;
+      });
+    } catch (err) {
+      setOpen(false);
+      console.log(err);
+      setMessageAlert(err.response.data.responseDesc);
+      setTypeMessageAlert("error");
+      setMessageOpen(true);
+    }
+  };
+
+  const fetchDataProgram = async () => {
+    try {
+      const transfer = await publicFetch.post(`/cuentasProgramadas`, {
+        username: "JEFEDEVPYT",
+        messageId:
+          "OC51QnNzLnVCc3MuOTc5YTdnN2QgOGQ5Y2E3LmFiY2NhZm1kbmNlcWF3ZGRkRENi",
+        channel: "WEB",
+        internalUserName: "PYT",
+        language: "ES_CO",
+        company: "1",
+        userData: {
+          company: "1",
+          e2usm2: 1000,
+          e2cusc: 1000,
+          typeIdentification: "CED",
+          identification: 12345678,
+        },
+        transactions: [
+          {
+            originAccount: inputFieldsData[0].cuentaDebitar,
+            destinationAccount: inputFieldsData[0].cuentaAcreditar,
+            transferAmount: inputFieldsData[0].monto.toString(),
+            typeTransfer: "1",
+            typeCurrencyOriAccount:
+              inputFieldsData[0].monedaUsd == true
+                ? "USD"
+                : inputFieldsData[0].monedaDebitar,
+            descriptionTx: inputFieldsData[0].concepto,
+            dateExecution:
+              inputFieldsData[0].programa.anio +
+              inputFieldsData[0].programa.mes +
+              inputFieldsData[0].programa.dia,
+            howOften: inputFieldsData[0].programa.repetir,
+            frecuency: inputFieldsData[0].programa.frecuenciaType,
+          },
+        ],
+      });
+
+      console.log("respuesta=>" + JSON.stringify(transfer));
+
+      if (transfer.data.responseCode == "0000") {
+        if (transfer.data.responseBody.Invalidas.length > 0) {
+          let mensaje =
+            transfer.data.responseBody.Invalidas[0].whyFailed.split("-");
           setOpen(false);
-          setOpenModal(true);
-        } else {
-          ///transaccion genero error
-
-          const respuesta = transfer.data.responseBody.invalidTransactions;
-          setOpen(false);
-          setMessageAlert(respuesta[0].status.description);
+          setMessageAlert(mensaje[1]);
           setTypeMessageAlert("error");
           setMessageOpen(true);
+        } else {
+          // datos.data.responseBody.Validas.length;
+          if (transfer.data.responseBody.Validas.length > 0) {
+            let valores = [...inputFieldsData];
+            valores[0].NroOperacion =
+              transfer.data.responseBody.Validas[0].nrOperation;
+            valores[0].errorLvl = transfer.data.errorLvl;
+            valores[0].responseDesc = transfer.data.responseDesc;
+
+            setInputFieldsData(valores);
+
+            setOpen(false);
+            setOpenModal(true);
+          }
         }
       } else {
         setOpen(false);
         setMessageAlert("Error del sistema");
         setTypeMessageAlert("error");
         setMessageOpen(true);
-      }*/
+      }
     } catch (err) {
       setOpen(false);
       console.log(err);

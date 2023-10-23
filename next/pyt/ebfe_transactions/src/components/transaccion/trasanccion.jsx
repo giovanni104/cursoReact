@@ -43,8 +43,6 @@ export const Transaccion = () => {
     (state) => state.cuentas.beneficiarios
   );
 
-  const storeParametros = useSelector((state) => state.parametros.parametros);
-
   const [btnTranferir, setBtnTranferir] = useState(true);
 
   const [txtSubtitulo, setTxtSubtitulo] = useState("");

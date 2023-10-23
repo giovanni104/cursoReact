@@ -13,9 +13,10 @@ const handler = async (req: NextRequest, res: NextApiResponse) => {
   const messageId = cookies.get("messageId");
 
   if (req.method == "POST") {
-    let dataTransaccion: any = req.body;
+    let dataCuenta: any = req.body;
 
-    dataTransaccion.messageId = messageId == undefined ? "default" : messageId;
+    let dataMessageId = messageId == undefined ? "default" : messageId;
+    let dataTransaccion = `accounts/search/${dataCuenta.cuenta}?messageId=${dataMessageId}&username=JEFEDEVPYT`;
 
     const peticionPost: any = await peticion(
       dataTransaccion,
@@ -48,15 +49,11 @@ async function peticion(
   responseJson: any
 ) {
   await axios
-    .post(
-      process.env.BACK_PUBLIC_API_URL + "transfers/details",
-      dataTransaccion,
-      {
-        timeout: 6000,
-      }
-    )
+    .get(process.env.BACK_PUBLIC_API_URL + dataTransaccion, {
+      timeout: 6000,
+    })
     .then((response) => {
-      console.log(response);
+      //console.log(response);
       const message = response.data.messageId;
       const messageCookie = makeCookie(message);
       res.setHeader("set-cookie", messageCookie);

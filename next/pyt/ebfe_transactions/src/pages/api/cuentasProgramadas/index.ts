@@ -12,11 +12,12 @@ const handler = async (req: NextRequest, res: NextApiResponse) => {
 
   if (req.method == "POST") {
     let dataTransaccion: any = req.body;
+    //console.log("programada=>" + JSON.stringify(dataTransaccion));
     dataTransaccion.messageId = messageId == undefined ? "default" : messageId;
 
     const resAxios = await axios
       .post(
-        "http://192.168.10.220:8793/transfers/programtranfers",
+        process.env.BACK_PUBLIC_API_URL + "transfers/programtranfers",
         dataTransaccion,
         {
           timeout: 9000,

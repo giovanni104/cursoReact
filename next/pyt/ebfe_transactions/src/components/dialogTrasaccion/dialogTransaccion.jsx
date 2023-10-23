@@ -21,6 +21,7 @@ export const DialogTransaccion = ({
   const [openMessage, setOpenMessage] = useState(true);
   const [posicion, setPosicion] = useState(registro);
   //console.log(registro);
+
   const downloadImage = () => {
     const table = document.getElementById("reciboTransaccion");
 
@@ -82,48 +83,52 @@ export const DialogTransaccion = ({
             <label className={"lbltituloModal"}>Transferencias {type}</label>
           </div>
 
-          <div style={{ textAlign: "center" }}>
-            <label className={"lbltitulo2Modal"}>
-              Operación N° {inputFieldsData[posicion].NroOperacion}
-            </label>
-          </div>
+          {inputFieldsData[posicion].errorLvl == "sucess" && (
+            <div style={{ textAlign: "center" }}>
+              <label className={"lbltitulo2Modal"}>
+                Operación N° {inputFieldsData[posicion].NroOperacion}
+              </label>
+            </div>
+          )}
         </Stack>
         <div className="containerIcons">
-          <Stack direction="row" spacing={2}>
-            <img
-              src={process.env.NEXT_PUBLIC_BASIC_URL + "copiarDefault.svg"}
-              className="copiar"
-              style={{
-                height: "30px",
-                width: "30px",
-              }}
-            />
-            <img
-              className="favorito"
-              src={process.env.NEXT_PUBLIC_BASIC_URL + "favoritosDefault.svg"}
-              style={{
-                height: "30px",
-                width: "30px",
-              }}
-            />
-            <img
-              className="compartir"
-              src={process.env.NEXT_PUBLIC_BASIC_URL + "compartirDefault.svg"}
-              style={{
-                height: "30px",
-                width: "30px",
-              }}
-            />
-            <img
-              onClick={downloadImage}
-              src={process.env.NEXT_PUBLIC_BASIC_URL + "descargarDefault.svg"}
-              className="descargar"
-              style={{
-                height: "30px",
-                width: "30px",
-              }}
-            />
-          </Stack>
+          {inputFieldsData[posicion].errorLvl == "sucess" && (
+            <Stack direction="row" spacing={2}>
+              <img
+                src={process.env.NEXT_PUBLIC_BASIC_URL + "copiarDefault.svg"}
+                className="copiar"
+                style={{
+                  height: "30px",
+                  width: "30px",
+                }}
+              />
+              <img
+                className="favorito"
+                src={process.env.NEXT_PUBLIC_BASIC_URL + "favoritosDefault.svg"}
+                style={{
+                  height: "30px",
+                  width: "30px",
+                }}
+              />
+              <img
+                className="compartir"
+                src={process.env.NEXT_PUBLIC_BASIC_URL + "compartirDefault.svg"}
+                style={{
+                  height: "30px",
+                  width: "30px",
+                }}
+              />
+              <img
+                onClick={downloadImage}
+                src={process.env.NEXT_PUBLIC_BASIC_URL + "descargarDefault.svg"}
+                className="descargar"
+                style={{
+                  height: "30px",
+                  width: "30px",
+                }}
+              />
+            </Stack>
+          )}
         </div>
 
         <table

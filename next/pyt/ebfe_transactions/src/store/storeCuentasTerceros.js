@@ -25,25 +25,12 @@ export const Slice = createSlice({
   },
 });
 
-export const Parametros = createSlice({
-  name: "parametros",
-  initialState: {
-    parametros: {},
-  },
-  reducers: {
-    guardarParametros: (state, action) => {
-      state.parametros = action.payload;
-    },
-  },
-});
-
 export const { guardarPropias, guardarBeneficiarios, guardarParametros } =
   Slice.actions;
 
 const store = configureStore({
   reducer: {
     cuentas: Slice.reducer,
-    parametros: Parametros.reducer,
   },
 });
 
