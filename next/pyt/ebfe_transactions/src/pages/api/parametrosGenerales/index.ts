@@ -56,7 +56,7 @@ async function peticion(
       }
     )
     .then((response) => {
-      console.log(response);
+      //console.log(response);
       const message = response.data.messageId;
       const messageCookie = makeCookie(message);
       res.setHeader("set-cookie", messageCookie);

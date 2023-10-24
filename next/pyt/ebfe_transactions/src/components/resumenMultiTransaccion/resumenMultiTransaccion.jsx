@@ -30,6 +30,7 @@ export const ResumenMultiTransaccion = ({
   const [messageOpen, setMessageOpen] = useState(false);
   const [messageAlert, setMessageAlert] = useState("error del sistema");
   const [typeMessageAlert, setTypeMessageAlert] = useState("");
+
   const handleClose = () => {
     setOpen(false);
     handleSubtitulo("terceros2");
@@ -78,18 +79,43 @@ export const ResumenMultiTransaccion = ({
         let transaccion = {
           id: inputFieldsData[i].index,
           originAccount: inputFieldsData[i].cuentaDebitar,
-          destinationAccount: inputFieldsData[i].beneficiarioCuenta,
           transferAmount: inputFieldsData[i].monto.toString(),
-          typeTransfer: inputFieldsData[i].beneficiarioTipoCuenta,
           typeCurrencyOriAccount: inputFieldsData[i].currency,
           descriptionTx: inputFieldsData[i].concepto,
-          nameBeneficiary: inputFieldsData[i].beneficiario.split(":")[0],
-          codeBank: inputFieldsData[i].beneficiarioCodBanco,
-          nameBank: inputFieldsData[i].beneficiarioBanco,
-          idBeneficiary: inputFieldsData[i].beneficiario.split(":")[2],
-          typeIdBeneficiary: inputFieldsData[i].beneficiario.split(":")[1],
         };
 
+        if (inputFieldsData[i].noregistrado) {
+          transaccion.nameBeneficiary = inputFieldsData[i].instrumento.nombre;
+          transaccion.codeBank =
+            inputFieldsData[i].instrumento.bancodestino.split(":")[0];
+          transaccion.nameBank =
+            inputFieldsData[i].instrumento.bancodestino.split(":")[1];
+          transaccion.idBeneficiary = inputFieldsData[i].instrumento.numdoc;
+          transaccion.typeIdBeneficiary =
+            inputFieldsData[i].instrumento.tipodoc;
+
+          if (inputFieldsData[i].instrumento.tipo == "cuenta") {
+            transaccion.typeTransfer = 2;
+            transaccion.destinationAccount =
+              inputFieldsData[i].instrumento.numcuenta;
+          } else {
+            transaccion.typeTransfer = 3;
+            transaccion.destinationAccount =
+              inputFieldsData[i].instrumento.telefono;
+          }
+        } else {
+          transaccion.destinationAccount =
+            inputFieldsData[i].beneficiarioCuenta;
+          transaccion.typeTransfer = inputFieldsData[i].beneficiarioTipoCuenta;
+          transaccion.nameBeneficiary =
+            inputFieldsData[i].beneficiario.split(":")[0];
+          transaccion.codeBank = inputFieldsData[i].beneficiarioCodBanco;
+          transaccion.nameBank = inputFieldsData[i].beneficiarioBanco;
+          transaccion.idBeneficiary =
+            inputFieldsData[i].beneficiario.split(":")[2];
+          transaccion.typeIdBeneficiary =
+            inputFieldsData[i].beneficiario.split(":")[1];
+        }
         multipleTrasacciones.push(transaccion);
       }
       datosTransaccion.transactions = multipleTrasacciones;
@@ -119,6 +145,8 @@ export const ResumenMultiTransaccion = ({
         valores[transaccion.id]["responseDesc"] =
           transaccion.status.description;
       });
+
+      setInputFieldsData(valores);
     } catch (err) {
       setOpen(false);
       console.log(err);
@@ -129,6 +157,58 @@ export const ResumenMultiTransaccion = ({
   };
 
   const fetchDataProgram = async () => {
+    let programadas = inputFieldsData.filter(function (el) {
+      return el.programar == true;
+    });
+
+    let multipleTrasacciones = [];
+
+    for (let i = 0; i < programadas.length; i++) {
+      let transaccion = {
+        originAccount: programadas[i].cuentaDebitar,
+
+        transferAmount: programadas[i].monto.toString(),
+
+        typeCurrencyOriAccount: programadas[i].currency,
+        descriptionTx: programadas[i].concepto,
+        dateExecution:
+          programadas[i].programa.anio +
+          programadas[i].programa.mes +
+          programadas[i].programa.dia,
+        howOften: programadas[i].programa.repetir,
+        frecuency: programadas[i].programa.frecuenciaType,
+        id: programadas[i].index,
+      };
+
+      if (programadas[i].noregistrado) {
+        transaccion.nameBeneficiary = inputFieldsData[i].instrumento.nombre;
+        transaccion.codeBank =
+          inputFieldsData[i].instrumento.bancodestino.split(":")[0];
+        transaccion.nameBank =
+          inputFieldsData[i].instrumento.bancodestino.split(":")[1];
+        transaccion.idBeneficiary = inputFieldsData[i].instrumento.numdoc;
+        transaccion.typeIdBeneficiary = inputFieldsData[i].instrumento.tipodoc;
+
+        if (programadas[i].instrumento.tipo == "cuenta") {
+          transaccion.typeTransfer = 2;
+          transaccion.destinationAccount = programadas[i].instrumento.numcuenta;
+        } else {
+          transaccion.typeTransfer = 3;
+          transaccion.destinationAccount = programadas[i].instrumento.telefono;
+        }
+      } else {
+        transaccion.typeTransfer = programadas[i].beneficiarioTipoCuenta;
+        transaccion.destinationAccount = programadas[i].beneficiarioCuenta;
+        transaccion.nameBeneficiary = programadas[i].beneficiario.split(":")[0];
+        transaccion.codeBank = programadas[i].beneficiarioCodBanco;
+        transaccion.nameBank = programadas[i].beneficiarioBanco;
+        transaccion.idBeneficiary = programadas[i].beneficiario.split(":")[2];
+        transaccion.typeIdBeneficiary =
+          programadas[i].beneficiario.split(":")[1];
+      }
+      multipleTrasacciones.push(transaccion);
+    }
+
     try {
       const transfer = await publicFetch.post(`/cuentasProgramadas`, {
         username: "JEFEDEVPYT",
@@ -145,52 +225,36 @@ export const ResumenMultiTransaccion = ({
           typeIdentification: "CED",
           identification: 12345678,
         },
-        transactions: [
-          {
-            originAccount: inputFieldsData[0].cuentaDebitar,
-            destinationAccount: inputFieldsData[0].cuentaAcreditar,
-            transferAmount: inputFieldsData[0].monto.toString(),
-            typeTransfer: "1",
-            typeCurrencyOriAccount:
-              inputFieldsData[0].monedaUsd == true
-                ? "USD"
-                : inputFieldsData[0].monedaDebitar,
-            descriptionTx: inputFieldsData[0].concepto,
-            dateExecution:
-              inputFieldsData[0].programa.anio +
-              inputFieldsData[0].programa.mes +
-              inputFieldsData[0].programa.dia,
-            howOften: inputFieldsData[0].programa.repetir,
-            frecuency: inputFieldsData[0].programa.frecuenciaType,
-          },
-        ],
+        transactions: multipleTrasacciones,
       });
 
       console.log("respuesta=>" + JSON.stringify(transfer));
 
       if (transfer.data.responseCode == "0000") {
-        if (transfer.data.responseBody.Invalidas.length > 0) {
+        let valores = [...inputFieldsData];
+
+        transfer.data.responseBody.validTransactions.forEach(function (
+          transaccion
+        ) {
+          valores[transaccion.id]["NroOperacion"] =
+            transfer.data.responseBody.Validas[i].nrOperation == "12345"
+              ? random(50000, 99999999)
+              : transfer.data.responseBody.Validas[i].nrOperation;
+          valores[transaccion.id]["errorLvl"] = "sucess";
+          valores[transaccion.id].responseDesc = transfer.data.responseDesc;
+        });
+
+        transfer.data.responseBody.invalidTransactions.forEach(function (
+          transaccion
+        ) {
           let mensaje =
-            transfer.data.responseBody.Invalidas[0].whyFailed.split("-");
-          setOpen(false);
-          setMessageAlert(mensaje[1]);
-          setTypeMessageAlert("error");
-          setMessageOpen(true);
-        } else {
-          // datos.data.responseBody.Validas.length;
-          if (transfer.data.responseBody.Validas.length > 0) {
-            let valores = [...inputFieldsData];
-            valores[0].NroOperacion =
-              transfer.data.responseBody.Validas[0].nrOperation;
-            valores[0].errorLvl = transfer.data.errorLvl;
-            valores[0].responseDesc = transfer.data.responseDesc;
+            transfer.data.responseBody.Invalidas[i].whyFailed.split("-");
+          valores[transaccion.id]["NroOperacion"] = mensaje[0];
+          valores[transaccion.id]["errorLvl"] = "error";
+          valores[transaccion.id]["responseDesc"] = mensaje[1];
+        });
 
-            setInputFieldsData(valores);
-
-            setOpen(false);
-            setOpenModal(true);
-          }
-        }
+        setInputFieldsData(valores);
       } else {
         setOpen(false);
         setMessageAlert("Error del sistema");

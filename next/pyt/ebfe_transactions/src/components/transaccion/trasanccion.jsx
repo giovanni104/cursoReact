@@ -526,6 +526,7 @@ export const Transaccion = () => {
         open={messageOpen}
         setOpen={setMessageOpen}
       />
+
       <style jsx>{transaccionStyle}</style>
     </div>
   );

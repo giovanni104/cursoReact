@@ -131,11 +131,17 @@ export const FormTerceros = ({
         setMessageAlert("El número de cuenta es inválido");
         setTypeMessageAlert("error");
         setMessageOpen(true);
-      } /* else {
-        setMessageAlert("error del sistema");
-        setTypeMessageAlert("error");
-        setMessageOpen(true);
-      }*/
+      } else {
+        const datosCuenta = beneficiarios.data.responseBody;
+        let valores = [...inputFields];
+        valores[index].instrumento.numcuenta = datosCuenta.accountNumber;
+        valores[index].instrumento.bancodestino = "0102:Banco de Venezuela";
+        valores[index].instrumento.tipodoc = datosCuenta.typeId;
+        valores[index].instrumento.numdoc = datosCuenta.numId;
+        valores[index].instrumento.nombre = datosCuenta.nameOwnerAccount;
+
+        setInputFields(valores);
+      }
     } catch (err) {
       //console.log(err);
       setMessageAlert("error del sistema");
@@ -540,6 +546,16 @@ export const FormTerceros = ({
                       label="Tipo de instrumento"
                       name="tipoInstrumento"
                       onChange={(event) => {
+                        let valores = [...inputFields];
+                        valores[index].instrumento.numcuenta = "";
+                        valores[index].instrumento.bancodestino = "";
+                        valores[index].instrumento.tipodoc = "";
+                        valores[index].instrumento.numdoc = "";
+                        valores[index].instrumento.nombre = "";
+                        valores[index].instrumento.telefono = "";
+
+                        setInputFields(valores);
+
                         setterDataFields(
                           "instrumento",
                           event.target.value,
