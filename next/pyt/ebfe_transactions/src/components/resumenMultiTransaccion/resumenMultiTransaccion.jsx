@@ -183,13 +183,13 @@ export const ResumenMultiTransaccion = ({
       };
 
       if (programadas[i].noregistrado) {
-        transaccion.nameBeneficiary = inputFieldsData[i].instrumento.nombre;
+        transaccion.nameBeneficiary = programadas[i].instrumento.nombre;
         transaccion.codeBank =
-          inputFieldsData[i].instrumento.bancodestino.split(":")[0];
+          programadas[i].instrumento.bancodestino.split(":")[0];
         transaccion.nameBank =
-          inputFieldsData[i].instrumento.bancodestino.split(":")[1];
-        transaccion.idBeneficiary = inputFieldsData[i].instrumento.numdoc;
-        transaccion.typeIdBeneficiary = inputFieldsData[i].instrumento.tipodoc;
+          programadas[i].instrumento.bancodestino.split(":")[1];
+        transaccion.idBeneficiary = programadas[i].instrumento.numdoc;
+        transaccion.typeIdBeneficiary = programadas[i].instrumento.tipodoc;
 
         if (programadas[i].instrumento.tipo == "cuenta") {
           transaccion.typeTransfer = 2;
@@ -293,7 +293,7 @@ export const ResumenMultiTransaccion = ({
         isAuth: "true",
       };
 
-      if (beneficiarios[i].instrumento.tipo == "cuenta") {
+      if (beneficiarios.instrumento.tipo == "cuenta") {
         transaccion.numAccount = beneficiario.instrumento.numcuenta;
         transaccion.typeBeneficiary = 2;
       } else {
@@ -324,36 +324,6 @@ export const ResumenMultiTransaccion = ({
       );
 
       console.log("respuesta=>" + JSON.stringify(transfer));
-
-      if (transfer.data.responseCode == "0000") {
-        let valores = [...inputFieldsData];
-
-        transfer.data.responseBody.Validas.forEach(function (transaccion) {
-          valores[transaccion.id]["NroOperacion"] =
-            transaccion.nrOperation == "12345"
-              ? random(50000, 99999999)
-              : transaccion.nrOperation;
-          valores[transaccion.id]["errorLvl"] = "sucess";
-          valores[transaccion.id].responseDesc = transfer.data.responseDesc;
-        });
-
-        transfer.data.responseBody.Invalidas.forEach(function (transaccion) {
-          let mensaje =
-            transfer.data.responseBody.Invalidas[
-              transaccion.id
-            ].whyFailed.split("-");
-          valores[transaccion.id]["NroOperacion"] = mensaje[0];
-          valores[transaccion.id]["errorLvl"] = "error";
-          valores[transaccion.id]["responseDesc"] = mensaje[1];
-        });
-
-        setInputFieldsData(valores);
-      } else {
-        setOpen(false);
-        setMessageAlert("Error del sistema");
-        setTypeMessageAlert("error");
-        setMessageOpen(true);
-      }
     } catch (err) {
       setOpen(false);
       console.log(err);
