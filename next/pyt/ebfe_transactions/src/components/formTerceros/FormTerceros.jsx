@@ -144,9 +144,11 @@ export const FormTerceros = ({
       }
     } catch (err) {
       //console.log(err);
-      setMessageAlert("error del sistema");
+      setMessageAlert("Error del sistema");
       setTypeMessageAlert("error");
       setMessageOpen(true);
+      setBtnTranferir(true);
+      setErrorNumcuenta("Error en busqueda de cuenta");
     }
   }
 
