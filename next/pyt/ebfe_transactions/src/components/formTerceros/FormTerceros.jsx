@@ -230,8 +230,17 @@ export const FormTerceros = ({
             }}
             onClick={(event) => {
               setterDataFields(
+                "cuentaDebitarSaldoDisponible",
+                "",
+                null,
+                inputFields,
+                setInputFields,
+                index
+              );
+
+              setterDataFields(
                 "currency",
-                "Bs",
+                "BS",
                 null,
                 inputFields,
                 setInputFields,
@@ -268,6 +277,15 @@ export const FormTerceros = ({
               minHeight: "40px",
             }}
             onClick={(event) => {
+              setterDataFields(
+                "cuentaDebitarSaldoDisponible",
+                "",
+                null,
+                inputFields,
+                setInputFields,
+                index
+              );
+
               setterDataFields(
                 "currency",
                 "USD",
@@ -314,6 +332,15 @@ export const FormTerceros = ({
               minHeight: "40px",
             }}
             onClick={(event) => {
+              setterDataFields(
+                "cuentaDebitarSaldoDisponible",
+                "",
+                null,
+                inputFields,
+                setInputFields,
+                index
+              );
+
               setterDataFields(
                 "currency",
                 "EUR",
@@ -387,9 +414,10 @@ export const FormTerceros = ({
                 </Select>
               </FormControl>
 
-              {saldoAcreditar != "" && (
+              {inputFields[index].cuentaDebitarSaldoDisponible != "" && (
                 <label className="lblInfoSaldo">
-                  Saldo disponible: {saldoAcreditar}
+                  Saldo disponible:{" "}
+                  {inputFields[index].cuentaDebitarSaldoDisponible}
                 </label>
               )}
             </div>
@@ -473,9 +501,9 @@ export const FormTerceros = ({
                   </FormControl>
 
                   <label className="lblInfoSaldo">
-                    {datosCuentaBeneficiario != "" && (
+                    {inputFields[index].descuentaAcreditar != "" && (
                       <label className="lblInfoSaldo">
-                        {datosCuentaBeneficiario}
+                        {inputFields[index].descuentaAcreditar}
                       </label>
                     )}
                   </label>

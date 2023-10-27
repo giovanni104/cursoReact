@@ -52,7 +52,7 @@ const handler = async (req: NextRequest, res: NextApiResponse) => {
             responseJson = {
               errorLvl: "ERROR",
               responseCode: error.response.status,
-              responseDesc: "Error interno, intente de nuevo",
+              responseDesc: "Servicio no disponible, intenta luego",
               responseBody: null,
             };
           }
@@ -65,7 +65,7 @@ const handler = async (req: NextRequest, res: NextApiResponse) => {
           responseJson = {
             errorLvl: "ERROR",
             responseCode: "408",
-            responseDesc: "Tiempo de espera en solicitud",
+            responseDesc: "Servicio no disponible, intenta luego",
             responseBody: null,
           };
         } else {
@@ -74,7 +74,7 @@ const handler = async (req: NextRequest, res: NextApiResponse) => {
           responseJson = {
             errorLvl: "ERROR",
             responseCode: "400",
-            responseDesc: "Algo paso al preparar la petición",
+            responseDesc: "Error interno, intente de nuevo",
             responseBody: null,
           };
         }

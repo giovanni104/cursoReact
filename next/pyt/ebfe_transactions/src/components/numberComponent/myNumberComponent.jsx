@@ -47,7 +47,11 @@ export const MyNumberComponent = ({
 
     valores[index].montorecibir = montoRecibir;
 
+    /* valores[index].monto =
+      ev.floatValue == undefined ? "" : ev.floatValue.toFixed(2);*/
+
     valores[index].monto = ev.floatValue == undefined ? "" : ev.floatValue;
+
     valores[index].montoFormat = ev.formattedValue;
     setInputFields(valores);
   };

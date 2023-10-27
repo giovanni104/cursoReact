@@ -144,7 +144,30 @@ export const DialogTransaccion = ({
             </tr>
             <tr>
               <td>Cuenta a abonar:</td>
-              <td>{inputFieldsData[posicion].descuentaAcreditar}</td>
+              <td>
+                {!inputFieldsData[posicion].noregistrado ? (
+                  <> {inputFieldsData[posicion].beneficiarioCuenta}</>
+                ) : (
+                  <>
+                    {(() => {
+                      switch (inputFieldsData[posicion].instrumento.tipo) {
+                        case "cuenta":
+                          return (
+                            <>
+                              {inputFieldsData[posicion].instrumento.numcuenta}
+                            </>
+                          );
+                        default:
+                          return (
+                            <>
+                              {inputFieldsData[posicion].instrumento.telefono}
+                            </>
+                          );
+                      }
+                    })()}
+                  </>
+                )}
+              </td>
             </tr>
             <tr>
               <td>Monto:</td>
@@ -170,7 +193,7 @@ export const DialogTransaccion = ({
                 <tr>
                   <td>Repetir:</td>
                   <td>
-                    {inputFieldsData[posicion].programa.repetir + " veces"}
+                    {inputFieldsData[posicion].programa.repetir || 0 + " veces"}
                   </td>
                 </tr>
               </>

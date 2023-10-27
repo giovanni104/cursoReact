@@ -1,26 +1,29 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { propias, propias2 } from "../../../utils/data";
-
-import { makeCookie } from "@/utils/cookieMaker";
 import Cookies from "cookies";
+import { makeCookie } from "@/utils/cookieMaker";
 import axios from "axios";
 import { NextRequest } from "next/server";
 const handler = async (req: NextRequest, res: NextApiResponse) => {
   let responseJson: any;
   let messageIdError: any;
   const cookies = new Cookies(req, res);
-
   const messageId = cookies.get("messageId");
 
   if (req.method == "POST") {
     let dataTransaccion: any = req.body;
-
+    //console.log("programada=>" + JSON.stringify(dataTransaccion));
     dataTransaccion.messageId = messageId == undefined ? "default" : messageId;
 
-    await axios
-      .post(process.env.BACK_PUBLIC_API_URL + "accounts/own", dataTransaccion, {
-        timeout: 6000,
-      })
+    const resAxios = await axios
+      .post(
+        process.env.BACK_PUBLIC_API_URL + "accounts/save/others",
+        dataTransaccion,
+        {
+          timeout: 9000,
+        }
+      )
+
       .then((response) => {
         // console.log(response);
 
@@ -29,12 +32,13 @@ const handler = async (req: NextRequest, res: NextApiResponse) => {
         res.setHeader("set-cookie", messageCookie);
         return res.status(200).json(response.data);
       })
+
       .catch(function (error) {
         if (error.response) {
           // La respuesta fue hecha y el servidor respondió con un código de estado
           // que esta fuera del rango de 2xx
           console.log("que esta fuera del rango de 2xx");
-
+          //console.log(error);
           if (error.response.data.hasOwnProperty("errorLvl")) {
             messageIdError = error.response.data.messageId;
 
@@ -70,28 +74,22 @@ const handler = async (req: NextRequest, res: NextApiResponse) => {
           responseJson = {
             errorLvl: "ERROR",
             responseCode: "400",
-            responseDesc: "Problema al preparar la petición",
+            responseDesc: "Algo paso al preparar la petición",
             responseBody: null,
           };
         }
-
         const messageCookie = makeCookie(messageIdError);
         res.setHeader("set-cookie", messageCookie);
         return res.status(responseJson.responseCode).json(responseJson);
       });
+  } else {
+    return res.status(400).json({
+      errorLvl: "ERROR",
+      responseCode: "400",
+      responseDesc: "Algo paso al preparar la petición",
+      responseBody: null,
+    });
   }
-
-  /* return res.status(400).json({
-    errorLvl: "ERROR",
-    responseCode: "400",
-    responseDesc: "Algo paso al preparar la petición",
-    responseBody: null,
-  });
-
-
-  const messageCookie = makeCookie(propias2.messageId);
-  res.setHeader("set-cookie", messageCookie);
-  return res.status(200).json(propias2);*/
 };
 
 export default handler;

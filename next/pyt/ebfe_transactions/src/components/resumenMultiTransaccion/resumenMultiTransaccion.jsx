@@ -29,7 +29,7 @@ export const ResumenMultiTransaccion = ({
   const [openModal, setOpenModal] = React.useState(false);
   const [idRegistro, setIdRegistro] = React.useState(0);
   const [messageOpen, setMessageOpen] = useState(false);
-  const [messageAlert, setMessageAlert] = useState("error del sistema");
+  const [messageAlert, setMessageAlert] = useState("Error del sistema");
   const [typeMessageAlert, setTypeMessageAlert] = useState("");
 
   const handleClose = () => {
@@ -43,8 +43,8 @@ export const ResumenMultiTransaccion = ({
   };
 
   const tranferencia = () => {
-    //fetchData();
-    fetchDataProgram();
+    fetchData();
+    // fetchDataProgram();
     handleOpen();
   };
   const deleteRows = () => {
@@ -77,84 +77,105 @@ export const ResumenMultiTransaccion = ({
 
       let multipleTrasacciones = [];
 
-      for (let i = 0; i < inputFieldsData.length; i++) {
+      let dataTransaccion = inputFieldsData.filter(function (el) {
+        return el.programar == false;
+      });
+
+      for (let i = 0; i < dataTransaccion.length; i++) {
         let transaccion = {
-          id: inputFieldsData[i].index,
-          originAccount: inputFieldsData[i].cuentaDebitar,
-          transferAmount: inputFieldsData[i].monto.toString(),
-          typeCurrencyOriAccount: inputFieldsData[i].currency,
-          descriptionTx: inputFieldsData[i].concepto,
+          id: dataTransaccion[i].index,
+          originAccount: dataTransaccion[i].cuentaDebitar,
+          transferAmount: dataTransaccion[i].monto.toString(),
+          typeCurrencyOriAccount: dataTransaccion[i].currency,
+          descriptionTx: dataTransaccion[i].concepto,
         };
 
-        if (inputFieldsData[i].noregistrado) {
-          transaccion.nameBeneficiary = inputFieldsData[i].instrumento.nombre;
+        if (dataTransaccion[i].noregistrado) {
+          transaccion.nameBeneficiary = dataTransaccion[i].instrumento.nombre;
           transaccion.codeBank =
-            inputFieldsData[i].instrumento.bancodestino.split(":")[0];
+            dataTransaccion[i].instrumento.bancodestino.split(":")[0];
           transaccion.nameBank =
-            inputFieldsData[i].instrumento.bancodestino.split(":")[1];
-          transaccion.idBeneficiary = inputFieldsData[i].instrumento.numdoc;
+            dataTransaccion[i].instrumento.bancodestino.split(":")[1];
+          transaccion.idBeneficiary = dataTransaccion[i].instrumento.numdoc;
           transaccion.typeIdBeneficiary =
-            inputFieldsData[i].instrumento.tipodoc;
+            dataTransaccion[i].instrumento.tipodoc;
 
-          if (inputFieldsData[i].instrumento.tipo == "cuenta") {
+          if (dataTransaccion[i].instrumento.tipo == "cuenta") {
             transaccion.typeTransfer = 2;
             transaccion.destinationAccount =
-              inputFieldsData[i].instrumento.numcuenta;
+              dataTransaccion[i].instrumento.numcuenta;
           } else {
             transaccion.typeTransfer = 3;
             transaccion.destinationAccount =
-              inputFieldsData[i].instrumento.telefono;
+              dataTransaccion[i].instrumento.telefono;
           }
         } else {
           transaccion.destinationAccount =
-            inputFieldsData[i].beneficiarioCuenta;
-          transaccion.typeTransfer = inputFieldsData[i].beneficiarioTipoCuenta;
+            dataTransaccion[i].beneficiarioCuenta;
+          transaccion.typeTransfer = dataTransaccion[i].beneficiarioTipoCuenta;
           transaccion.nameBeneficiary =
-            inputFieldsData[i].beneficiario.split(":")[0];
-          transaccion.codeBank = inputFieldsData[i].beneficiarioCodBanco;
-          transaccion.nameBank = inputFieldsData[i].beneficiarioBanco;
+            dataTransaccion[i].beneficiario.split(":")[0];
+          transaccion.codeBank = dataTransaccion[i].beneficiarioCodBanco;
+          transaccion.nameBank = dataTransaccion[i].beneficiarioBanco;
           transaccion.idBeneficiary =
-            inputFieldsData[i].beneficiario.split(":")[2];
+            dataTransaccion[i].beneficiario.split(":")[2];
           transaccion.typeIdBeneficiary =
-            inputFieldsData[i].beneficiario.split(":")[1];
+            dataTransaccion[i].beneficiario.split(":")[1];
         }
         multipleTrasacciones.push(transaccion);
       }
       datosTransaccion.transactions = multipleTrasacciones;
-      console.log("datosTransaccion =>" + JSON.stringify(datosTransaccion));
+      console.log(
+        "fetchData datosTransaccion =>" + JSON.stringify(datosTransaccion)
+      );
       const transfer = await publicFetch.post(`/transfers`, datosTransaccion);
 
-      console.log("respuesta transaccion=>" + JSON.stringify(transfer.data));
+      console.log(
+        "fetchData respuesta transaccion=>" + JSON.stringify(transfer.data)
+      );
 
-      let valores = [...inputFieldsData];
+      if (transfer.data.responseCode == "0000") {
+        let valores = [...inputFieldsData];
+        transfer.data.responseBody.validTransactions.forEach(function (
+          transaccion
+        ) {
+          valores[transaccion.id]["NroOperacion"] =
+            transaccion.status.nroOperation == "12345"
+              ? random(50000, 99999999)
+              : transaccion.status.nroOperation;
+          valores[transaccion.id]["errorLvl"] = "sucess";
+          valores[transaccion.id]["responseDesc"] = "Procesada";
+        });
 
-      transfer.data.responseBody.validTransactions.forEach(function (
-        transaccion
-      ) {
-        valores[transaccion.id]["NroOperacion"] =
-          transaccion.status.nroOperation == "12345"
-            ? random(50000, 99999999)
-            : transaccion.status.nroOperation;
-        valores[transaccion.id]["errorLvl"] = "sucess";
-        valores[transaccion.id]["responseDesc"] = "Procesada";
-      });
+        transfer.data.responseBody.invalidTransactions.forEach(function (
+          transaccion
+        ) {
+          valores[transaccion.id]["NroOperacion"] = transaccion.status.code;
+          valores[transaccion.id]["errorLvl"] = "error";
+          valores[transaccion.id]["responseDesc"] =
+            transaccion.status.description;
+        });
+        setInputFieldsData(valores);
+      } else {
+        console.log("else=>" + JSON.stringify(transfer.data));
+      }
 
-      transfer.data.responseBody.invalidTransactions.forEach(function (
-        transaccion
-      ) {
-        valores[transaccion.id]["NroOperacion"] = transaccion.status.code;
-        valores[transaccion.id]["errorLvl"] = "error";
-        valores[transaccion.id]["responseDesc"] =
-          transaccion.status.description;
-      });
-
-      setInputFieldsData(valores);
+      fetchDataProgram();
     } catch (err) {
-      setOpen(false);
-      console.log(err);
-      setMessageAlert(err.response.data.responseDesc);
-      setTypeMessageAlert("error");
-      setMessageOpen(true);
+      let valores = [...inputFieldsData];
+      let dataTransaccion = inputFieldsData.filter(function (el) {
+        return el.programar == false;
+      });
+
+      for (let i = 0; i < dataTransaccion.length; i++) {
+        valores[dataTransaccion[i].index]["NroOperacion"] =
+          err.response.data.responseCode;
+        valores[dataTransaccion[i].index]["errorLvl"] = "error";
+        valores[dataTransaccion[i].index]["responseDesc"] =
+          err.response.data.responseDesc;
+      }
+      setInputFieldsData(valores);
+      fetchDataProgram();
     }
   };
 
@@ -177,7 +198,7 @@ export const ResumenMultiTransaccion = ({
           programadas[i].programa.anio +
           programadas[i].programa.mes +
           programadas[i].programa.dia,
-        howOften: programadas[i].programa.repetir,
+        howOften: programadas[i].programa.repetir || 0,
         frecuency: programadas[i].programa.frecuenciaType,
         id: programadas[i].index,
       };
@@ -228,14 +249,16 @@ export const ResumenMultiTransaccion = ({
       },
       transactions: multipleTrasacciones,
     };
-    console.log("datosPeticion=>" + JSON.stringify(datosPeticion));
+    console.log(
+      "fetchDataProgram datosPeticion=>" + JSON.stringify(datosPeticion)
+    );
     try {
       const transfer = await publicFetch.post(
         `/cuentasProgramadas`,
         datosPeticion
       );
 
-      console.log("respuesta=>" + JSON.stringify(transfer));
+      console.log("fetchDataProgram respuesta=>" + JSON.stringify(transfer));
 
       if (transfer.data.responseCode == "0000") {
         let valores = [...inputFieldsData];
@@ -250,32 +273,36 @@ export const ResumenMultiTransaccion = ({
         });
 
         transfer.data.responseBody.Invalidas.forEach(function (transaccion) {
-          let mensaje =
-            transfer.data.responseBody.Invalidas[
-              transaccion.id
-            ].whyFailed.split("-");
+          let mensaje = transaccion.whyFailed.split("-");
           valores[transaccion.id]["NroOperacion"] = mensaje[0];
           valores[transaccion.id]["errorLvl"] = "error";
           valores[transaccion.id]["responseDesc"] = mensaje[1];
         });
 
         setInputFieldsData(valores);
-      } else {
-        setOpen(false);
-        setMessageAlert("Error del sistema");
-        setTypeMessageAlert("error");
-        setMessageOpen(true);
       }
+      handleClose();
+      fetchSSaveBeneficiary();
     } catch (err) {
-      setOpen(false);
-      console.log(err);
-      setMessageAlert(err.response.data.responseDesc);
-      setTypeMessageAlert("error");
-      setMessageOpen(true);
+      let valores = [...inputFieldsData];
+      let dataTransaccion = inputFieldsData.filter(function (el) {
+        return el.programar == true;
+      });
+
+      for (let i = 0; i < dataTransaccion.length; i++) {
+        valores[dataTransaccion[i].index]["NroOperacion"] =
+          err.response.data.responseCode;
+        valores[dataTransaccion[i].index]["errorLvl"] = "error";
+        valores[dataTransaccion[i].index]["responseDesc"] =
+          err.response.data.responseDesc;
+      }
+      setInputFieldsData(valores);
+      handleClose();
+      fetchSSaveBeneficiary();
     }
   };
 
-  const fetchsaveBeneficiary = async () => {
+  const fetchSSaveBeneficiary = async () => {
     let beneficiarios = inputFieldsData.filter(function (el) {
       return el.registrar == true;
     });
@@ -286,14 +313,14 @@ export const ResumenMultiTransaccion = ({
       let transaccion = {
         codeBank: beneficiario.instrumento.bancodestino.split(":")[0],
         nameBank: beneficiario.instrumento.bancodestino.split(":")[1],
-        identificator: beneficiario.instrumento.numdoc,
-        typeIdentificator: beneficiario.instrumento.tipodoc,
+        identification: beneficiario.instrumento.numdoc,
+        typeIdentification: beneficiario.instrumento.tipodoc,
         typeCurrency: "USD",
         nameOwner: beneficiario.instrumento.nombre,
         isAuth: "true",
       };
 
-      if (beneficiarios.instrumento.tipo == "cuenta") {
+      if (beneficiario.instrumento.tipo == "cuenta") {
         transaccion.numAccount = beneficiario.instrumento.numcuenta;
         transaccion.typeBeneficiary = 2;
       } else {
@@ -314,22 +341,22 @@ export const ResumenMultiTransaccion = ({
       e2usm2: 1000,
       e2cusc: 1000,
       language: "ES_CO",
-      transactions: multipleTrasacciones,
+      newBeneficiary: multipleTrasacciones,
     };
-    console.log("datosPeticion=>" + JSON.stringify(datosPeticion));
+    console.log(
+      "fetchSSaveBeneficiary datosPeticion=>" + JSON.stringify(datosPeticion)
+    );
     try {
       const transfer = await publicFetch.post(
-        `/cuentasProgramadas`,
+        `/guardarBeneficiario`,
         datosPeticion
       );
 
-      console.log("respuesta=>" + JSON.stringify(transfer));
+      console.log(
+        "fetchSSaveBeneficiary respuesta=>" + JSON.stringify(transfer)
+      );
     } catch (err) {
-      setOpen(false);
       console.log(err);
-      setMessageAlert(err.response.data.responseDesc);
-      setTypeMessageAlert("error");
-      setMessageOpen(true);
     }
   };
 

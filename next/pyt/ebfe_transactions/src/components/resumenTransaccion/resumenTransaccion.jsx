@@ -88,10 +88,10 @@ export const ResumenTransaccion = ({
         };
         datosTransaccion.transactions = [transaccion];
       }
-
+      console.log("peticion fetchData=>" + JSON.stringify(datosTransaccion));
       const transfer = await publicFetch.post(`/transfers`, datosTransaccion);
 
-      console.log("respuesta transaccion=>" + JSON.stringify(transfer));
+      console.log("respuesta fetchData=>" + JSON.stringify(transfer));
 
       if (transfer.data.responseCode == "0000") {
         if (transfer.data.responseBody.validTransactions.length > 0) {
@@ -131,7 +131,7 @@ export const ResumenTransaccion = ({
 
   const fetchDataProgram = async () => {
     try {
-      const transfer = await publicFetch.post(`/cuentasProgramadas`, {
+      let datos = {
         username: "JEFEDEVPYT",
         messageId:
           "OC51QnNzLnVCc3MuOTc5YTdnN2QgOGQ5Y2E3LmFiY2NhZm1kbmNlcWF3ZGRkRENi",
@@ -165,9 +165,12 @@ export const ResumenTransaccion = ({
             frecuency: inputFieldsData[0].programa.frecuenciaType,
           },
         ],
-      });
+      };
 
-      console.log("respuesta=>" + JSON.stringify(transfer));
+      console.log("peticion fetchProgramados=>" + JSON.stringify(datos));
+      const transfer = await publicFetch.post(`/cuentasProgramadas`, datos);
+
+      console.log("respuesta fetchProgramados=>" + JSON.stringify(transfer));
 
       if (transfer.data.responseCode == "0000") {
         if (transfer.data.responseBody.Invalidas.length > 0) {

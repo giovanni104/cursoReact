@@ -34,7 +34,7 @@ export const useCuentaTerceros = () => {
     setErrorTelefono("");
     setterDataFields(
       "beneficiario",
-      false,
+      "",
       null,
       inputFields,
       setInputFields,
@@ -65,6 +65,16 @@ export const useCuentaTerceros = () => {
       setInputFields,
       index
     );
+
+    setterDataFields(
+      "descuentaAcreditar",
+      "",
+      null,
+      inputFields,
+      setInputFields,
+      index
+    );
+
     clearDataRegistrar(inputFields, setInputFields, index);
 
     setInputFields(valores);
@@ -143,12 +153,12 @@ export const useCuentaTerceros = () => {
           setBtnTranferir(true);
 
           switch (valores[index].registro.tipo) {
-            case "cuenta":
+            case "existente":
               if (valores[index].registro.beneficiario != "") {
                 setBtnTranferir(false);
               }
               break;
-            case "telefono":
+            case "nuevo":
               if (valores[index].registro.alias != "") {
                 setBtnTranferir(false);
               }
@@ -164,8 +174,10 @@ export const useCuentaTerceros = () => {
         }
       }
 
+      console.log(valores[index].programar);
+
       if (valores[index].programar == true) {
-        setBtnTranferir(false);
+        setBtnTranferir(true);
         if (
           valores[index].programa.frecuencia != "" &&
           valores[index].programa.anio != "" &&
@@ -175,7 +187,10 @@ export const useCuentaTerceros = () => {
           if (valores[index].programa.frecuencia == "Una vez") {
             setBtnTranferir(false);
           } else {
-            if (valores[index].programa.repetir != "") {
+            if (
+              valores[index].programa.repetir != "" &&
+              valores[index].programa.repetir != "0"
+            ) {
               setBtnTranferir(false);
             }
           }
@@ -283,7 +298,7 @@ export const useCuentaTerceros = () => {
         if (cuenta.length > 0) {
           valores[index].descuentaDebitar =
             cuenta[0].descriptionAccount + " " + cuenta[0].numberMask;
-          setSaldoAcreditar(cuenta[0].balanceMask);
+          valores[index].cuentaDebitarSaldoDisponible = cuenta[0].balanceMask;
           valores[index].monedaDebitar = cuenta[0].currency;
         }
         break;
