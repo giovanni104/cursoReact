@@ -385,7 +385,7 @@ export const ResumenMultiTransaccion = ({
               </tr>
 
               {inputFieldsData.map((data, index) => (
-                <tr id={data.index}>
+                <tr id={data.index} key={index}>
                   <td>{data.cuentaDebitar} </td>
 
                   <td>
@@ -516,7 +516,7 @@ export const ResumenMultiTransaccion = ({
               </tr>
 
               {inputFieldsData.map((data, index) => (
-                <tr>
+                <tr key={index}>
                   <td>Trasancción {index + 1}</td>
                   <td>
                     <Link

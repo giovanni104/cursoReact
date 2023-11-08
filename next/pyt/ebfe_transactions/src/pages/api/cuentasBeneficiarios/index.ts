@@ -4,12 +4,15 @@ import { beneficiariosData } from "../../../utils/data";
 import { makeCookie } from "@/utils/cookieMaker";
 import axios from "axios";
 import { NextRequest } from "next/server";
-import Cookies from "cookies";
+
+import { getCookies, getCookie, setCookie, deleteCookie } from "cookies-next";
 const handler = async (req: NextRequest, res: NextApiResponse) => {
   let responseJson: any;
   let messageIdError: any;
-  const cookies = new Cookies(req, res);
-  const messageId = cookies.get("messageId");
+  //const cookies = new Cookies(req, res);
+
+  //const messageId = cookies.get("messageId");
+  const messageId = getCookie("messageId", { req });
 
   if (req.method == "POST") {
     let dataTransaccion: any = req.body;

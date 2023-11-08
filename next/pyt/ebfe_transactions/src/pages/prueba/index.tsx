@@ -16,7 +16,7 @@ const handlerAuthPassword = async () => {
   console.log("Se Consume el servicio " + respuesta);
 };
 
-const prueba: NextPage = (props) => {
+const Prueba: NextPage = (props) => {
   const [mode, setMode] = useState("light");
 
   return (
@@ -33,4 +33,4 @@ const prueba: NextPage = (props) => {
   );
 };
 
-export default prueba;
+export default Prueba;

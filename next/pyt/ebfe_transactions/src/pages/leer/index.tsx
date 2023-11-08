@@ -1,6 +1,6 @@
 import React from "react";
 import { NextPage } from "next";
-import { Transaccion } from "@/components/transaccion/Transaccion.1";
+
 import { Button } from "@mui/material";
 import axios from "axios";
 import { Leer } from "../../components/leer/page";

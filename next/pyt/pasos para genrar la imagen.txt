@@ -1,0 +1,32 @@
+1 pasos para generar
+
+ yarn build
+
+2 ubicarse en ubuntu
+
+giovanny@PYT07-GIOVANNY-H:/mnt/d/PYT/DOCUMENTIOS ADMINISTRATIVOS/APUNTES/react/next/pyt/ebfe_transactions$ make start-development
+
+3 ejecutar, se genra la imagen 
+make start-development
+
+4 ejecutar imagen
+
+docker run -p 3001:3001 ebfe_transacions
+
+
+
+
+con este comando se ven la variables de entorno en el contenedor
+less .env
+
+
+
+
+
+si al ejecutar el paso 3 pide permisos
+sudo chmod 666 /var/run/docker.sock
+
+
+ruta desde ubuntu para acceder a windows
+cd /mnt/c/wamp64/www
+

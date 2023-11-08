@@ -262,8 +262,9 @@ export const DataGrid = () => {
       >
         <TableBody>
           <TableRow sx={{ padding: "0px 10px 0px 10px" }}>
-            {titleData.map((title) => (
+            {titleData.map((title, index) => (
               <TableCell
+                key={index}
                 style={{ width: 144, height: 38, background: "#D9D9D9" }}
                 className="fontTitle"
               >

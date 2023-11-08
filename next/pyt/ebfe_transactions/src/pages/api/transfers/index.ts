@@ -2,15 +2,19 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { responseTransaccion } from "../../../utils/data";
 import { makeCookie } from "@/utils/cookieMaker";
 import axios from "axios";
-import Cookies from "cookies";
+
+import { getCookies, getCookie, setCookie, deleteCookie } from "cookies-next";
 import { NextRequest } from "next/server";
 const handler = async (req: NextRequest, res: NextApiResponse) => {
   let responseJson: any;
   let messageIdError: any;
 
-  const cookies = new Cookies(req, res);
+  //const cookies = new Cookies(req, res);
 
-  const messageId = cookies.get("messageId");
+  //const messageId = cookies.get("messageId");
+  const messageId = getCookie("messageId", { req });
+
+  console.log("prueba cookie" + JSON.stringify(req));
 
   if (req.method == "POST") {
     let dataTransaccion: any = req.body;
