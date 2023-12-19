@@ -14,8 +14,8 @@ const handler = async (req: NextRequest, res: NextApiResponse) => {
 
   //const messageId = cookies.get("messageId");
   const messageId = getCookie("messageId", { req });
-
-  if (req.method == "POST") {
+  console.log(req.method);
+  if (req.method == "POST" || req.method == "OPTIONS") {
     let dataTransaccion: any = req.body;
 
     dataTransaccion.messageId = messageId == undefined ? "default" : messageId;

@@ -163,6 +163,12 @@ export const ResumenTransaccion = ({
               inputFieldsData[0].programa.dia,
             howOften: inputFieldsData[0].programa.repetir,
             frecuency: inputFieldsData[0].programa.frecuenciaType,
+            id: programadas[i].index,
+            nameBeneficiary: "JEFEDEVPYT",
+            codeBank: inputFieldsData[0].codBanco,
+            nameBank: inputFieldsData[0].banco,
+            idBeneficiary: "12345678",
+            typeIdBeneficiary: "CED",
           },
         ],
       };

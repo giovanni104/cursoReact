@@ -1,0 +1,12 @@
+{
+    "title": "Introduce tu documento de identidad",
+    "required": "Este campo es obligatorio",
+    "tipopDoc_placeholder": "Tipo Documento",
+    "name": "El formato introducido no es el correcto",
+    "mail": "Debes introducir una dirección correcta",
+    "phone": "Debes introducir un número correcto",
+    "selDataInfo": "Debes seleccionar un tipo de documento",
+    "numDoc_placeholder": "Documento",
+    "numDoc": "Debes introducir un número de documento",
+    "numDoc_max_size": "El tamaño maximo es de 10 caracteres"
+}
