@@ -142,3 +142,11 @@ https://aguidehub.com/blog/2023-03-03-how-to-add-button-on-mui-table-in-react-js
 https://stackoverflow.com/questions/72301355/how-to-populate-select-options-from-an-api-call-in-react-js-on-page-load
 
 https://reactdatepicker.com/
+
+
+
+-----------------------------------curso next-----------------------------------------------
+
+
+
+
