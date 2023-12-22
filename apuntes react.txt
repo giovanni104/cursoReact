@@ -150,3 +150,8 @@ https://reactdatepicker.com/
 
 
 
+npx create-next-app@latest
+
+npx create-next-app@13.4.4 first-steps
+
+npm run dev
