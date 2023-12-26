@@ -155,3 +155,9 @@ npx create-next-app@latest
 npx create-next-app@13.4.4 first-steps
 
 npm run dev
+
+npm run build
+
+docker build -t nextjs-first-steps . 
+
+docker container run -p 3000:3000 nextjs-first-steps
